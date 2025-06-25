@@ -1,3 +1,262 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vandladningsbesvær - Information til Patienter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
-    <h1>Hello World!</h1>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🏥 Vandladningsbesvær Info</div>
+                <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <button class="nav-btn active" onclick="showPage('home')">Forside</button>
+                <button class="nav-btn" onclick="showPage('symptoms')">Symptomer</button>
+                <button class="nav-btn" onclick="showPage('causes')">Årsager</button>
+                <button class="nav-btn" onclick="showPage('treatment')">Behandling</button>
+                <button class="nav-btn" onclick="showPage('prevention')">Forebyggelse</button>
+                <button class="nav-btn" onclick="showPage('contact')">Kontakt</button>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <button class="nav-btn active" onclick="showPage('home'); toggleMobileMenu()">Forside</button>
+                <button class="nav-btn" onclick="showPage('symptoms'); toggleMobileMenu()">Symptomer</button>
+                <button class="nav-btn" onclick="showPage('causes'); toggleMobileMenu()">Årsager</button>
+                <button class="nav-btn" onclick="showPage('treatment'); toggleMobileMenu()">Behandling</button>
+                <button class="nav-btn" onclick="showPage('prevention'); toggleMobileMenu()">Forebyggelse</button>
+                <button class="nav-btn" onclick="showPage('contact'); toggleMobileMenu()">Kontakt</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- FORSIDE -->
+        <div id="home" class="page active">
+            <div class="hero">
+                <h1>Velkommen til information om vandladningsbesvær</h1>
+                <p>Her finder du pålidelig information om forskellige typer vandladningsbesvær, deres årsager og behandlingsmuligheder</p>
+            </div>
+
+            <div class="card">
+                <h2>Hvad er vandladningsbesvær?</h2>
+                <p>Vandladningsbesvær omfatter en række forskellige problemer med urinering, der kan påvirke din hverdag betydeligt. Disse problemer kan variere fra vanskeligheder med at starte vandladningen til hyppig trang eller utilsigtet urinlækage.</p>
+                
+                <p>Det er vigtigt at vide, at vandladningsbesvær er meget almindelige og kan ramme både mænd og kvinder i alle aldre. Der findes effektive behandlingsmuligheder for de fleste typer vandladningsbesvær.</p>
+            </div>
+
+            <div class="symptom-grid">
+                <div class="symptom-card">
+                    <h3>🚻 Hyppig vandladning</h3>
+                    <p>Behov for at lade vandet oftere end normalt, både dag og nat</p>
+                </div>
+                <div class="symptom-card">
+                    <h3>💧 Urininkontinens</h3>
+                    <p>Ufrivillig urinlækage ved hoste, nysen eller fysisk aktivitet</p>
+                </div>
+                <div class="symptom-card">
+                    <h3>⏰ Påtrængende trang</h3>
+                    <p>Pludselig og stærk trang til vandladning, som er svær at udskyde</p>
+                </div>
+                <div class="symptom-card">
+                    <h3>🚫 Vandladningsbesvær</h3>
+                    <p>Vanskeligheder med at starte vandladningen eller svag urinstråle</p>
+                </div>
+            </div>
+
+            <div class="emergency-box">
+                <h3>⚠️ Søg akut lægehjælp hvis du oplever:</h3>
+                <ul>
+                    <li>Fuldstændig manglende evne til at lade vandet</li>
+                    <li>Kraftige smerter i underlivet</li>
+                    <li>Blod i urinen med feber</li>
+                    <li>Høj feber kombineret med vandladningsbesvær</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SYMPTOMER -->
+        <div id="symptoms" class="page">
+            <div class="card">
+                <h2>Almindelige symptomer på vandladningsbesvær</h2>
+                
+                <h3>Hyppige symptomer</h3>
+                <ul>
+                    <li><strong>Pollakisuri:</strong> Hyppig vandladning (mere end 8 gange i døgnet)</li>
+                    <li><strong>Nokturi:</strong> At vågne om natten for at lade vandet (mere end 1-2 gange)</li>
+                    <li><strong>Påtrængende trang:</strong> Pludselig og stærk trang, der er svær at kontrollere</li>
+                    <li><strong>Hesitation:</strong> Vanskeligheder med at starte vandladningen</li>
+                    <li><strong>Svag stråle:</strong> Reduceret kraft i urinstrålen</li>
+                    <li><strong>Efterdryp:</strong> Fornemmelse af ikke at blive helt tømt</li>
+                </ul>
+
+                <h3>Urininkontinens typer</h3>
+                <div class="symptom-grid">
+                    <div class="symptom-card">
+                        <h3>Stressinkontinens</h3>
+                        <p><strong>Årsag:</strong> Svækkede bækkenbundsmuskler</p>
+                        <p><strong>Udløsere:</strong> Hoste, nysen, løb, løft af tunge ting</p>
+                        <p><strong>Mest almindelig hos:</strong> Kvinder efter fødsel eller i overgangsalderen</p>
+                    </div>
+                    <div class="symptom-card">
+                        <h3>Urgeinkontinens</h3>
+                        <p><strong>Årsag:</strong> Overaktiv blære</p>
+                        <p><strong>Kendetegn:</strong> Pludselig, stærk trang efterfulgt af lækage</p>
+                        <p><strong>Kan forekomme:</strong> Både dag og nat</p>
+                    </div>
+                    <div class="symptom-card">
+                        <h3>Overløbsinkontinens</h3>
+                        <p><strong>Årsag:</strong> Blæren tømmes ikke helt</p>
+                        <p><strong>Kendetegn:</strong> Konstant dryp eller små mængder urin</p>
+                        <p><strong>Mest almindelig hos:</strong> Mænd med forstørret prostata</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h3>Hvornår skal du kontakte lægen?</h3>
+                <ul>
+                    <li>Symptomerne påvirker din hverdag eller søvn</li>
+                    <li>Du oplever smerter ved vandladning</li>
+                    <li>Der er blod i urinen</li>
+                    <li>Du har gentagne urinvejsinfektioner</li>
+                    <li>Symptomerne forværres eller ikke forbedres</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ÅRSAGER -->
+        <div id="causes" class="page">
+            <div class="card">
+                <h2>Årsager til vandladningsbesvær</h2>
+
+                <h3>Hos kvinder</h3>
+                <ul>
+                    <li><strong>Graviditet og fødsel:</strong> Tryk på blæren og svækkelse af bækkenbund</li>
+                    <li><strong>Overgangsalder:</strong> Reduceret østrogen påvirker blære og urinrør</li>
+                    <li><strong>Urinvejsinfektioner:</strong> Betændelse kan forårsage urgency og frekvens</li>
+                    <li><strong>Blæresænkning:</strong> Når blæren synker ned i skeden</li>
+                    <li><strong>Neurologiske sygdomme:</strong> Sclerose, stroke, Parkinsons</li>
+                </ul>
+
+                <h3>Hos mænd</h3>
+                <ul>
+                    <li><strong>Forstørret prostata (BPH):</strong> Blokerer urinflowet</li>
+                    <li><strong>Prostatitis:</strong> Betændelse i prostata</li>
+                    <li><strong>Prostatakræft:</strong> Kan påvirke vandladningsfunktionen</li>
+                    <li><strong>Forsnævring af urinrør:</strong> Ar eller medfødt</li>
+                    <li><strong>Neurologiske årsager:</strong> Rygmarvsskader, nerveskader</li>
+                </ul>
+
+                <h3>Fælles årsager</h3>
+                <div class="symptom-grid">
+                    <div class="symptom-card">
+                        <h3>Medicin</h3>
+                        <ul>
+                            <li>Vanddrivende medicin</li>
+                            <li>Antidepressiva</li>
+                            <li>Antihistaminer</li>
+                            <li>Blodtryksmedicin</li>
+                        </ul>
+                    </div>
+                    <div class="symptom-card">
+                        <h3>Livsstilsfaktorer</h3>
+                        <ul>
+                            <li>Stor vægtøgning</li>
+                            <li>Rygning</li>
+                            <li>Stort koffein- eller alkoholindtag</li>
+                            <li>Kronisk forstoppelse</li>
+                        </ul>
+                    </div>
+                    <div class="symptom-card">
+                        <h3>Medicinske tilstande</h3>
+                        <ul>
+                            <li>Diabetes</li>
+                            <li>Hjertesygdom</li>
+                            <li>Nyresygdomme</li>
+                            <li>Neurologiske sygdomme</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>💡 Vidste du at...</h3>
+                <p>Op til 25% af kvinder og 10% af mænd oplever en form for urininkontinens. Med alderen stiger risikoen, men vandladningsbesvær er ikke en naturlig del af alderdommen og kan ofte behandles effektivt.</p>
+            </div>
+        </div>
+
+        <!-- BEHANDLING -->
+        <div id="treatment" class="page">
+            <div class="card">
+                <h2>Behandlingsmuligheder</h2>
+
+                <h3>Konservativ behandling (første valg)</h3>
+                <div class="symptom-grid">
+                    <div class="symptom-card">
+                        <h3>Bækkenbundstræning</h3>
+                        <p><strong>Kegel-øvelser:</strong> Styrker musklerne omkring blære og urinrør</p>
+                        <p><strong>Hvordan:</strong> Spænd musklerne som om du holder på urinen i 3-5 sekunder, slap af i 3-5 sek. Gentag 10-15 gange, 3 gange dagligt</p>
+                        <p><strong>Virker især godt ved:</strong> Stressinkontinens</p>
+                    </div>
+                    <div class="symptom-card">
+                        <h3>Blæretræning</h3>
+                        <p><strong>Formål:</strong> Øge blærens kapacitet og kontrol</p>
+                        <p><strong>Metode:</strong> Gradvis forlængelse af tiden mellem vandladninger</p>
+                        <p><strong>Virker godt ved:</strong> Urgeinkontinens og hyppig vandladning</p>
+                    </div>
+                    <div class="symptom-card">
+                        <h3>Livsstilsændringer</h3>
+                        <p><strong>Vægtreduktion:</strong> Selv 5-10% vægttab kan hjælpe</p>
+                        <p><strong>Rygestop:</strong> Reducerer hoste og blærecancer-risiko</p>
+                        <p><strong>Diætjusteringer:</strong> Begræns koffein og alkohol</p>
+                    </div>
+                </div>
+
+                <h3>Medicinsk behandling</h3>
+                <ul>
+                    <li><strong>Antikolinergika:</strong> Reducerer blærekontraktioner (ved overaktiv blære)</li>
+                    <li><strong>Beta-3 agonister:</strong> Afslapper blæremusklen</li>
+                    <li><strong>Alfa-blokkere:</strong> Afslapper prostata og blærehals (mænd)</li>
+                    <li><strong>5-alfa reduktase hæmmere:</strong> Formindsker prostata (mænd)</li>
+                    <li><strong>Østrogenbehandling:</strong> Lokal behandling hos kvinder efter overgangsalderen</li>
+                </ul>
+
+                <h3>Avancerede behandlinger</h3>
+                <div class="symptom-grid">
+                    <div class="symptom-card">
+                        <h3>Botoxinjektioner</h3>
+                        <p>Injiceres i blæremusklen for at reducere overaktivitet</p>
+                        <p><strong>Effekt:</strong> 6-9 måneder</p>
+                        <p><strong>Bivirkninger:</strong> Risiko for urinretention</p>
+                    </div>
+                    <div class="symptom-card">
+                        <h3>Sakral neurostimulation</h3>
+                        <p>Elektronisk stimulation af nerver til blære</p>
+                        <p><strong>Indikation:</strong> Svær overaktiv blære eller fækal inkontinens</p>
+                        <p><strong>Også kaldet:</strong> "Blære-pacemaker"</p>
+                    </div>
+                    <div class="symptom-card">
+                        <h3>Kirurgisk behandling</h3>
+                        <p><strong>TVT/TOT:</strong> Bånd under urinrøret (kvinder)</p>
+                        <p><strong>Sfinkterprotese:</strong> Kunstig lukkemuskél</p>
+                        <p><strong>Prostataoperation:</strong> TURP, laserbehandling (mænd)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h3>⚠️ Vigtigt at huske</h3>
+                <p>Behandling skal altid tilpasses den enkelte patient. Det der virker for én person, virker ikke nødvendigvis for en anden. Mange patienter har gavn af en kombination af behandlinger.</p>
+            </div>
+        </div>
+    </main>
 </body>
