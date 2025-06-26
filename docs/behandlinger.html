@@ -22,15 +22,197 @@
     </header>
 
     <main class="container">
-        <div class="page active">
-            <div class="card">
-                <h2>Behandlingsmuligheder</h2>
-                <p>Indhold kommer snart...</p>
+        <div class="treatment-page">
+            <!-- Effectiveness Question -->
+            <div class="effectiveness-question">
+                <h2>
+                    Hvor vigtigt er det, at du får den mest effektive behandling?
+                    <button class="info-bubble" onclick="showEffectivenessInfo()">
+                        <span>i</span>
+                    </button>
+                </h2>
+                
+                <div class="rating-scale">
+                    <div class="rating-item">
+                        <div class="rating-pill"></div>
+                        <span class="rating-label">Ikke-vigtigt</span>
+                    </div>
+                    <div class="rating-item">
+                        <div class="rating-pill"></div>
+                        <span class="rating-label">Mindre-vigtigt</span>
+                    </div>
+                    <div class="rating-item">
+                        <div class="rating-pill"></div>
+                        <span class="rating-label">Neutral</span>
+                    </div>
+                    <div class="rating-item">
+                        <div class="rating-pill selected">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <span class="rating-label">Betydeligt-vigtigt</span>
+                    </div>
+                    <div class="rating-item">
+                        <div class="rating-pill"></div>
+                        <span class="rating-label">Meget-vigtigt</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Modal -->
+            <div id="effectiveness-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeEffectivenessInfo()">&times;</span>
+                    <p>Med effektiv menes der at man fjerner mest muligt prostatavæv samt at der ses den største forbedring af vandladningstrålen og største reduktion af vandladningsgener</p>
+                </div>
+            </div>
+
+            <h1>Vælg de behandlinger, som din læge har angivet som mulige</h1>
+            
+            <div class="treatment-grid">
+                <!-- Row 1 -->
+                <div class="treatment-option">
+                    <div class="treatment-circle" data-treatment="tui-p">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <h3>TUI-P</h3>
+                    <p>Transurethral incision af prostata</p>
+                </div>
+                
+                <div class="treatment-option">
+                    <div class="treatment-circle" data-treatment="tur-p">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <h3>TUR-P</h3>
+                    <p>Transurethral resektion af prostata</p>
+                </div>
+                
+                <div class="treatment-option">
+                    <div class="treatment-circle" data-treatment="pvp">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <h3>PVP</h3>
+                    <p>Transurethral prostatavarisation</p>
+                </div>
+                
+                <div class="treatment-option">
+                    <div class="treatment-circle" data-treatment="aeep">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <h3>AEEP</h3>
+                    <p>Transurethral enukleation</p>
+                </div>
+                
+                <div class="treatment-option">
+                    <div class="treatment-circle" data-treatment="freyer">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <h3>FREYER</h3>
+                    <p>Åben transvesikal prostatektomi</p>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="treatment-option">
+                    <div class="treatment-circle" data-treatment="rasp">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <h3>RASP</h3>
+                    <p>Robotassisteret transvezikal prostatektomi</p>
+                </div>
+                
+                <div class="treatment-option">
+                    <div class="treatment-circle" data-treatment="pae">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <h3>PAE</h3>
+                    <p>Prostataembolisering</p>
+                </div>
+                
+                <div class="treatment-option">
+                    <div class="treatment-circle" data-treatment="tumt">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <h3>TUMT</h3>
+                    <p>Mikrobølgebehandling (CoreTherm)</p>
+                </div>
+                
+                <div class="treatment-option">
+                    <div class="treatment-circle" data-treatment="urolift">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <h3>UROLIFT</h3>
+                    <p>Prostatic urethral lift</p>
+                </div>
+                
+                <div class="treatment-option">
+                    <div class="treatment-circle" data-treatment="rezum">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <h3>REZUM</h3>
+                    <p>Rezum-behandling</p>
+                </div>
+            </div>
+
+            <div class="compare-section">
+                <button class="compare-btn" onclick="compareTreatments()">
+                    SAMMENLIGN BEHANDLINGERNE
+                </button>
             </div>
         </div>
     </main>
     
     <script>
+        // Treatment selection functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const treatmentCircles = document.querySelectorAll('.treatment-circle');
+            
+            treatmentCircles.forEach(circle => {
+                circle.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                    updateCompareButton();
+                });
+            });
+            
+            function updateCompareButton() {
+                const selectedTreatments = document.querySelectorAll('.treatment-circle.selected');
+                const compareBtn = document.querySelector('.compare-btn');
+                
+                if (selectedTreatments.length >= 2) {
+                    compareBtn.disabled = false;
+                    compareBtn.style.opacity = '1';
+                } else {
+                    compareBtn.disabled = true;
+                    compareBtn.style.opacity = '0.6';
+                }
+            }
+            
+            // Initialize compare button state
+            updateCompareButton();
+        });
+
+        function showEffectivenessInfo() {
+            document.getElementById('effectiveness-modal').style.display = 'block';
+        }
+
+        function closeEffectivenessInfo() {
+            document.getElementById('effectiveness-modal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('effectiveness-modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function compareTreatments() {
+            const selectedTreatments = document.querySelectorAll('.treatment-circle.selected');
+            if (selectedTreatments.length >= 2) {
+                // Here you would navigate to comparison page or show comparison
+                alert('Sammenligning af ' + selectedTreatments.length + ' behandlinger kommer snart!');
+            }
+        }
+
         function toggleMobileMenu() {
             const mobileMenu = document.querySelector('.mobile-menu');
             if (mobileMenu) {
