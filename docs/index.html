@@ -12,39 +12,24 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">Vandladningsbesvær.dk</div>
-                <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+                <div class="nav-group">
+                    <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+                    <button class="nav-btn" onclick="showPage('Behandlinger')">Behandlinger</button>
+                    <button class="nav-btn" onclick="showPage('Personlig test')">Personlig test</button>
+                    <button class="nav-btn" onclick="showPage('Om siden')">Om siden</button>
+                </div>
             </div>
         </div>
     </header>
 
-    <nav>
-        <div class="container">
-            <div class="nav-container">
-                <button class="nav-btn active" onclick="showPage('home')">Forside</button>
-                <button class="nav-btn" onclick="showPage('symptoms')">Symptomer</button>
-                <button class="nav-btn" onclick="showPage('causes')">Årsager</button>
-                <button class="nav-btn" onclick="showPage('treatment')">Behandling</button>
-                <button class="nav-btn" onclick="showPage('prevention')">Forebyggelse</button>
-                <button class="nav-btn" onclick="showPage('contact')">Kontakt</button>
-            </div>
-            <div class="mobile-menu" id="mobileMenu">
-                <button class="nav-btn active" onclick="showPage('home'); toggleMobileMenu()">Forside</button>
-                <button class="nav-btn" onclick="showPage('symptoms'); toggleMobileMenu()">Symptomer</button>
-                <button class="nav-btn" onclick="showPage('causes'); toggleMobileMenu()">Årsager</button>
-                <button class="nav-btn" onclick="showPage('treatment'); toggleMobileMenu()">Behandling</button>
-                <button class="nav-btn" onclick="showPage('prevention'); toggleMobileMenu()">Forebyggelse</button>
-                <button class="nav-btn" onclick="showPage('contact'); toggleMobileMenu()">Kontakt</button>
-            </div>
-        </div>
-    </nav>
-
     <main class="container">
         <!-- FORSIDE -->
-        <div id="home" class="page active">
-            <div class="hero">
-                <h1>Information om vandladningsbesvær</h1>
-                <p>p</p>
+        <div id="Forside" class="page active">
+            <div class="hero-image">
+                <h2>Du har fået konstateret, at din prostata er medvirkende til dit vandladningbesvær og at du kan tilbydes en operativ behandling</h2>
+                <img src="../images/main_forside.jpg" alt="forside_main">
             </div>
+
 
             <div class="card">
                 <h2>Hvad er vandladningsbesvær?</h2>
