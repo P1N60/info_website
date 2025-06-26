@@ -11,12 +11,12 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo">Vandladningsbesvær.dk</div>
+                <div class="logo"><a href="index.html">Vandladningsbesvær.dk</a></div>
                 <div class="nav-group">
                     <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
-                    <button class="nav-btn" onclick="showPage('Behandlinger')">Behandlinger</button>
-                    <button class="nav-btn" onclick="showPage('Personlig test')">Personlig test</button>
-                    <button class="nav-btn" onclick="showPage('Om siden')">Om siden</button>
+                    <a href="behandlinger.html" class="nav-btn">Behandlinger</a>
+                    <a href="personlig-test.html" class="nav-btn">Personlig test</a>
+                    <a href="om-siden.html" class="nav-btn">Om siden</a>
                 </div>
             </div>
         </div>
@@ -27,221 +27,39 @@
         <div id="Forside" class="page active">
             <div class="hero-image">
                 <h2>Du har fået konstateret, at din prostata er medvirkende til dit vandladningbesvær og at du kan tilbydes en operativ behandling</h2>
-                <img src="../images/main_forside.jpg" alt="forside_main">
+                <img src="../images/main_forside.jpg" alt="forside hovedbillede">
+            </div>
+            
+            <div class="action-buttons">
+                <a href="behandlinger.html" class="action-button">
+                    <div class="action-icon">
+                        <img src="../images/f1.png" alt="Behandlinger icon">
+                    </div>
+                    <p>Læs om behandlinger</p>
+                </a>
+                <a href="personlig-test.html" class="action-button">
+                    <div class="action-icon">
+                        <img src="../images/f2.png" alt="Test icon">
+                    </div>
+                    <p>Tag en personlig test</p>
+                </a>
+                <a href="om-siden.html" class="action-button">
+                    <div class="action-icon">
+                        <img src="../images/f3.png" alt="Om siden icon">
+                    </div>
+                    <p>Om vandladningsbesvær.dk</p>
+                </a>
             </div>
 
-
-            <div class="card">
-                <h2>Hvad er vandladningsbesvær?</h2>
-                <p>p</p>
-                
-                <p>p</p>
-            </div>
-
-            <div class="symptom-grid">
-                <div class="symptom-card">
-                    <h3>h3</h3>
-                    <p>p</p>
-                </div>
-                <div class="symptom-card">
-                    <h3>h3</h3>
-                    <p>p</p>
-                </div>
-                <div class="symptom-card">
-                    <h3>h3</h3>
-                    <p>p</p>
-                </div>
-                <div class="symptom-card">
-                    <h3>h3</h3>
-                    <p>p</p>
-                </div>
-            </div>
-
-            <div class="emergency-box">
-                <h3>h3</h3>
-                <ul>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- SYMPTOMER -->
-        <div id="symptoms" class="page">
-            <div class="card">
-                <h2>h2</h2>
-                
-                <h3>h3</h3>
-                <ul>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                </ul>
-
-                <h3>h3</h3>
-                <div class="symptom-grid">
-                    <div class="symptom-card">
-                        <h3>h3</h3>
-                        <p><strong>Årsag:</strong> Svækkede bækkenbundsmuskler</p>
-                        <p>p</p>
-                        <p>p</p>
-                    </div>
-                    <div class="symptom-card">
-                        <h3>h3</h3>
-                        <p>p</p>
-                        <p>p</p>
-                        <p>p</p>
-                    </div>
-                    <div class="symptom-card">
-                        <h3>h3</h3>
-                        <p>p</p>
-                        <p>p</p>
-                        <p>p</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="warning-box">
-                <h3>h3</h3>
-                <ul>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- ÅRSAGER -->
-        <div id="causes" class="page">
-            <div class="card">
-                <h2>h2</h2>
-
-                <h3>h3</h3>
-                <ul>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                </ul>
-
-                <h3>h3</h3>
-                <ul>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                    <li>li</li>
-                </ul>
-
-                <h3>h3</h3>
-                <div class="symptom-grid">
-                    <div class="symptom-card">
-                        <h3>h3</h3>
-                        <ul>
-                            <li>li</li>
-                            <li>li</li>
-                            <li>li</li>
-                            <li>li</li>
-                        </ul>
-                    </div>
-                    <div class="symptom-card">
-                        <h3>Livsstilsfaktorer</h3>
-                        <ul>
-                            <li>Stor vægtøgning</li>
-                            <li>Rygning</li>
-                            <li>Stort koffein- eller alkoholindtag</li>
-                            <li>Kronisk forstoppelse</li>
-                        </ul>
-                    </div>
-                    <div class="symptom-card">
-                        <h3>Medicinske tilstande</h3>
-                        <ul>
-                            <li>Diabetes</li>
-                            <li>Hjertesygdom</li>
-                            <li>Nyresygdomme</li>
-                            <li>Neurologiske sygdomme</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <h3>💡 Vidste du at...</h3>
-                <p>Op til 25% af kvinder og 10% af mænd oplever en form for urininkontinens. Med alderen stiger risikoen, men vandladningsbesvær er ikke en naturlig del af alderdommen og kan ofte behandles effektivt.</p>
-            </div>
-        </div>
-
-        <!-- BEHANDLING -->
-        <div id="treatment" class="page">
-            <div class="card">
-                <h2>Behandlingsmuligheder</h2>
-
-                <h3>Konservativ behandling (første valg)</h3>
-                <div class="symptom-grid">
-                    <div class="symptom-card">
-                        <h3>Bækkenbundstræning</h3>
-                        <p><strong>Kegel-øvelser:</strong> Styrker musklerne omkring blære og urinrør</p>
-                        <p><strong>Hvordan:</strong> Spænd musklerne som om du holder på urinen i 3-5 sekunder, slap af i 3-5 sek. Gentag 10-15 gange, 3 gange dagligt</p>
-                        <p><strong>Virker især godt ved:</strong> Stressinkontinens</p>
-                    </div>
-                    <div class="symptom-card">
-                        <h3>Blæretræning</h3>
-                        <p><strong>Formål:</strong> Øge blærens kapacitet og kontrol</p>
-                        <p><strong>Metode:</strong> Gradvis forlængelse af tiden mellem vandladninger</p>
-                        <p><strong>Virker godt ved:</strong> Urgeinkontinens og hyppig vandladning</p>
-                    </div>
-                    <div class="symptom-card">
-                        <h3>Livsstilsændringer</h3>
-                        <p><strong>Vægtreduktion:</strong> Selv 5-10% vægttab kan hjælpe</p>
-                        <p><strong>Rygestop:</strong> Reducerer hoste og blærecancer-risiko</p>
-                        <p><strong>Diætjusteringer:</strong> Begræns koffein og alkohol</p>
-                    </div>
-                </div>
-
-                <h3>Medicinsk behandling</h3>
-                <ul>
-                    <li><strong>Antikolinergika:</strong> Reducerer blærekontraktioner (ved overaktiv blære)</li>
-                    <li><strong>Beta-3 agonister:</strong> Afslapper blæremusklen</li>
-                    <li><strong>Alfa-blokkere:</strong> Afslapper prostata og blærehals (mænd)</li>
-                    <li><strong>5-alfa reduktase hæmmere:</strong> Formindsker prostata (mænd)</li>
-                    <li><strong>Østrogenbehandling:</strong> Lokal behandling hos kvinder efter overgangsalderen</li>
-                </ul>
-
-                <h3>Avancerede behandlinger</h3>
-                <div class="symptom-grid">
-                    <div class="symptom-card">
-                        <h3>Botoxinjektioner</h3>
-                        <p>Injiceres i blæremusklen for at reducere overaktivitet</p>
-                        <p><strong>Effekt:</strong> 6-9 måneder</p>
-                        <p><strong>Bivirkninger:</strong> Risiko for urinretention</p>
-                    </div>
-                    <div class="symptom-card">
-                        <h3>Sakral neurostimulation</h3>
-                        <p>Elektronisk stimulation af nerver til blære</p>
-                        <p><strong>Indikation:</strong> Svær overaktiv blære eller fækal inkontinens</p>
-                        <p><strong>Også kaldet:</strong> "Blære-pacemaker"</p>
-                    </div>
-                    <div class="symptom-card">
-                        <h3>Kirurgisk behandling</h3>
-                        <p><strong>TVT/TOT:</strong> Bånd under urinrøret (kvinder)</p>
-                        <p><strong>Sfinkterprotese:</strong> Kunstig lukkemuskél</p>
-                        <p><strong>Prostataoperation:</strong> TURP, laserbehandling (mænd)</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="warning-box">
-                <h3>⚠️ Vigtigt at huske</h3>
-                <p>Behandling skal altid tilpasses den enkelte patient. Det der virker for én person, virker ikke nødvendigvis for en anden. Mange patienter har gavn af en kombination af behandlinger.</p>
-            </div>
         </div>
     </main>
+    
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.classList.toggle('active');
+            }
+        }
+    </script>
 </body>

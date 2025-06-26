@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behandlinger - Vandladningsbesvær</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"><a href="index.html">Vandladningsbesvær.dk</a></div>
+                <div class="nav-group">
+                    <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+                    <a href="behandlinger.html" class="nav-btn active">Behandlinger</a>
+                    <a href="personlig-test.html" class="nav-btn">Personlig test</a>
+                    <a href="om-siden.html" class="nav-btn">Om siden</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page active">
+            <div class="card">
+                <h2>Behandlingsmuligheder</h2>
+                <p>Indhold kommer snart...</p>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.classList.toggle('active');
+            }
+        }
+    </script>
+</body>
+</html>
