@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Behandlinger - Vandladningsbesvær</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2024-06-29-4">
 </head>
 <body>
     <header>
@@ -37,20 +40,23 @@
                         <div class="rating-pill"></div>
                         <span class="rating-label">Ikke-vigtigt</span>
                     </div>
+                    <br>
                     <div class="rating-item">
                         <div class="rating-pill"></div>
                         <span class="rating-label">Mindre-vigtigt</span>
                     </div>
+                    <br>
                     <div class="rating-item">
                         <div class="rating-pill"></div>
                         <span class="rating-label">Neutral</span>
                     </div>
+                    <br>
                     <div class="rating-item">
                         <div class="rating-pill selected">
-                            <span class="checkmark">✓</span>
                         </div>
                         <span class="rating-label">Betydeligt-vigtigt</span>
                     </div>
+                    <br>
                     <div class="rating-item">
                         <div class="rating-pill"></div>
                         <span class="rating-label">Meget-vigtigt</span>
@@ -65,97 +71,99 @@
                     <p>Med effektiv menes der at man fjerner mest muligt prostatavæv samt at der ses den største forbedring af vandladningstrålen og største reduktion af vandladningsgener.</p>
                 </div>
             </div>
-
-            <h1>Vælg de behandlinger, som din læge har angivet som mulige</h1>
             
-            <div class="treatment-grid">
-                <!-- Row 1 -->
-                <div class="treatment-option">
-                    <div class="treatment-circle" data-treatment="tui-p">
-                        <span class="checkmark">✓</span>
-                    </div>
-                    <h3>TUI-P</h3>
-                    <p>Transurethral incision af prostata</p>
-                </div>
+            <div class="treatment-selection">
+                <h1>Vælg de behandlinger, som din læge har angivet som mulige</h1>
                 
-                <div class="treatment-option">
-                    <div class="treatment-circle" data-treatment="tur-p">
-                        <span class="checkmark">✓</span>
+                <div class="treatment-grid">
+                    <!-- Row 1 -->
+                    <div class="treatment-option">
+                        <div class="treatment-circle" data-treatment="tui-p">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h3>TUI-P</h3>
+                        <p>Transurethral incision af prostata</p>
                     </div>
-                    <h3>TUR-P</h3>
-                    <p>Transurethral resektion af prostata</p>
-                </div>
-                
-                <div class="treatment-option">
-                    <div class="treatment-circle" data-treatment="pvp">
-                        <span class="checkmark">✓</span>
+                    
+                    <div class="treatment-option">
+                        <div class="treatment-circle" data-treatment="tur-p">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h3>TUR-P</h3>
+                        <p>Transurethral resektion af prostata</p>
                     </div>
-                    <h3>PVP</h3>
-                    <p>Transurethral prostatavarisation</p>
-                </div>
-                
-                <div class="treatment-option">
-                    <div class="treatment-circle" data-treatment="aeep">
-                        <span class="checkmark">✓</span>
+                    
+                    <div class="treatment-option">
+                        <div class="treatment-circle" data-treatment="pvp">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h3>PVP</h3>
+                        <p>Transurethral prostatavarisation</p>
                     </div>
-                    <h3>AEEP</h3>
-                    <p>Transurethral enukleation</p>
-                </div>
-                
-                <div class="treatment-option">
-                    <div class="treatment-circle" data-treatment="freyer">
-                        <span class="checkmark">✓</span>
+                    
+                    <div class="treatment-option">
+                        <div class="treatment-circle" data-treatment="aeep">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h3>AEEP</h3>
+                        <p>Transurethral enukleation</p>
                     </div>
-                    <h3>FREYER</h3>
-                    <p>Åben transvesikal prostatektomi</p>
+                    
+                    <div class="treatment-option">
+                        <div class="treatment-circle" data-treatment="freyer">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h3>FREYER</h3>
+                        <p>Åben transvesikal prostatektomi</p>
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div class="treatment-option">
+                        <div class="treatment-circle" data-treatment="rasp">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h3>RASP</h3>
+                        <p>Robotassisteret transvezikal prostatektomi</p>
+                    </div>
+                    
+                    <div class="treatment-option">
+                        <div class="treatment-circle" data-treatment="pae">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h3>PAE</h3>
+                        <p>Prostataembolisering</p>
+                    </div>
+                    
+                    <div class="treatment-option">
+                        <div class="treatment-circle" data-treatment="tumt">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h3>TUMT</h3>
+                        <p>Mikrobølgebehandling (CoreTherm)</p>
+                    </div>
+                    
+                    <div class="treatment-option">
+                        <div class="treatment-circle" data-treatment="urolift">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h3>UROLIFT</h3>
+                        <p>Prostatic urethral lift</p>
+                    </div>
+                    
+                    <div class="treatment-option">
+                        <div class="treatment-circle" data-treatment="rezum">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h3>REZUM</h3>
+                        <p>Rezum-behandling</p>
+                    </div>
                 </div>
 
-                <!-- Row 2 -->
-                <div class="treatment-option">
-                    <div class="treatment-circle" data-treatment="rasp">
-                        <span class="checkmark">✓</span>
-                    </div>
-                    <h3>RASP</h3>
-                    <p>Robotassisteret transvezikal prostatektomi</p>
+                <div class="compare-section">
+                    <button class="compare-btn" onclick="compareTreatments()">
+                        SAMMENLIGN BEHANDLINGERNE
+                    </button>
                 </div>
-                
-                <div class="treatment-option">
-                    <div class="treatment-circle" data-treatment="pae">
-                        <span class="checkmark">✓</span>
-                    </div>
-                    <h3>PAE</h3>
-                    <p>Prostataembolisering</p>
-                </div>
-                
-                <div class="treatment-option">
-                    <div class="treatment-circle" data-treatment="tumt">
-                        <span class="checkmark">✓</span>
-                    </div>
-                    <h3>TUMT</h3>
-                    <p>Mikrobølgebehandling (CoreTherm)</p>
-                </div>
-                
-                <div class="treatment-option">
-                    <div class="treatment-circle" data-treatment="urolift">
-                        <span class="checkmark">✓</span>
-                    </div>
-                    <h3>UROLIFT</h3>
-                    <p>Prostatic urethral lift</p>
-                </div>
-                
-                <div class="treatment-option">
-                    <div class="treatment-circle" data-treatment="rezum">
-                        <span class="checkmark">✓</span>
-                    </div>
-                    <h3>REZUM</h3>
-                    <p>Rezum-behandling</p>
-                </div>
-            </div>
-
-            <div class="compare-section">
-                <button class="compare-btn" onclick="compareTreatments()">
-                    SAMMENLIGN BEHANDLINGERNE
-                </button>
             </div>
         </div>
     </main>

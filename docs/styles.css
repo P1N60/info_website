@@ -450,14 +450,6 @@ footer {
     padding: 2rem 0;
 }
 
-.treatment-page h1 {
-    text-align: center;
-    color: #2c5aa0;
-    margin-bottom: 3rem;
-    font-size: 1.8rem;
-    font-weight: 600;
-}
-
 .treatment-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -615,8 +607,8 @@ footer {
     margin-bottom: 2rem;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    text-align: left;
     line-height: 1.5;
 }
 
@@ -627,6 +619,23 @@ footer {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+/* Treatment selection styles */
+.treatment-selection {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.treatment-selection h1 {
+    color: #2c5aa0;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 1.8rem;
+    font-weight: 600;
 }
 
 /* Comparison Page Styles */
