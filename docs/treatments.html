@@ -13,9 +13,9 @@
                 <div class="logo"><a href="index.html">Vandladningsbesvær.dk</a></div>
                 <div class="nav-group">
                     <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
-                    <a href="behandlinger.html" class="nav-btn active">Behandlinger</a>
-                    <a href="personlig-test.html" class="nav-btn">Personlig test</a>
-                    <a href="om-siden.html" class="nav-btn">Om siden</a>
+                    <a href="treatments.html" class="nav-btn active">Behandlinger</a>
+                    <a href="personal_test.html" class="nav-btn">Personlig test</a>
+                    <a href="about.html" class="nav-btn">Om siden</a>
                 </div>
             </div>
         </div>
@@ -25,12 +25,12 @@
         <div class="treatment-page">
             <!-- Effectiveness Question -->
             <div class="effectiveness-question">
-                <h2>
+                <h1>
                     Hvor vigtigt er det, at du får den mest effektive behandling?
                     <button class="info-bubble" onclick="showEffectivenessInfo()">
                         <span>i</span>
                     </button>
-                </h2>
+                </h1>
                 
                 <div class="rating-scale">
                     <div class="rating-item">
@@ -190,27 +190,46 @@
         });
 
         function showEffectivenessInfo() {
-            document.getElementById('effectiveness-modal').style.display = 'block';
+            const modal = document.getElementById('effectiveness-modal');
+            modal.style.display = 'block';
+            // Focus the modal for accessibility
+            modal.setAttribute('tabindex', '-1');
+            modal.focus();
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
         }
 
         function closeEffectivenessInfo() {
-            document.getElementById('effectiveness-modal').style.display = 'none';
+            const modal = document.getElementById('effectiveness-modal');
+            modal.style.display = 'none';
+            // Restore body scroll
+            document.body.style.overflow = 'auto';
+            // Return focus to the info bubble
+            document.querySelector('.info-bubble').focus();
         }
 
         // Close modal when clicking outside of it
         window.onclick = function(event) {
             const modal = document.getElementById('effectiveness-modal');
             if (event.target == modal) {
-                modal.style.display = 'none';
+                closeEffectivenessInfo();
             }
         }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('effectiveness-modal');
+            if (event.key === 'Escape' && modal.style.display === 'block') {
+                closeEffectivenessInfo();
+            }
+        });
 
         function compareTreatments() {
             const selectedTreatments = document.querySelectorAll('.treatment-circle.selected');
             if (selectedTreatments.length >= 2) {
                 // Get the treatment IDs from selected treatments
                 const treatmentIds = Array.from(selectedTreatments).map(element => {
-                    return element.closest('.treatment-option').id;
+                    return element.getAttribute('data-treatment');
                 });
                 
                 // Store in localStorage for persistence
