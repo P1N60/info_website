@@ -166,10 +166,6 @@
             const treatmentNames = treatments.map(t => treatmentData[t].name).join(' vs ');
             
             return `
-                <div class="comparison-title">
-                    <h2>${treatmentNames}</h2>
-                </div>
-
                 ${generateAnesthesiaSection(treatments)}
                 ${generateHospitalStaySection(treatments)}
                 ${generateCatheterSection(treatments)}
@@ -340,7 +336,7 @@
             let icons = '';
             for (let i = 0; i < totalCount; i++) {
                 const isHighlighted = i < highlightCount;
-                icons += `<span class="person-icon ${isHighlighted ? 'highlighted' : ''}">👤</span>`;
+                icons += `<span class="person-icon ${isHighlighted ? 'highlighted' : ''}">👨‍⚕️</span>`;
             }
             return icons;
         }

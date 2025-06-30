@@ -9,6 +9,7 @@ body {
     line-height: 1.6;
     color: #333;
     background-color: #f8f9fa;
+    overflow-x: hidden;
 }
 
 .container {
@@ -634,7 +635,15 @@ footer {
     color: #2c5aa0;
     text-align: center;
     margin-bottom: 3rem;
-    font-size: 1.8rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.treatment-selection h2 {
+    color: #2c5aa0;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 1.55rem;
     font-weight: 600;
 }
 
@@ -700,6 +709,7 @@ footer {
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
 }
 
@@ -833,7 +843,7 @@ footer {
     font-size: 18px;
     text-align: center;
     color: #ccc;
-    opacity: 0.6;
+    opacity: 0.175;
     transition: all 0.3s ease;
 }
 
