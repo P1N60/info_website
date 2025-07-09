@@ -10,6 +10,7 @@ body {
     color: #333;
     background-color: #f8f9fa;
     overflow-x: hidden;
+    padding-top: 80px; /* Account for fixed header */
 }
 
 .container {
@@ -23,6 +24,11 @@ header {
     color: white;
     padding: 1rem 0;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 .header-content {
@@ -124,7 +130,9 @@ main {
     margin-right: calc(-50vw + 50%);
     max-width: none;
     overflow: hidden;
-    height: 91vh;
+    height: 95vh; /* Back to original height */
+    margin-top: -2rem; /* Offset the main padding */
+    margin-bottom: 2rem;
 }
 
 .hero-image img {
@@ -569,6 +577,7 @@ footer {
     padding: 15px 40px;
     font-size: 1.1rem;
     font-weight: 600;
+    font-family: 'Arial Black', Arial, sans-serif;
     border-radius: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
