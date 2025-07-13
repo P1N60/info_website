@@ -21,13 +21,304 @@
     </header>
 
     <main class="container">
-        <div class="page active">
-            <div class="card">
-                <h2>Personlig Test</h2>
-                <p>Indhold kommer snart...</p>
+        <div class="treatment-page">
+            <h1 style="color: #2c5aa0; text-align: center; margin-bottom: 1rem;">Personlig Test</h1>
+            <h2 style="color: #2c5aa0; text-align: center; margin-bottom: 3rem; font-size: 1.55rem; font-weight: 600;">Besvar følgende spørgsmål for at hjælpe med at finde den bedste behandling for dig</h2>
+            
+            <div class="questions-container" id="questions"></div>
+
+            <div id="modals"></div>
+            <div class="compare-section">
+                <button class="compare-btn" onclick="calculateResults()" disabled>
+                    BESVAR ALLE SPØRGSMÅL
+                </button>
             </div>
         </div>
     </main>
     
+    <script>
+        const questions = [
+            { id: 'effectiveness', text: 'Hvor vigtigt er det, at du får den mest effektive behandling?', info: 'Med effektiv menes der at man fjerner mest muligt prostatavæv samt at der ses den største forbedring af vandladningstrålen og største reduktion af vandladningsgener.' },
+            { id: 'retreatment', text: 'Hvor vigtigt er det, at risikoen for genbehandling er mindst mulig?', info: 'Genbehandlingsrisiko refererer til sandsynligheden for, at du skal have yderligere behandling i fremtiden på grund af utilstrækkelig forbedring eller tilbagevendende symptomer.' },
+            { id: 'gentle', text: 'Hvor vigtigt er det, at du får den mest skånsomme behandling med færrest mulige komplikationer?', info: 'Skånsom behandling betyder færre komplikationer, mindre indgreb, kortere hospitalsophold og hurtigere restitution efter behandlingen.' },
+            { id: 'sexual', text: 'Hvor vigtigt er det at undgå seksuelle bivirkninger?', info: 'Nogle prostatabehandlinger kan påvirke seksuel funktion, herunder retrograd ejakulation (sæd går tilbage i blæren i stedet for ud) eller erektil dysfunktion.' },
+            { id: 'catheter', text: 'Hvor vigtigt er det at undgå et kateter efter behandlingen?', info: 'Et kateter er et tyndt rør, der indsættes i urinrøret for at lede urinen ud af kroppen efter operationen. Nogle behandlinger kræver kateter i flere dage eller uger.' }
+        ];
+
+        const treatments = {
+            'TUI-P': { name: 'TUI-P', fullName: 'Transurethral incision af prostata', scores: [2, 2, -1, -1, 2] },
+            'TUR-P': { name: 'TUR-P', fullName: 'Transurethral resektion af prostata', scores: [2, 2, -1, -2, 2] },
+            'PVP': { name: 'PVP', fullName: 'Transurethral prostatavarisation', scores: [0, 0, -1, -2, 2] },
+            'AEEP': { name: 'AEEP', fullName: 'Transurethral enukleation', scores: [2, 2, -2, -2, -2] },
+            'FREYER': { name: 'FREYER', fullName: 'Åben transvesikal prostatektomi', scores: [2, 2, -2, -2, -2] },
+            'RASP': { name: 'RASP', fullName: 'Robotassisteret transvezikal prostatektomi', scores: [2, 2, -2, -2, -2] },
+            'PAE': { name: 'PAE', fullName: 'Prostataembolisering', scores: [-2, -2, 2, 2, -2] },
+            'TUMT': { name: 'TUMT', fullName: 'Mikrobølgebehandling (CoreTherm)', scores: [-2, -2, 2, 2, -2] },
+            'UROLIFT': { name: 'UROLIFT', fullName: 'Prostatic urethral lift', scores: [-2, -2, 2, 2, 0] },
+            'REZUM': { name: 'REZUM', fullName: 'Rezum-behandling', scores: [-2, -2, 2, 2, 0] }
+        };
+
+        const labels = ['Ikke vigtigt', 'Mindre vigtigt', 'Neutral', 'Lidt vigtigt', 'Meget vigtigt'];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            createQuestions();
+            createModals();
+            setupEventListeners();
+            updateResultsButton();
+        });
+
+        function createQuestions() {
+            const container = document.getElementById('questions');
+            container.innerHTML = `
+                <div class="effectiveness-question">
+                    ${questions.map(q => `
+                        <h2>
+                            ${q.text}
+                            <button class="info-bubble" onclick="showModal('${q.id}')">
+                                <span>i</span>
+                            </button>
+                        </h2>
+                        <div class="slider-container">
+                            <div class="slider-wrapper">
+                                <div class="slider-labels">
+                                    ${labels.map(label => `<span class="slider-label">${label}</span>`).join('')}
+                                </div>
+                                <div class="slider-track-container">
+                                    <div class="slider-ticks">
+                                        ${Array.from({length: 5}, (_, i) => `<span class="tick"></span>`).join('')}
+                                    </div>
+                                    <input 
+                                        type="range" 
+                                        min="1" 
+                                        max="5" 
+                                        value="3" 
+                                        class="rating-slider" 
+                                        data-question="${q.id}"
+                                        id="${q.id}-slider"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function createModals() {
+            const container = document.getElementById('modals');
+            container.innerHTML = questions.map((q, index) => `
+                <div id="${q.id}-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal('${q.id}')">&times;</span>
+                        <p>${index === 0 ? q.info : ''}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function setupEventListeners() {
+            document.addEventListener('input', function(e) {
+                if (e.target.classList.contains('rating-slider')) {
+                    updateResultsButton();
+                }
+            });
+
+            window.onclick = function(e) {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            };
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal').forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        function updateResultsButton() {
+            const sliders = document.querySelectorAll('.rating-slider');
+            const btn = document.querySelector('.compare-btn');
+            btn.disabled = sliders.length !== questions.length;
+            btn.style.opacity = btn.disabled ? '0.6' : '1';
+            btn.textContent = btn.disabled ? 'BESVAR ALLE SPØRGSMÅL' : 'SE MINE RESULTATER';
+        }
+
+        function showModal(id) {
+            const modal = document.getElementById(id + '-modal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id + '-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function calculateResults() {
+            const results = {};
+            questions.forEach(q => {
+                const slider = document.querySelector(`[data-question="${q.id}"]`);
+                if (slider) results[q.id] = parseInt(slider.value);
+            });
+
+            localStorage.setItem('testResults', JSON.stringify(results));
+            const ranked = rankTreatments(results);
+            localStorage.setItem('rankedTreatments', JSON.stringify(ranked));
+            showResults(results, ranked);
+        }
+
+        function rankTreatments(userAnswers) {
+            const userScores = questions.map(q => userAnswers[q.id] - 3);
+            
+            return Object.entries(treatments).map(([id, treatment]) => {
+                const distance = Math.sqrt(userScores.reduce((sum, score, i) => 
+                    sum + Math.pow(score - treatment.scores[i], 2), 0));
+                return { id, ...treatment, distance };
+            }).sort((a, b) => a.distance - b.distance);
+        }
+
+        function showResults(userAnswers, ranked) {
+            const questionLabels = {
+                effectiveness: 'Effektivitet',
+                retreatment: 'Lav genbehandlingsrisiko',
+                gentle: 'Skånsom behandling',
+                sexual: 'Undgå seksuelle bivirkninger',
+                catheter: 'Undgå kateter'
+            };
+
+            const modal = document.createElement('div');
+            modal.id = 'results-modal';
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 800px; max-height: 80vh; overflow-y: auto;">
+                    <span class="close" onclick="closeResults()">&times;</span>
+                    <h2 style="color: #2c5aa0; margin-bottom: 1.5rem;">Dine testresultater</h2>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: #1e3a5f; margin-bottom: 1rem;">Dine prioriteter:</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            ${questions.map(q => `
+                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #4a90d9;">
+                                    <strong>${questionLabels[q.id]}:</strong><br>
+                                    ${labels[userAnswers[q.id] - 1]}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 style="color: #1e3a5f; margin-bottom: 1rem;">Anbefalede behandlinger:</h3>
+                        <p style="margin-bottom: 1rem; color: #666;">Behandlingerne er rangeret efter hvor godt de matcher dine prioriteter:</p>
+                        
+                        <div style="display: grid; gap: 1rem;">
+                            ${ranked.slice(0, 5).map((treatment, index) => `
+                                <div class="treatment-result-card" style="background: white; padding: 1.5rem; border-radius: 10px; border: 2px solid ${index === 0 ? '#4a90d9' : '#e9ecef'}; ${index === 0 ? 'box-shadow: 0 4px 15px rgba(74, 144, 217, 0.3);' : ''} transition: all 0.3s ease; cursor: pointer;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                        <h4 style="color: #2c5aa0; margin: 0; font-size: 1.3rem;">
+                                            ${index === 0 ? '🏆 ' : `${index + 1}. `}${treatment.name}
+                                        </h4>
+                                        <span class="treatment-pill" style="background: ${index === 0 ? '#4a90d9' : '#6c757d'}; color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.9rem; transition: all 0.3s ease;">
+                                            ${index === 0 ? 'Bedste match' : `Match: ${(100 - (treatment.distance / Math.sqrt(50)) * 100).toFixed(0)}%`}
+                                        </span>
+                                    </div>
+                                    <p style="color: #666; margin: 0; font-size: 0.95rem;">${treatment.fullName}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <button onclick="navigateToComparison()" style="background: linear-gradient(135deg, #4a90d9, #2c5aa0); color: white; padding: 15px 40px; border: none; border-radius: 25px; font-size: 1.1rem; font-weight: 600; font-family: 'Arial Black', Arial, sans-serif; cursor: pointer; margin-right: 1rem; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.3s ease;">
+                            Sammenlign top behandlinger
+                        </button>
+                        <button onclick="closeResults()" style="background: linear-gradient(135deg, #6c757d, #495057); color: white; padding: 15px 40px; border: none; border-radius: 25px; font-size: 1.1rem; font-weight: 600; font-family: 'Arial Black', Arial, sans-serif; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.3s ease;">
+                            Luk
+                        </button>
+                    </div>
+
+                    <div style="margin-top: 2rem; padding: 1rem; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px;">
+                        <p style="margin: 0; color: #856404; font-size: 0.9rem;">
+                            <strong>Vigtigt:</strong> Disse resultater er vejledende. Diskuter altid dine muligheder med din læge.
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+
+            // Add hover effects for main action buttons
+            modal.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('mouseenter', () => btn.style.transform = 'translateY(-2px)');
+                btn.addEventListener('mouseleave', () => btn.style.transform = 'translateY(0)');
+            });
+
+            // Add hover effects for treatment cards and pills using setTimeout to ensure DOM is ready
+            setTimeout(() => {
+                modal.querySelectorAll('.treatment-result-card').forEach(card => {
+                    const isTopRanked = card.style.border.includes('#4a90d9');
+                    
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transform = 'translateY(-3px)';
+                        card.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.15)';
+                        
+                        // Enhance pill hover effect
+                        const pill = card.querySelector('.treatment-pill');
+                        if (pill) {
+                            pill.style.transform = 'scale(1.05)';
+                            pill.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.2)';
+                        }
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateY(0)';
+                        card.style.boxShadow = isTopRanked ? '0 4px 15px rgba(74, 144, 217, 0.3)' : '';
+                        
+                        // Reset pill hover effect
+                        const pill = card.querySelector('.treatment-pill');
+                        if (pill) {
+                            pill.style.transform = 'scale(1)';
+                            pill.style.boxShadow = 'none';
+                        }
+                    });
+                });
+            }, 10);
+        }
+
+        function closeResults() {
+            const modal = document.getElementById('results-modal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function navigateToComparison() {
+            const ranked = JSON.parse(localStorage.getItem('rankedTreatments') || '[]');
+            // Map the treatment names to the format expected by comparison.html
+            const treatmentMapping = {
+                'TUI-P': 'tui-p',
+                'TUR-P': 'tur-p', 
+                'PVP': 'pvp',
+                'AEEP': 'aeep',
+                'FREYER': 'freyer',
+                'RASP': 'rasp',
+                'PAE': 'pae',
+                'TUMT': 'tumt',
+                'UROLIFT': 'urolift',
+                'REZUM': 'rezum'
+            };
+            
+            const top = ranked.slice(0, 3).map(t => treatmentMapping[t.id] || t.id.toLowerCase().replace('-', ''));
+            localStorage.setItem('selectedTreatments', JSON.stringify(top));
+            window.location.href = `comparison.html?treatments=${top.join(',')}`;
+        }
+    </script>
 </body>
 </html>

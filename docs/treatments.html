@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <title>Behandlinger - Vandladningsbesvær</title>
-    <link rel="stylesheet" href="styles.css?v=2024-06-29-4">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
@@ -25,135 +22,58 @@
 
     <main class="container">
         <div class="treatment-page">
-            <!-- Effectiveness Question -->
-            <div class="effectiveness-question">
-                <h1>
-                    Hvor vigtigt er det, at du får den mest effektive behandling?
-                    <button class="info-bubble" onclick="showEffectivenessInfo()">
-                        <span>i</span>
-                    </button>
-                </h1>
-                
-                <div class="rating-scale">
-                    <div class="rating-item">
-                        <div class="rating-pill"></div>
-                        <span class="rating-label">Ikke vigtigt</span>
-                    </div>
-                    <br>
-                    <div class="rating-item">
-                        <div class="rating-pill"></div>
-                        <span class="rating-label">Mindre vigtigt</span>
-                    </div>
-                    <br>
-                    <div class="rating-item">
-                        <div class="rating-pill"></div>
-                        <span class="rating-label">Neutral</span>
-                    </div>
-                    <br>
-                    <div class="rating-item">
-                        <div class="rating-pill selected">
-                        </div>
-                        <span class="rating-label">Betydeligt vigtigt</span>
-                    </div>
-                    <br>
-                    <div class="rating-item">
-                        <div class="rating-pill"></div>
-                        <span class="rating-label">Meget vigtigt</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Info Modal -->
-            <div id="effectiveness-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closeEffectivenessInfo()">&times;</span>
-                    <p>Med effektiv menes der at man fjerner mest muligt prostatavæv samt at der ses den største forbedring af vandladningstrålen og største reduktion af vandladningsgener.</p>
-                </div>
-            </div>
-            
             <div class="treatment-selection">
                 <h1>Sammenlign behandlinger</h1>
                 <h2>Vælg de behandlinger, som din læge har angivet som mulige</h2>
                 
                 <div class="treatment-grid">
-                    <!-- Row 1 -->
                     <div class="treatment-option">
-                        <div class="treatment-circle" data-treatment="tui-p">
-                            <span class="checkmark">✓</span>
-                        </div>
+                        <div class="treatment-circle" data-treatment="tui-p"><span class="checkmark">✓</span></div>
                         <h3>TUI-P</h3>
                         <p>Transurethral incision af prostata</p>
                     </div>
-                    
                     <div class="treatment-option">
-                        <div class="treatment-circle" data-treatment="tur-p">
-                            <span class="checkmark">✓</span>
-                        </div>
+                        <div class="treatment-circle" data-treatment="tur-p"><span class="checkmark">✓</span></div>
                         <h3>TUR-P</h3>
                         <p>Transurethral resektion af prostata</p>
                     </div>
-                    
                     <div class="treatment-option">
-                        <div class="treatment-circle" data-treatment="pvp">
-                            <span class="checkmark">✓</span>
-                        </div>
+                        <div class="treatment-circle" data-treatment="pvp"><span class="checkmark">✓</span></div>
                         <h3>PVP</h3>
                         <p>Transurethral prostatavarisation</p>
                     </div>
-                    
                     <div class="treatment-option">
-                        <div class="treatment-circle" data-treatment="aeep">
-                            <span class="checkmark">✓</span>
-                        </div>
+                        <div class="treatment-circle" data-treatment="aeep"><span class="checkmark">✓</span></div>
                         <h3>AEEP</h3>
                         <p>Transurethral enukleation</p>
                     </div>
-                    
                     <div class="treatment-option">
-                        <div class="treatment-circle" data-treatment="freyer">
-                            <span class="checkmark">✓</span>
-                        </div>
+                        <div class="treatment-circle" data-treatment="freyer"><span class="checkmark">✓</span></div>
                         <h3>FREYER</h3>
                         <p>Åben transvesikal prostatektomi</p>
                     </div>
-
-                    <!-- Row 2 -->
                     <div class="treatment-option">
-                        <div class="treatment-circle" data-treatment="rasp">
-                            <span class="checkmark">✓</span>
-                        </div>
+                        <div class="treatment-circle" data-treatment="rasp"><span class="checkmark">✓</span></div>
                         <h3>RASP</h3>
                         <p>Robotassisteret transvezikal prostatektomi</p>
                     </div>
-                    
                     <div class="treatment-option">
-                        <div class="treatment-circle" data-treatment="pae">
-                            <span class="checkmark">✓</span>
-                        </div>
+                        <div class="treatment-circle" data-treatment="pae"><span class="checkmark">✓</span></div>
                         <h3>PAE</h3>
                         <p>Prostataembolisering</p>
                     </div>
-                    
                     <div class="treatment-option">
-                        <div class="treatment-circle" data-treatment="tumt">
-                            <span class="checkmark">✓</span>
-                        </div>
+                        <div class="treatment-circle" data-treatment="tumt"><span class="checkmark">✓</span></div>
                         <h3>TUMT</h3>
                         <p>Mikrobølgebehandling (CoreTherm)</p>
                     </div>
-                    
                     <div class="treatment-option">
-                        <div class="treatment-circle" data-treatment="urolift">
-                            <span class="checkmark">✓</span>
-                        </div>
+                        <div class="treatment-circle" data-treatment="urolift"><span class="checkmark">✓</span></div>
                         <h3>UROLIFT</h3>
                         <p>Prostatic urethral lift</p>
                     </div>
-                    
                     <div class="treatment-option">
-                        <div class="treatment-circle" data-treatment="rezum">
-                            <span class="checkmark">✓</span>
-                        </div>
+                        <div class="treatment-circle" data-treatment="rezum"><span class="checkmark">✓</span></div>
                         <h3>REZUM</h3>
                         <p>Rezum-behandling</p>
                     </div>
@@ -169,11 +89,8 @@
     </main>
     
     <script>
-        // Treatment selection functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const treatmentCircles = document.querySelectorAll('.treatment-circle');
-            
-            treatmentCircles.forEach(circle => {
+            document.querySelectorAll('.treatment-circle').forEach(circle => {
                 circle.addEventListener('click', function() {
                     this.classList.toggle('selected');
                     updateCompareButton();
@@ -181,71 +98,22 @@
             });
             
             function updateCompareButton() {
-                const selectedTreatments = document.querySelectorAll('.treatment-circle.selected');
-                const compareBtn = document.querySelector('.compare-btn');
-                
-                if (selectedTreatments.length >= 2) {
-                    compareBtn.disabled = false;
-                    compareBtn.style.opacity = '1';
-                } else {
-                    compareBtn.disabled = true;
-                    compareBtn.style.opacity = '0.6';
-                }
+                const selected = document.querySelectorAll('.treatment-circle.selected');
+                const btn = document.querySelector('.compare-btn');
+                btn.disabled = selected.length < 2;
+                btn.style.opacity = btn.disabled ? '0.6' : '1';
             }
             
-            // Initialize compare button state
             updateCompareButton();
         });
 
-        function showEffectivenessInfo() {
-            const modal = document.getElementById('effectiveness-modal');
-            modal.style.display = 'block';
-            // Focus the modal for accessibility
-            modal.setAttribute('tabindex', '-1');
-            modal.focus();
-            // Prevent body scroll when modal is open
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeEffectivenessInfo() {
-            const modal = document.getElementById('effectiveness-modal');
-            modal.style.display = 'none';
-            // Restore body scroll
-            document.body.style.overflow = 'auto';
-            // Return focus to the info bubble
-            document.querySelector('.info-bubble').focus();
-        }
-
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById('effectiveness-modal');
-            if (event.target == modal) {
-                closeEffectivenessInfo();
-            }
-        }
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(event) {
-            const modal = document.getElementById('effectiveness-modal');
-            if (event.key === 'Escape' && modal.style.display === 'block') {
-                closeEffectivenessInfo();
-            }
-        });
-
         function compareTreatments() {
-            const selectedTreatments = document.querySelectorAll('.treatment-circle.selected');
-            if (selectedTreatments.length >= 2) {
-                // Get the treatment IDs from selected treatments
-                const treatmentIds = Array.from(selectedTreatments).map(element => {
-                    return element.getAttribute('data-treatment');
-                });
-                
-                // Store in localStorage for persistence
-                localStorage.setItem('selectedTreatments', JSON.stringify(treatmentIds));
-                
-                // Navigate to comparison page with treatments as URL parameters
-                const treatmentParams = treatmentIds.join(',');
-                window.location.href = `comparison.html?treatments=${treatmentParams}`;
+            const selected = document.querySelectorAll('.treatment-circle.selected');
+            if (selected.length >= 2) {
+                const treatments = Array.from(selected).map(element => 
+                    element.getAttribute('data-treatment'));
+                localStorage.setItem('selectedTreatments', JSON.stringify(treatments));
+                window.location.href = `comparison.html?treatments=${treatments.join(',')}`;
             }
         }
     </script>

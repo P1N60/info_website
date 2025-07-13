@@ -27,14 +27,11 @@
                 <a href="treatments.html" class="btn">← Tilbage til behandlinger</a>
             </div>
 
-            <div id="comparison-content">
-                <!-- Content will be dynamically loaded based on selected treatments -->
-            </div>
+            <div id="comparison-content"></div>
         </div>
     </main>
     
     <script>
-        // Treatment data - EASY TO EDIT: Add your treatment data here
         const treatmentData = {
             'tur-p': {
                 name: 'TUR-P',
@@ -76,7 +73,6 @@
                 name: 'AEEP',
                 fullName: 'Transurethral enukleation',
                 anesthesia: ['General anæstesi'],
-                anesthesia: [],
                 hospitalStay: { value: '0', unit: 'dage' },
                 catheterDays: { value: '0', unit: 'dage' },
                 improvement: { value: 0, unit: '%' },
@@ -86,7 +82,6 @@
                 name: 'FREYER',
                 fullName: 'Åben transvesikal prostatektomi',
                 anesthesia: ['General anæstesi'],
-                anesthesia: [],
                 hospitalStay: { value: '0', unit: 'dage' },
                 catheterDays: { value: '0', unit: 'dage' },
                 improvement: { value: 0, unit: '%' },
@@ -96,7 +91,6 @@
                 name: 'RASP',
                 fullName: 'Robotassisteret transvezikal prostatektomi',
                 anesthesia: ['General anæstesi'],
-                anesthesia: [],
                 hospitalStay: { value: '0', unit: 'dage' },
                 catheterDays: { value: '0', unit: 'dage' },
                 improvement: { value: 0, unit: '%' },
@@ -106,7 +100,6 @@
                 name: 'PAE',
                 fullName: 'Prostataembolisering',
                 anesthesia: ['Lokalbedøvelse'],
-                anesthesia: [],
                 hospitalStay: { value: '0', unit: 'dage' },
                 catheterDays: { value: '0', unit: 'dage' },
                 improvement: { value: 0, unit: '%' },
@@ -116,7 +109,6 @@
                 name: 'UROLIFT',
                 fullName: 'Prostatic urethral lift',
                 anesthesia: ['Lokalbedøvelse'],
-                anesthesia: [],
                 hospitalStay: { value: '0', unit: 'dage' },
                 catheterDays: { value: '0', unit: 'dage' },
                 improvement: { value: 0, unit: '%' },
@@ -126,7 +118,6 @@
                 name: 'REZUM',
                 fullName: 'Rezum-behandling',
                 anesthesia: ['Lokalbedøvelse'],
-                anesthesia: [],
                 hospitalStay: { value: '0', unit: 'dage' },
                 catheterDays: { value: '0', unit: 'dage' },
                 improvement: { value: 0, unit: '%' },
@@ -134,54 +125,57 @@
             }
         };
 
-        // Get selected treatments from URL parameters or localStorage
         function getSelectedTreatments() {
             const urlParams = new URLSearchParams(window.location.search);
             const treatments = urlParams.get('treatments');
-            if (treatments) {
-                return treatments.split(',');
-            }
+            if (treatments) return treatments.split(',');
             
-            // Fallback to localStorage
             const stored = localStorage.getItem('selectedTreatments');
-            return stored ? JSON.parse(stored) : ['tur-p', 'tumt']; // Default comparison
+            return stored ? JSON.parse(stored) : ['tur-p', 'tumt'];
         }
 
         function loadComparison() {
             const treatments = getSelectedTreatments();
             const content = document.getElementById('comparison-content');
-            
-            // Check if we have data for all selected treatments
             const validTreatments = treatments.filter(t => treatmentData[t]);
             
             if (validTreatments.length >= 2) {
-                content.innerHTML = getDynamicComparison(validTreatments);
+                content.innerHTML = generateComparison(validTreatments);
             } else {
-                content.innerHTML = getGenericComparison(treatments);
+                content.innerHTML = `
+                    <div class="comparison-section">
+                        <h2>Sammenligning ikke tilgængelig</h2>
+                        <p>Sammenligning mellem valgte behandlinger er endnu ikke implementeret.</p>
+                    </div>
+                `;
             }
         }
 
-        function getDynamicComparison(treatments) {
-            const treatmentNames = treatments.map(t => treatmentData[t].name).join(' vs ');
-            
+        function generateComparison(treatments) {
             return `
-                ${generateAnesthesiaSection(treatments)}
-                ${generateHospitalStaySection(treatments)}
-                ${generateCatheterSection(treatments)}
-                ${generateImprovementSection(treatments)}
-                ${generateRetreatmentRiskSection(treatments)}
+                ${generateSection('Bedøvelse', treatments, t => {
+                    const anesthesia = treatmentData[t].anesthesia;
+                    return anesthesia.length > 0 
+                        ? anesthesia.map(item => `<li>${item}</li>`).join('')
+                        : '';
+                })}
+                ${generateChartSection('Indlæggelsestid (dage)', treatments, t => 
+                    treatmentData[t].hospitalStay, 7)}
+                ${generateChartSection('KAD efter behandling (dage)', treatments, t => 
+                    treatmentData[t].catheterDays, 30)}
+                ${generateChartSection('Forbedring af vandladningsgener (%)', treatments, t => 
+                    treatmentData[t].improvement, 50)}
+                ${generateIconSection('Risiko for genbehandling efter 5 år', treatments)}
             `;
         }
 
-        function generateAnesthesiaSection(treatments) {
-            const treatmentCols = treatments.map(treatmentId => {
-                const treatment = treatmentData[treatmentId];
+        function generateSection(title, treatments, contentFn) {
+            const treatmentCols = treatments.map(t => {
+                const content = contentFn(t);
                 return `
                     <div class="treatment-col">
-                        <h3>${treatment.name}:</h3>
-                        <ul>
-                            ${treatment.anesthesia.map(item => `<li>${item}</li>`).join('')}
-                        </ul>
+                        <h3>${treatmentData[t].name}:</h3>
+                        <ul>${content || '<li>Information ikke tilgængelig</li>'}</ul>
                     </div>
                 `;
             }).join('');
@@ -189,131 +183,49 @@
             return `
                 <div class="comparison-section">
                     <div class="comparison-header">
-                        <h2>Bedøvelse</h2>
-                        <div class="treatment-comparison">
-                            ${treatmentCols}
-                        </div>
+                        <h2>${title}</h2>
+                        <div class="treatment-comparison">${treatmentCols}</div>
                     </div>
                 </div>
             `;
         }
 
-        function generateHospitalStaySection(treatments) {
-            const chartItems = treatments.map(treatmentId => {
-                const treatment = treatmentData[treatmentId];
-                // Extract numeric value for height calculation
-                let numValue = 0;
-                if (treatment.hospitalStay.value.includes('-')) {
-                    // For ranges like "0-2", take the higher value
-                    numValue = parseFloat(treatment.hospitalStay.value.split('-')[1]) || 0;
-                } else {
-                    numValue = parseFloat(treatment.hospitalStay.value) || 0;
-                }
-                
-                // Calculate height based on a reasonable scale (max 7 days)
-                const height = Math.max(30, (numValue / 7) * 150) + 20;
+        function generateChartSection(title, treatments, valueFn, maxScale) {
+            const chartItems = treatments.map(t => {
+                const data = valueFn(t);
+                let numValue = parseFloat(data.value.split('-').pop()) || 0;
+                const height = Math.max(30, (numValue / maxScale) * 150) + 20;
                 
                 return `
                     <div class="chart-item">
                         <div class="bar-chart">
                             <div class="bar" style="height: ${height}px;">
-                                <span class="bar-label">${treatment.hospitalStay.value}</span>
+                                <span class="bar-label">${data.value}${data.unit ? data.unit : ''}</span>
                             </div>
                         </div>
-                        <span class="chart-label">${treatment.name}</span>
+                        <span class="chart-label">${treatmentData[t].name}</span>
                     </div>
                 `;
             }).join('');
 
             return `
                 <div class="comparison-section">
-                    <div class="comparison-header">
-                        <h2>Indlæggelsestid (dage)</h2>
-                    </div>
-                    <div class="chart-container">
-                        ${chartItems}
-                    </div>
+                    <div class="comparison-header"><h2>${title}</h2></div>
+                    <div class="chart-container">${chartItems}</div>
                 </div>
             `;
         }
 
-        function generateCatheterSection(treatments) {
-            const chartItems = treatments.map(treatmentId => {
-                const treatment = treatmentData[treatmentId];
-                // Extract numeric value for height calculation
-                let numValue = 0;
-                if (treatment.catheterDays.value.includes('-')) {
-                    // For ranges like "1-3", take the higher value
-                    numValue = parseFloat(treatment.catheterDays.value.split('-')[1]) || 0;
-                } else {
-                    numValue = parseFloat(treatment.catheterDays.value) || 0;
-                }
-                
-                // Calculate height based on a reasonable scale (max 30 days)
-                const height = Math.max(30, (numValue / 30) * 180) + 20;
-                
-                return `
-                    <div class="chart-item">
-                        <div class="bar-chart">
-                            <div class="bar" style="height: ${height}px;">
-                                <span class="bar-label">${treatment.catheterDays.value}</span>
-                            </div>
-                        </div>
-                        <span class="chart-label">${treatment.name}</span>
-                    </div>
-                `;
-            }).join('');
-
-            return `
-                <div class="comparison-section">
-                    <div class="comparison-header">
-                        <h2>KAD efter behandling (dage)</h2>
-                    </div>
-                    <div class="chart-container">
-                        ${chartItems}
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateImprovementSection(treatments) {
-            const chartItems = treatments.map(treatmentId => {
-                const treatment = treatmentData[treatmentId];
-                // Calculate height based on percentage (scale to max 50%)
-                const height = Math.max(30, (treatment.improvement.value / 50) * 150) + 20;
-                
-                return `
-                    <div class="chart-item">
-                        <div class="bar-chart">
-                            <div class="bar" style="height: ${height}px;">
-                                <span class="bar-label">${treatment.improvement.value}${treatment.improvement.unit}</span>
-                            </div>
-                        </div>
-                        <span class="chart-label">${treatment.name}</span>
-                    </div>
-                `;
-            }).join('');
-
-            return `
-                <div class="comparison-section">
-                    <div class="comparison-header">
-                        <h2>Forbedring af vandladningsgener</h2>
-                    </div>
-                    <div class="chart-container">
-                        ${chartItems}
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateRetreatmentRiskSection(treatments) {
-            const iconChartItems = treatments.map(treatmentId => {
-                const treatment = treatmentData[treatmentId];
+        function generateIconSection(title, treatments) {
+            const iconChartItems = treatments.map(t => {
+                const risk = treatmentData[t].retreatmentRisk;
                 return `
                     <div class="icon-chart-item">
-                        <h4>${treatment.name}: ${treatment.retreatmentRisk.value}${treatment.retreatmentRisk.unit}</h4>
+                        <h4>${treatmentData[t].name}: ${risk.value}${risk.unit}</h4>
                         <div class="icon-grid">
-                            ${generateIconGrid(treatment.retreatmentRisk.value, 100)}
+                            ${Array.from({length: 100}, (_, i) => 
+                                `<span class="person-icon ${i < risk.value ? 'highlighted' : ''}">👨‍⚕️</span>`
+                            ).join('')}
                         </div>
                     </div>
                 `;
@@ -321,43 +233,12 @@
 
             return `
                 <div class="comparison-section">
-                    <div class="comparison-header">
-                        <h2>Risiko for genbehandling efter 5 år</h2>
-                    </div>
-                    <div class="icon-chart-container">
-                        ${iconChartItems}
-                    </div>
+                    <div class="comparison-header"><h2>${title}</h2></div>
+                    <div class="icon-chart-container">${iconChartItems}</div>
                 </div>
             `;
         }
 
-        function generateIconGrid(highlightCount, totalCount) {
-            let icons = '';
-            for (let i = 0; i < totalCount; i++) {
-                const isHighlighted = i < highlightCount;
-                icons += `<span class="person-icon ${isHighlighted ? 'highlighted' : ''}">👨‍⚕️</span>`;
-            }
-            return icons;
-        }
-
-        function getGenericComparison(treatments) {
-            const treatmentNames = treatments.map(t => treatmentData[t] ? treatmentData[t].name : t.toUpperCase()).join(' og ');
-            const availableTreatments = Object.keys(treatmentData).map(key => treatmentData[key].name).join(', ');
-            
-            return `
-                <div class="comparison-section">
-                    <h2>Sammenligning ikke tilgængelig</h2>
-                    <p>Sammenligning mellem ${treatmentNames} er endnu ikke implementeret eller mangler data.</p>
-                    <p>Aktuelt tilgængelige behandlinger med data:</p>
-                    <ul>
-                        ${Object.keys(treatmentData).map(key => `<li>${treatmentData[key].name} (${treatmentData[key].fullName})</li>`).join('')}
-                    </ul>
-                    <p>For at tilføje nye behandlingsdata, rediger <code>treatmentData</code> objektet i comparison.html</p>
-                </div>
-            `;
-        }
-
-        // Load comparison on page load
         document.addEventListener('DOMContentLoaded', loadComparison);
     </script>
 </body>
