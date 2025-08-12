@@ -174,10 +174,11 @@
 
                         const formatValue = (obj) => `${obj.value}${obj.unit ? ' ' + obj.unit : ''}`;
 
-            const tableHTML = `
+                        const minWidth = 240 /* first column */ + treatments.length * 200; // px per treatment col
+                        const tableHTML = `
                 <div class="scroll-hint">Skub vandret for at se alle kolonner →</div>
                 <div class="comparison-table-wrapper">
-                                    <table class="comparison-table" role="table">
+                                    <table class="comparison-table" role="table" style="min-width: ${minWidth}px">
                                         <thead>
                                             <tr>
                                                 <th>Faktor</th>
