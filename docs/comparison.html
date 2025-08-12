@@ -154,99 +154,48 @@
             }
         }
 
-        function generateComparison(treatments) {
-            return `
-                ${generateSection('Bedøvelse', treatments, t => {
-                    const anesthesia = treatmentData[t].anesthesia;
-                    return anesthesia.length > 0 
-                        ? anesthesia.map(item => `<li>${item}</li>`).join('')
-                        : '';
-                })}
-                ${generateChartSection('Indlæggelsestid (dage)', treatments, t => 
-                    treatmentData[t].hospitalStay, 7)}
-                ${generateChartSection('KAD efter behandling (dage)', treatments, t => 
-                    treatmentData[t].catheterDays, 30)}
-                ${generateChartSection('Forbedring af vandladningsgener (%)', treatments, t => 
-                    treatmentData[t].improvement, 50)}
-                ${generateIconSection('Risiko for genbehandling efter 5 år', treatments)}
-            `;
-        }
-
-        function generateSection(title, treatments, contentFn) {
-            const treatmentCols = treatments.map(t => {
-                const content = contentFn(t);
-                return `
-                    <div class="treatment-col">
-                        <h3>${treatmentData[t].name}:</h3>
-                        <ul>${content || '<li>Information ikke tilgængelig</li>'}</ul>
-                    </div>
-                `;
-            }).join('');
-
-            return `
-                <div class="comparison-section">
-                    <div class="comparison-header">
-                        <h2>${title}</h2>
-                        <div class="treatment-comparison">${treatmentCols}</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateChartSection(title, treatments, valueFn, maxScale) {
-            const chartItems = treatments.map(t => {
-                const data = valueFn(t);
-                // Handle both string ranges like "0-2" and single numbers like 10
-                let numValue;
-                if (typeof data.value === 'string' && data.value.includes('-')) {
-                    numValue = parseFloat(data.value.split('-').pop()) || 0;
-                } else {
-                    numValue = parseFloat(data.value) || 0;
+                function generateComparison(treatments) {
+                        return generateTable(treatments);
                 }
-                const height = Math.max(30, (numValue / maxScale) * 150) + 20;
-                
-                return `
-                    <div class="chart-item">
-                        <div class="bar-chart">
-                            <div class="bar" style="height: ${height}px;">
-                                <span class="bar-label">${data.value}${data.unit ? ' ' + data.unit : ''}</span>
-                            </div>
-                        </div>
-                        <span class="chart-label">${treatmentData[t].name}</span>
-                    </div>
-                `;
-            }).join('');
 
-            return `
-                <div class="comparison-section">
-                    <div class="comparison-header"><h2>${title}</h2></div>
-                    <div class="chart-container">${chartItems}</div>
-                </div>
-            `;
-        }
+                function generateTable(treatments) {
+                        const headers = treatments.map(t => `
+                                <th>${treatmentData[t].name}
+                                        <span class="sub-label">${treatmentData[t].fullName}</span>
+                                </th>
+                        `).join('');
 
-        function generateIconSection(title, treatments) {
-            const iconChartItems = treatments.map(t => {
-                const risk = treatmentData[t].retreatmentRisk;
-                return `
-                    <div class="icon-chart-item">
-                        <h4>${treatmentData[t].name}: ${risk.value}${risk.unit}</h4>
-                        <div class="icon-grid">
-                            ${Array.from({length: 100}, (_, i) => 
-                                `<span class="person-icon ${i < risk.value ? 'highlighted' : ''}">👨‍⚕️</span>`
-                            ).join('')}
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                        const row = (label, formatter) => `
+                                <tr>
+                                        <td class="row-title">${label}</td>
+                                        ${treatments.map(t => `<td>${formatter(t)}</td>`).join('')}
+                                </tr>
+                        `;
 
-            return `
-                <div class="comparison-section">
-                    <div class="comparison-header"><h2>${title}</h2></div>
-                    <div class="icon-chart-container">${iconChartItems}</div>
-                </div>
-            `;
-        }
+                        const formatValue = (obj) => `${obj.value}${obj.unit ? ' ' + obj.unit : ''}`;
+
+                        const tableHTML = `
+                                <div class="comparison-table-wrapper">
+                                    <table class="comparison-table" role="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Faktor</th>
+                                                ${headers}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${row('Bedøvelse', t => treatmentData[t].anesthesia.join('<br>'))}
+                                            ${row('Indlæggelsestid (dage)', t => formatValue(treatmentData[t].hospitalStay))}
+                                            ${row('KAD efter behandling (dage)', t => formatValue(treatmentData[t].catheterDays))}
+                                            ${row('Forbedring af vandladningsgener (%)', t => formatValue(treatmentData[t].improvement))}
+                                            ${row('Risiko for genbehandling efter 5 år', t => formatValue(treatmentData[t].retreatmentRisk))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                        `;
+
+                        return tableHTML;
+                }
 
         document.addEventListener('DOMContentLoaded', function() {
             const content = document.getElementById('comparison-content');

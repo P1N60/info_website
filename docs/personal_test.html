@@ -6,7 +6,7 @@
     <title>Personlig Test - Vandladningsbesvær</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="personal-test">
     <header>
         <div class="container">
             <div class="header-content">
@@ -219,19 +219,33 @@
                         <p style="margin-bottom: 1rem; color: #666;">Behandlingerne er rangeret efter hvor godt de matcher dine prioriteter:</p>
                         
                         <div style="display: grid; gap: 1rem;">
-                            ${ranked.slice(0, 5).map((treatment, index) => `
-                                <div class="treatment-result-card" style="background: white; padding: 1.5rem; border-radius: 10px; border: 2px solid ${index === 0 ? '#4a90d9' : '#e9ecef'}; ${index === 0 ? 'box-shadow: 0 4px 15px rgba(74, 144, 217, 0.3);' : ''} transition: all 0.3s ease; cursor: pointer;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                        <h4 style="color: #2c5aa0; margin: 0; font-size: 1.3rem;">
-                                            ${index === 0 ? '🏆 ' : `${index + 1}. `}${treatment.name}
-                                        </h4>
-                                        <span class="treatment-pill" style="background: ${index === 0 ? '#4a90d9' : '#6c757d'}; color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.9rem; transition: all 0.3s ease;">
-                                            ${index === 0 ? 'Bedste match' : `Match: ${(100 - (treatment.distance / Math.sqrt(50)) * 100).toFixed(0)}%`}
-                                        </span>
-                                    </div>
-                                    <p style="color: #666; margin: 0; font-size: 0.95rem;">${treatment.fullName}</p>
-                                </div>
-                            `).join('')}
+                            ${(() => {
+                                const topFive = ranked.slice(0, 5);
+                                // Calculate displayed percent for each (clamped and rounded)
+                                const percents = topFive.map(t => {
+                                    const raw = 100 - (t.distance / Math.sqrt(50)) * 100; // keep existing normalization
+                                    return Math.max(0, Math.min(100, Math.round(raw)));
+                                });
+                                const maxPercent = percents.length ? Math.max(...percents) : 0;
+                                return topFive.map((treatment, index) => {
+                                    const percent = percents[index] ?? 0;
+                                    const isTop = percent === maxPercent;
+                                    const border = isTop ? '#4a90d9' : '#e9ecef';
+                                    const shadow = isTop ? 'box-shadow: 0 4px 15px rgba(74, 144, 217, 0.3);' : '';
+                                    const pillBg = isTop ? '#4a90d9' : '#6c757d';
+                                    const pillText = isTop ? `Bedste match – ${percent}%` : `Match: ${percent}%`;
+                                    const titlePrefix = index === 0 ? '🏆 ' : `${index + 1}. `;
+                                    return `
+                                        <div class="treatment-result-card" style="background: white; padding: 1.5rem; border-radius: 10px; border: 2px solid ${border}; ${shadow} transition: all 0.3s ease; cursor: pointer;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                                <h4 style=\"color: #2c5aa0; margin: 0; font-size: 1.3rem;\">${titlePrefix}${treatment.name}</h4>
+                                                <span class=\"treatment-pill\" style=\"background: ${pillBg}; color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.9rem; transition: all 0.3s ease;\">${pillText}</span>
+                                            </div>
+                                            <p style=\"color: #666; margin: 0; font-size: 0.95rem;\">${treatment.fullName}</p>
+                                        </div>
+                                    `;
+                                }).join('');
+                            })()}
                         </div>
                     </div>
 
