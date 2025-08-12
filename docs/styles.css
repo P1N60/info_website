@@ -1105,10 +1105,46 @@ footer {
     }
 }
 .personal-test main.container {
-    max-width: 100%;
+    /* keep default container width; only adjust padding if needed */
     padding-left: 0;
     padding-right: 0;
 }
+/* Personal test: keep boxes to a comfortable reading width on larger screens */
+.personal-test .treatment-selection {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.personal-test .questions-container {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.personal-test .effectiveness-question {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.personal-test .slider-container {
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0.5rem 0 !important;
+}
+.personal-test .slider-wrapper,
+.personal-test .slider-track-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+/* Avoid overly wide labels row on sliders */
+.personal-test .slider-labels { width: 100%; }
 /* Personal test page: reduce boxiness and use full width on mobile */
 @media (max-width: 768px) {
     .personal-test .treatment-selection,
@@ -1565,5 +1601,50 @@ footer {
         color: #6c757d;
         text-align: right;
         margin: 0.5rem 0 -0.5rem 0;
+    }
+}
+
+/* Force-remove inner-most slider box inside questions area */
+.questions-container .slider-container,
+.questions-container .slider-container .slider-wrapper,
+.questions-container .slider-container .slider-track-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+.questions-container .slider-labels { width: 100% !important; }
+
+/* Personal test: remove the big box around all questions, keep title area intact */
+.personal-test .questions-container {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+.personal-test .questions-container .effectiveness-question {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Personal test: give each slider its own box (but not the question heading above) */
+.personal-test .questions-container .slider-container {
+    background: #fff !important;
+    border: 1px solid #e9ecef !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06) !important;
+    padding: 1.25rem 1.25rem !important;
+    margin: 0.75rem 0 1.75rem 0 !important;
+}
+@media (max-width: 768px) {
+    .personal-test .questions-container .slider-container {
+        padding: 1rem !important;
+        margin: 0.5rem 0 1.25rem 0 !important;
     }
 }
