@@ -22,9 +22,8 @@
 
     <main class="container">
         <div class="treatment-page">
-                <h1>Personlig Test</h1>
                 <h2>Besvar følgende spørgsmål for at hjælpe med at finde den bedste behandling for dig</h2>
-                
+                <br>
                 <div class="questions-container" id="questions"></div>
             </div>
 
@@ -72,14 +71,14 @@
             container.innerHTML = `
                 <div class="effectiveness-question">
                     ${questions.map(q => `
-                        <h2>
-                            ${q.text}
-                            <button class="info-bubble" onclick="showModal('${q.id}')">
-                                <span>i</span>
-                            </button>
-                        </h2>
                         <div class="slider-container">
                             <div class="slider-wrapper">
+                                <h2>
+                                    ${q.text}
+                                    <button class="info-bubble" onclick="showModal('${q.id}')">
+                                        <span>i</span>
+                                    </button>
+                                </h2>
                                 <div class="slider-labels">
                                     ${labels.map(label => `<span class="slider-label">${label}</span>`).join('')}
                                 </div>

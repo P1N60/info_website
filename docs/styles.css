@@ -11,6 +11,9 @@ body {
     overflow-x: hidden;
     padding-top: 80px; 
 }
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -383,7 +386,12 @@ footer {
     text-align: center;
 }
 .treatment-page {
+    color: #2c5aa0;
     padding: 2rem 0;
+    text-align: left;
+}
+.treatment-page h2{
+    text-align: center;
 }
 .treatment-grid {
     display: grid;
@@ -589,6 +597,11 @@ footer {
     padding: 2rem 0;
 }
 .comparison-page h1 {
+    color: #2c5aa0;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+.comparison-page h2 {
     color: #2c5aa0;
     margin-bottom: 2rem;
     text-align: left;
@@ -1410,16 +1423,14 @@ footer {
     justify-content: center;
     align-items: center;
 }
-
 .slider-wrapper {
     width: 100%;
-    max-width: 500px;
+    max-width: 700px;
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
 }
-
 .slider-labels {
     display: flex;
     justify-content: space-between;
