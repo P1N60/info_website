@@ -3,6 +3,14 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+/* Improve touch interactions on mobile */
+@media (hover: none) and (pointer: coarse) {
+    button, a, .treatment-circle, .rating-pill {
+        -webkit-tap-highlight-color: rgba(44, 90, 160, 0.2);
+    }
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
@@ -10,6 +18,8 @@ body {
     background-color: #f8f9fa;
     overflow-x: hidden;
     padding-top: 80px; 
+    /* Enable smooth scrolling */
+    scroll-behavior: smooth;
 }
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -943,10 +953,29 @@ footer {
     .nav-group {
         width: 100%;
         justify-content: center;
+        flex-wrap: wrap;
     }
     .nav-btn {
         padding: 12px 20px;
         font-size: 0.9rem;
+    }
+    /* Dropdown mobile improvements */
+    .dropdown {
+        width: 100%;
+        text-align: center;
+    }
+    .dropdown-btn {
+        width: 100%;
+    }
+    .dropdown-content {
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 200px;
+        width: auto;
+    }
+    /* Make dropdown work on click/touch for mobile */
+    .dropdown.active .dropdown-content {
+        display: block;
     }
     main {
         padding: 0;
@@ -1111,6 +1140,26 @@ footer {
         font-size: 12px;
         margin-left: 4px;
     }
+    /* Treatment info page mobile */
+    .treatment-page {
+        padding: 1.5rem;
+    }
+    .treatment-page h1 {
+        font-size: 1.8rem;
+    }
+    .treatment-page h3 {
+        font-size: 1.3rem;
+    }
+    .treatment-page p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+    /* Ensure buttons are touch-friendly */
+    .compare-btn,
+    .cta-button {
+        min-height: 44px; /* Apple's recommended minimum touch target */
+        padding: 14px 30px;
+    }
 }
 @media (max-width: 480px) {
     .logo {
@@ -1200,6 +1249,24 @@ footer {
     }
     .effectiveness-question {
         padding: 1.5rem;
+    }
+    /* Treatment info page for very small screens */
+    .treatment-page {
+        padding: 1rem;
+    }
+    .treatment-page h1 {
+        font-size: 1.5rem;
+    }
+    .treatment-page h3 {
+        font-size: 1.1rem;
+    }
+    /* Dropdown content width adjustment for small screens */
+    .dropdown-content {
+        min-width: 180px;
+        font-size: 0.85rem;
+    }
+    .dropdown-content a {
+        padding: 10px 15px;
     }
 }
 .personal-test main.container {
