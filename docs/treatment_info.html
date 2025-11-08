@@ -12,7 +12,13 @@
             <div class="header-content">
                 <div class="logo"><a href="index.html">Vandladningsbesvær.dk</a></div>
                 <div class="nav-group">
-                    <a href="treatments.html" class="nav-btn">Behandlinger</a>
+                    <div class="dropdown">
+                        <button class="nav-btn dropdown-btn active">Behandlinger ▾</button>
+                        <div class="dropdown-content">
+                            <a href="treatment_info.html">Læs om behandlinger</a>
+                            <a href="treatments.html">Sammenlign behandlinger</a>
+                        </div>
+                    </div>
                     <a href="personal_test.html" class="nav-btn">Personlig test</a>
                     <a href="about.html" class="nav-btn">Om siden</a>
                 </div>
@@ -23,9 +29,6 @@
     <main class="container">
         <div class="treatment-page">
             <h1 style="color: #2c5aa0;">Information om behandlinger</h1>
-            <div class="back-button">
-                <a href="treatments.html" class="btn">← Tilbage til behandlinger</a>
-            </div>
 
             <!-- TUI-P -->
             <h2>TUI-P</h2>
