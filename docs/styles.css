@@ -443,7 +443,14 @@ footer {
     text-align: left;
 }
 .treatment-page h2{
-    text-align: center;
+    color: #2c5aa0;
+    text-align: left;
+}
+.treatment-page a{
+    color: #424242;
+}
+.treatment-page p{
+    color: #000000;
 }
 .treatment-grid {
     display: grid;
