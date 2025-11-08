@@ -35,93 +35,153 @@
         const treatmentData = {
             'tur-p': {
                 name: 'TUR-P',
-                fullName: 'Transurethral resektion af prostata',
+                full_name: 'Transurethral resektion af prostata',
                 anesthesia: ['General anæstesi', '(Spinal anæstesi)'],
-                hospitalStay: { value: '0-2', unit: 'dage' },
-                catheterDays: { value: '1-3', unit: 'dage' },
-                improvement: { value: 36, unit: '%' },
-                retreatmentRisk: { value: 7, unit: '%' }
+                prostate_size: {value: "", unit: "cm3"},
+                hospital_stay: { value: '0-2', unit: 'dage' },
+                catheter_days: { value: '1-3', unit: 'dage' },
+                improvement_symptoms: { value: 36, unit: '%' },
+                improvement_flow: { value: 36, unit: '%' },
+                retreatment_risk: { value: 7, unit: '%' },
+                stricture_risk: { value: 7, unit: '%' },
+                ejd_risk: { value: 7, unit: '%' },
+                ed_risk: { value: 7, unit: '%' },
+                hospital: { value: "Riget", unit: '' }
             },
             'tumt': {
                 name: 'TUMT',
-                fullName: 'Mikrobølgebehandling (CoreTherm)',
+                full_name: 'Mikrobølgebehandling (CoreTherm)',
                 anesthesia: ['Lokalbedøvelse'],
-                hospitalStay: { value: '0', unit: 'dage' },
-                catheterDays: { value: '28', unit: 'dage' },
-                improvement: { value: 10, unit: '%' },
-                retreatmentRisk: { value: 10, unit: '%' }
+                prostate_size: {value: "", unit: "cm3"},
+                hospital_stay: { value: '0-2', unit: 'dage' },
+                catheter_days: { value: '1-3', unit: 'dage' },
+                improvement_symptoms: { value: 36, unit: '%' },
+                improvement_flow: { value: 36, unit: '%' },
+                retreatment_risk: { value: 7, unit: '%' },
+                stricture_risk: { value: 7, unit: '%' },
+                ejd_risk: { value: 7, unit: '%' },
+                ed_risk: { value: 7, unit: '%' },
+                hospital: { value: "Riget", unit: '' }
             },
             'tui-p': {
                 name: 'TUI-P',
-                fullName: 'Transurethral incision af prostata',
+                full_name: 'Transurethral incision af prostata',
                 anesthesia: ['General anæstesi', 'Spinal anæstesi'],
-                hospitalStay: { value: '0-1', unit: 'dage' },
-                catheterDays: { value: '1-2', unit: 'dage' },
-                improvement: { value: 25, unit: '%' },
-                retreatmentRisk: { value: 15, unit: '%' }
+                prostate_size: {value: "", unit: "cm3"},
+                hospital_stay: { value: '0-2', unit: 'dage' },
+                catheter_days: { value: '1-3', unit: 'dage' },
+                improvement_symptoms: { value: 36, unit: '%' },
+                improvement_flow: { value: 36, unit: '%' },
+                retreatment_risk: { value: 7, unit: '%' },
+                stricture_risk: { value: 7, unit: '%' },
+                ejd_risk: { value: 7, unit: '%' },
+                ed_risk: { value: 7, unit: '%' },
+                hospital: { value: "Riget", unit: '' }
             },
             'pvp': {
                 name: 'PVP',
-                fullName: 'Transurethral prostatavarisation',
+                full_name: 'Transurethral prostatavarisation',
                 anesthesia: ['General anæstesi', 'Spinal anæstesi'],
-                hospitalStay: { value: '0-1', unit: 'dage' },
-                catheterDays: { value: '1-2', unit: 'dage' },
-                improvement: { value: 30, unit: '%' },
-                retreatmentRisk: { value: 10, unit: '%' }
+                prostate_size: {value: "", unit: "cm3"},
+                hospital_stay: { value: '0-2', unit: 'dage' },
+                catheter_days: { value: '1-3', unit: 'dage' },
+                improvement_symptoms: { value: 36, unit: '%' },
+                improvement_flow: { value: 36, unit: '%' },
+                retreatment_risk: { value: 7, unit: '%' },
+                stricture_risk: { value: 7, unit: '%' },
+                ejd_risk: { value: 7, unit: '%' },
+                ed_risk: { value: 7, unit: '%' },
+                hospital: { value: "Riget", unit: '' }
             },
             'aeep': {
                 name: 'AEEP',
-                fullName: 'Transurethral enukleation',
+                full_name: 'Transurethral enukleation',
                 anesthesia: ['General anæstesi'],
-                hospitalStay: { value: '1-2', unit: 'dage' },
-                catheterDays: { value: '2-5', unit: 'dage' },
-                improvement: { value: 35, unit: '%' },
-                retreatmentRisk: { value: 5, unit: '%' }
+                prostate_size: {value: "", unit: "cm3"},
+                hospital_stay: { value: '0-2', unit: 'dage' },
+                catheter_days: { value: '1-3', unit: 'dage' },
+                improvement_symptoms: { value: 36, unit: '%' },
+                improvement_flow: { value: 36, unit: '%' },
+                retreatment_risk: { value: 7, unit: '%' },
+                stricture_risk: { value: 7, unit: '%' },
+                ejd_risk: { value: 7, unit: '%' },
+                ed_risk: { value: 7, unit: '%' },
+                hospital: { value: "Riget", unit: '' }
             },
             'freyer': {
                 name: 'FREYER',
-                fullName: 'Åben transvesikal prostatektomi',
+                full_name: 'Åben transvesikal prostatektomi',
                 anesthesia: ['General anæstesi'],
-                hospitalStay: { value: '3-5', unit: 'dage' },
-                catheterDays: { value: '7-10', unit: 'dage' },
-                improvement: { value: 40, unit: '%' },
-                retreatmentRisk: { value: 3, unit: '%' }
+                prostate_size: {value: "", unit: "cm3"},
+                hospital_stay: { value: '3-5', unit: 'dage' },
+                catheter_days: { value: '7-10', unit: 'dage' },
+                improvement_symptoms: { value: 40, unit: '%' },
+                improvement_flow: { value: 40, unit: '%' },
+                retreatment_risk: { value: 3, unit: '%' },
+                stricture_risk: { value: 3, unit: '%' },
+                ejd_risk: { value: 65, unit: '%' },
+                ed_risk: { value: 10, unit: '%' },
+                hospital: { value: "Riget", unit: '' }
             },
             'rasp': {
                 name: 'RASP',
-                fullName: 'Robotassisteret transvezikal prostatektomi',
+                full_name: 'Robotassisteret transvezikal prostatektomi',
                 anesthesia: ['General anæstesi'],
-                hospitalStay: { value: '2-3', unit: 'dage' },
-                catheterDays: { value: '5-7', unit: 'dage' },
-                improvement: { value: 38, unit: '%' },
-                retreatmentRisk: { value: 4, unit: '%' }
+                prostate_size: {value: "", unit: "cm3"},
+                hospital_stay: { value: '0-2', unit: 'dage' },
+                catheter_days: { value: '1-3', unit: 'dage' },
+                improvement_symptoms: { value: 36, unit: '%' },
+                improvement_flow: { value: 36, unit: '%' },
+                retreatment_risk: { value: 7, unit: '%' },
+                stricture_risk: { value: 7, unit: '%' },
+                ejd_risk: { value: 7, unit: '%' },
+                ed_risk: { value: 7, unit: '%' },
+                hospital: { value: "Riget", unit: '' }
             },
             'pae': {
                 name: 'PAE',
-                fullName: 'Prostataembolisering',
+                full_name: 'Prostataembolisering',
                 anesthesia: ['Lokalbedøvelse'],
-                hospitalStay: { value: '1', unit: 'dage' },
-                catheterDays: { value: '3-7', unit: 'dage' },
-                improvement: { value: 20, unit: '%' },
-                retreatmentRisk: { value: 20, unit: '%' }
+                prostate_size: {value: "", unit: "cm3"},
+                hospital_stay: { value: '0-2', unit: 'dage' },
+                catheter_days: { value: '1-3', unit: 'dage' },
+                improvement_symptoms: { value: 36, unit: '%' },
+                improvement_flow: { value: 36, unit: '%' },
+                retreatment_risk: { value: 7, unit: '%' },
+                stricture_risk: { value: 7, unit: '%' },
+                ejd_risk: { value: 7, unit: '%' },
+                ed_risk: { value: 7, unit: '%' },
+                hospital: { value: "Riget", unit: '' }
             },
             'urolift': {
                 name: 'UROLIFT',
-                fullName: 'Prostatic urethral lift',
+                full_name: 'Prostatic urethral lift',
                 anesthesia: ['Lokalbedøvelse'],
-                hospitalStay: { value: '0', unit: 'dage' },
-                catheterDays: { value: '1-3', unit: 'dage' },
-                improvement: { value: 15, unit: '%' },
-                retreatmentRisk: { value: 25, unit: '%' }
+                prostate_size: {value: "", unit: "cm3"},
+                hospital_stay: { value: '0-2', unit: 'dage' },
+                catheter_days: { value: '1-3', unit: 'dage' },
+                improvement_symptoms: { value: 36, unit: '%' },
+                improvement_flow: { value: 36, unit: '%' },
+                retreatment_risk: { value: 7, unit: '%' },
+                stricture_risk: { value: 7, unit: '%' },
+                ejd_risk: { value: 7, unit: '%' },
+                ed_risk: { value: 7, unit: '%' },
+                hospital: { value: "Riget", unit: '' }
             },
             'rezum': {
                 name: 'REZUM',
-                fullName: 'Rezum-behandling',
+                full_name: 'Rezum-behandling',
                 anesthesia: ['Lokalbedøvelse'],
-                hospitalStay: { value: '0', unit: 'dage' },
-                catheterDays: { value: '7-14', unit: 'dage' },
-                improvement: { value: 18, unit: '%' },
-                retreatmentRisk: { value: 22, unit: '%' }
+                prostate_size: {value: "", unit: "cm3"},
+                hospital_stay: { value: '0-2', unit: 'dage' },
+                catheter_days: { value: '1-3', unit: 'dage' },
+                improvement_symptoms: { value: 36, unit: '%' },
+                improvement_flow: { value: 36, unit: '%' },
+                retreatment_risk: { value: 7, unit: '%' },
+                stricture_risk: { value: 7, unit: '%' },
+                ejd_risk: { value: 7, unit: '%' },
+                ed_risk: { value: 7, unit: '%' },
+                hospital: { value: "Riget", unit: '' }
             }
         };
 
@@ -161,7 +221,7 @@
                 function generateTable(treatments) {
                         const headers = treatments.map(t => `
                                 <th>${treatmentData[t].name}
-                                        <span class="sub-label">${treatmentData[t].fullName}</span>
+                                        <span class="sub-label">${treatmentData[t].full_name}</span>
                                 </th>
                         `).join('');
 
@@ -181,16 +241,22 @@
                                     <table class="comparison-table" role="table" style="min-width: ${minWidth}px">
                                         <thead>
                                             <tr>
-                                                <th>Faktor</th>
+                                                <th></th>
                                                 ${headers}
                                             </tr>
                                         </thead>
                                         <tbody>
                                             ${row('Bedøvelse', t => treatmentData[t].anesthesia.join('<br>'))}
-                                            ${row('Indlæggelsestid (dage)', t => formatValue(treatmentData[t].hospitalStay))}
-                                            ${row('KAD efter behandling (dage)', t => formatValue(treatmentData[t].catheterDays))}
-                                            ${row('Forbedring af vandladningsgener (%)', t => formatValue(treatmentData[t].improvement))}
-                                            ${row('Risiko for genbehandling efter 5 år', t => formatValue(treatmentData[t].retreatmentRisk))}
+                                            ${row('Prostata størrelse', t => formatValue(treatmentData[t].prostate_size))}
+                                            ${row('Indlæggelsestid', t => formatValue(treatmentData[t].hospital_stay))}
+                                            ${row('Blærekateter efter behandling', t => formatValue(treatmentData[t].catheter_days))}
+                                            ${row('Forbedring af vandladningsgener', t => formatValue(treatmentData[t].improvement_symptoms))}
+                                            ${row('Forbedring af urinstrålen', t => formatValue(treatmentData[t].improvement_flow))}
+                                            ${row('Risiko for genbehandling efter 5 år', t => formatValue(treatmentData[t].retreatment_risk))}
+                                            ${row('Risiko for forsnævring af urinrør og blærehals', t => formatValue(treatmentData[t].stricture_risk))}
+                                            ${row('Risiko for forstyrelse af sædafgang', t => formatValue(treatmentData[t].ejd_risk))}
+                                            ${row('Risiko for rejsningsbesvær', t => formatValue(treatmentData[t].ed_risk))}
+                                            ${row('Hospital', t => formatValue(treatmentData[t].hospital))}
                                         </tbody>
                                     </table>
                                 </div>
