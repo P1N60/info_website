@@ -1648,3 +1648,36 @@ footer {
         margin: 0.5rem 0 1.25rem 0 !important;
     }
 }
+
+/* Treatment info page styles */
+.treatment-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.treatment-info-grid .card {
+    padding: 1.5rem;
+}
+
+.treatment-info-grid .card h2 {
+    color: #2c5aa0;
+    margin-bottom: 0.5rem;
+}
+
+.treatment-info-grid .card h3 {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-weight: normal;
+}
+
+.treatment-info-grid .card p {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+.treatment-info-grid .card p strong {
+    color: #2c5aa0;
+}
