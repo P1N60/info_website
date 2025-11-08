@@ -591,7 +591,12 @@ footer {
 .comparison-page h1 {
     color: #2c5aa0;
     margin-bottom: 2rem;
-    text-align: center;
+    text-align: left;
+}
+.comparison-page p {
+    color: #000000;
+    margin-bottom: 2rem;
+    text-align: left;
 }
 .back-button {
     margin-bottom: 2rem;
