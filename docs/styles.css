@@ -941,36 +941,42 @@ footer {
 }
 @media (max-width: 768px) {
     header {
-        padding: 0.3rem 0;
+        padding: 0.25rem 0;
     }
     .container {
-        padding: 0 15px;
+        padding: 0 10px;
     }
     .header-content {
-        flex-direction: column;
-        gap: 0.5rem;
+        flex-direction: row;
+        gap: 0;
+        justify-content: center;
     }
     .logo {
-        font-size: 1.1rem;
+        display: none;
     }
     .nav-group {
         width: 100%;
         justify-content: center;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 0;
     }
     .nav-btn {
-        padding: 8px 10px;
-        font-size: 0.8rem;
+        padding: 8px 8px;
+        font-size: 0.75rem;
         flex: 0 1 auto;
         white-space: nowrap;
+        border-right: 1px solid rgba(255,255,255,0.2);
+    }
+    .nav-btn:last-child {
+        border-right: none;
     }
     .dropdown-btn {
-        padding: 8px 10px;
+        padding: 8px 8px;
+        font-size: 0.75rem;
     }
     /* Dropdown mobile improvements */
     .dropdown {
-        width: 100%;
+        flex: 0 1 auto;
         text-align: center;
     }
     .dropdown-btn {
