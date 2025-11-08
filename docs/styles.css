@@ -132,17 +132,6 @@ main {
     padding: 0;
 }
 
-/* Homepage specific: disable scroll */
-body.homepage {
-    overflow: hidden;
-    height: 100vh;
-}
-
-body.homepage main {
-    height: 100vh;
-    overflow: hidden;
-}
-
 .page {
     display: none;
     animation: fadeIn 0.5s ease-in;
