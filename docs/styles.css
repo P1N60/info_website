@@ -957,10 +957,16 @@ footer {
         width: 100%;
         justify-content: center;
         flex-wrap: wrap;
+        gap: 0;
     }
     .nav-btn {
-        padding: 10px 15px;
-        font-size: 0.85rem;
+        padding: 8px 10px;
+        font-size: 0.8rem;
+        flex: 0 1 auto;
+        white-space: nowrap;
+    }
+    .dropdown-btn {
+        padding: 8px 10px;
     }
     /* Dropdown mobile improvements */
     .dropdown {
