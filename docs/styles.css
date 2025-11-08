@@ -521,6 +521,30 @@ footer {
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+.info-btn {
+    background: linear-gradient(135deg, #4a90d9, #2c5aa0);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Arial Black', Arial, sans-serif;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    text-decoration: none;
+    opacity: 1;
+}
+
+.info-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(44, 90, 160, 0.3);
+}
+
 .effectiveness-question {
     background: white;
     border-radius: 10px;
