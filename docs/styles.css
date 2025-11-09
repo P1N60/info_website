@@ -977,14 +977,15 @@ footer {
     /* Dropdown mobile improvements */
     .dropdown {
         flex: 0 1 auto;
-        text-align: center;
+        text-align: left;
     }
     .dropdown-btn {
         width: 100%;
+        text-align: center;
     }
     .dropdown-content {
-        left: 50%;
-        transform: translateX(-50%);
+        left: 0;
+        transform: none;
         min-width: 200px;
         width: auto;
     }
