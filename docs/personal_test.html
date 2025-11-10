@@ -52,6 +52,18 @@ gtag('config', 'G-N5F79SNVLK');
     </main>
     
     <script>
+        const prostateSizeQuestion = {
+            id: 'prostateSize',
+            text: 'Prostata størrelse',
+            info: 'Vælg størrelsen på din prostata i cm³. Denne information har du fået fra din læge.',
+            options: [
+                { value: 'small', label: '< 30 cm³', range: [0, 29] },
+                { value: 'medium', label: '30-80 cm³', range: [30, 80] },
+                { value: 'large', label: '> 80 cm³', range: [81, 999] },
+                { value: 'unknown', label: 'Ved ikke', range: null }
+            ]
+        };
+
         const questions = [
             { id: 'effectiveness', text: 'Hvor vigtigt er det, at du får den mest effektive behandling?', info: 'Med effektiv menes der at man fjerner mest muligt prostatavæv samt at der ses den største forbedring af vandladningstrålen og største reduktion af vandladningsgener.' },
             { id: 'retreatment', text: 'Hvor vigtigt er det, at risikoen for genbehandling er mindst mulig?', info: 'Risikoen for genbehandling nedsættes jo mere prostatavæv der fjernes.' },
@@ -61,16 +73,16 @@ gtag('config', 'G-N5F79SNVLK');
         ];
 
         const treatments = {
-            'TUI-P': { name: 'TUI-P', fullName: 'Transurethral incision af prostata', scores: [2, 2, -1, -1, 2] },
-            'TUR-P': { name: 'TUR-P', fullName: 'Transurethral resektion af prostata', scores: [2, 2, -1, -2, 2] },
-            'PVP': { name: 'PVP', fullName: 'Transurethral prostatavarisation', scores: [0, 0, -1, -2, 2] },
-            'AEEP': { name: 'AEEP', fullName: 'Transurethral enukleation', scores: [2, 2, -2, -2, -2] },
-            'FREYER': { name: 'FREYER', fullName: 'Åben transvesikal prostatektomi', scores: [2, 2, -2, -2, -2] },
-            'RASP': { name: 'RASP', fullName: 'Robotassisteret transvesikal prostatektomi', scores: [2, 2, -2, -2, -2] },
-            'PAE': { name: 'PAE', fullName: 'Prostataembolisering', scores: [-2, -2, 2, 2, -2] },
-            'TUMT': { name: 'TUMT', fullName: 'Mikrobølgebehandling (CoreTherm)', scores: [-2, -2, 2, 2, -2] },
-            'UROLIFT': { name: 'UROLIFT', fullName: 'Prostatic urethral lift', scores: [-2, -2, 2, 2, 0] },
-            'REZUM': { name: 'REZUM', fullName: 'Rezum-behandling', scores: [-2, -2, 2, 2, 0] }
+            'TUI-P': { name: 'TUI-P', fullName: 'Transurethral incision af prostata', scores: [2, 2, -1, -1, 2], prostateSize: [0, 29] },
+            'TUR-P': { name: 'TUR-P', fullName: 'Transurethral resektion af prostata', scores: [2, 2, -1, -2, 2], prostateSize: [30, 80] },
+            'PVP': { name: 'PVP', fullName: 'Transurethral prostatavarisation', scores: [0, 0, -1, -2, 2], prostateSize: [30, 80] },
+            'AEEP': { name: 'AEEP', fullName: 'Transurethral enukleation', scores: [2, 2, -2, -2, -2], prostateSize: [81, 999] },
+            'FREYER': { name: 'FREYER', fullName: 'Åben transvesikal prostatektomi', scores: [2, 2, -2, -2, -2], prostateSize: [81, 999] },
+            'RASP': { name: 'RASP', fullName: 'Robotassisteret transvesikal prostatektomi', scores: [2, 2, -2, -2, -2], prostateSize: [81, 999] },
+            'PAE': { name: 'PAE', fullName: 'Prostataembolisering', scores: [-2, -2, 2, 2, -2], prostateSize: [30, 999] },
+            'TUMT': { name: 'TUMT', fullName: 'Mikrobølgebehandling (CoreTherm)', scores: [-2, -2, 2, 2, -2], prostateSize: [30, 999] },
+            'UROLIFT': { name: 'UROLIFT', fullName: 'Prostatic urethral lift', scores: [-2, -2, 2, 2, 0], prostateSize: [0, 69] },
+            'REZUM': { name: 'REZUM', fullName: 'Rezum-behandling', scores: [-2, -2, 2, 2, 0], prostateSize: [30, 80] }
         };
 
         const labels = ['Meget uvigtigt', 'Lidt uvigtigt', 'Neutral', 'Lidt vigtigt', 'Meget vigtigt'];
@@ -86,6 +98,25 @@ gtag('config', 'G-N5F79SNVLK');
             const container = document.getElementById('questions');
             container.innerHTML = `
                 <div class="effectiveness-question">
+                    <!-- Prostata størrelse spørgsmål -->
+                    <div class="slider-container">
+                        <div class="slider-wrapper">
+                            <h2>
+                                ${prostateSizeQuestion.text}
+                            </h2>
+                            <div class="rating-scale" style="display: flex; justify-content: center; gap: 2.5rem; margin-top: 2rem; margin-bottom: 3rem; flex-wrap: wrap;">
+                                ${prostateSizeQuestion.options.map(option => `
+                                    <label class="rating-item" style="flex: 0 0 auto;">
+                                        <input type="radio" name="prostateSize" value="${option.value}" style="display: none;">
+                                        <div class="rating-pill" data-value="${option.value}">
+                                            <div class="rating-label" style="font-weight: 700; color: #2c5aa0; font-size: 1.125rem; white-space: nowrap; line-height: 1.2;">${option.label}</div>
+                                        </div>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
                     ${questions.map(q => `
                         <div class="slider-container">
                             <div class="slider-wrapper">
@@ -121,7 +152,8 @@ gtag('config', 'G-N5F79SNVLK');
 
         function createModals() {
             const container = document.getElementById('modals');
-            container.innerHTML = questions.map((q, index) => `
+            const allQuestions = [prostateSizeQuestion, ...questions];
+            container.innerHTML = allQuestions.map((q, index) => `
                 <div id="${q.id}-modal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal('${q.id}')">&times;</span>
@@ -132,6 +164,23 @@ gtag('config', 'G-N5F79SNVLK');
         }
 
         function setupEventListeners() {
+            // Handle prostata size selection
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('rating-pill') || e.target.closest('.rating-pill')) {
+                    const pill = e.target.classList.contains('rating-pill') ? e.target : e.target.closest('.rating-pill');
+                    const radioInput = pill.closest('label').querySelector('input[type="radio"]');
+                    
+                    // Remove selected class from all pills
+                    document.querySelectorAll('.rating-pill').forEach(p => p.classList.remove('selected'));
+                    
+                    // Add selected class to clicked pill
+                    pill.classList.add('selected');
+                    radioInput.checked = true;
+                    
+                    updateResultsButton();
+                }
+            });
+
             document.addEventListener('input', function(e) {
                 if (e.target.classList.contains('rating-slider')) {
                     updateResultsButton();
@@ -157,8 +206,11 @@ gtag('config', 'G-N5F79SNVLK');
 
         function updateResultsButton() {
             const sliders = document.querySelectorAll('.rating-slider');
+            const prostateSizeSelected = document.querySelector('input[name="prostateSize"]:checked');
             const btn = document.querySelector('.compare-btn');
-            btn.disabled = sliders.length !== questions.length;
+            
+            const allAnswered = sliders.length === questions.length && prostateSizeSelected;
+            btn.disabled = !allAnswered;
             btn.style.opacity = btn.disabled ? '0.6' : '1';
             btn.textContent = btn.disabled ? 'BESVAR ALLE SPØRGSMÅL' : 'SE MINE RESULTATER';
         }
@@ -180,6 +232,11 @@ gtag('config', 'G-N5F79SNVLK');
                 const slider = document.querySelector(`[data-question="${q.id}"]`);
                 if (slider) results[q.id] = parseInt(slider.value);
             });
+            
+            // Get prostata size selection
+            const prostateSizeInput = document.querySelector('input[name="prostateSize"]:checked');
+            const prostateSizeValue = prostateSizeInput ? prostateSizeInput.value : null;
+            results.prostateSize = prostateSizeValue;
 
             localStorage.setItem('testResults', JSON.stringify(results));
             const ranked = rankTreatments(results);
@@ -190,7 +247,27 @@ gtag('config', 'G-N5F79SNVLK');
         function rankTreatments(userAnswers) {
             const userScores = questions.map(q => userAnswers[q.id] - 3);
             
-            return Object.entries(treatments).map(([id, treatment]) => {
+            // Get user's prostata size range
+            const prostateSizeOption = prostateSizeQuestion.options.find(opt => opt.value === userAnswers.prostateSize);
+            const userProstateRange = prostateSizeOption ? prostateSizeOption.range : null;
+            
+            // Filter treatments based on prostata size and calculate distance
+            // If userProstateRange is null (Ved ikke), show all treatments
+            const filteredTreatments = Object.entries(treatments).filter(([id, treatment]) => {
+                // If user selected "Ved ikke", show all treatments
+                if (userProstateRange === null) return true;
+                
+                // If treatment doesn't have prostateSize defined, include it
+                if (!treatment.prostateSize) return true;
+                
+                const [userMin, userMax] = userProstateRange;
+                const [treatmentMin, treatmentMax] = treatment.prostateSize;
+                
+                // Check if ranges overlap
+                return userMax >= treatmentMin && userMin <= treatmentMax;
+            });
+            
+            return filteredTreatments.map(([id, treatment]) => {
                 const distance = Math.sqrt(userScores.reduce((sum, score, i) => 
                     sum + Math.pow(score - treatment.scores[i], 2), 0));
                 return { id, ...treatment, distance };
@@ -216,6 +293,13 @@ gtag('config', 'G-N5F79SNVLK');
                     <h2 style="color: #2c5aa0; margin-bottom: 1.5rem;">Dine testresultater</h2>
                     
                     <div style="margin-bottom: 2rem;">
+                        <h3 style="color: #1e3a5f; margin-bottom: 1rem;">Din prostata størrelse:</h3>
+                        <div style="background: #e3f2fd; padding: 1rem; border-radius: 8px; border-left: 4px solid #2196f3; margin-bottom: 1.5rem;">
+                            <strong style="color: #1565c0;">
+                                ${prostateSizeQuestion.options.find(opt => opt.value === userAnswers.prostateSize)?.label || 'Ikke valgt'}
+                            </strong>
+                        </div>
+                        
                         <h3 style="color: #1e3a5f; margin-bottom: 1rem;">Dine prioriteter:</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                             ${questions.map(q => `
@@ -228,12 +312,19 @@ gtag('config', 'G-N5F79SNVLK');
                     </div>
 
                     <div>
-                        <h3 style="color: #1e3a5f; margin-bottom: 1rem;">Anbefalede behandlinger:</h3>
-                        <p style="margin-bottom: 1rem; color: #666;">Behandlingerne er rangeret efter hvor godt de matcher dine prioriteter:</p>
+                        <h3 style="color: #1e3a5f; margin-bottom: 1rem;">Anbefalede behandlinger (${ranked.length}):</h3>
+                        <p style="margin-bottom: 1rem; color: #666;">Behandlingerne er filtreret efter din prostata størrelse og rangeret efter hvor godt de matcher dine prioriteter:</p>
+                        
+                        ${ranked.length === 0 ? `
+                            <div style="background: #fff3cd; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 1rem;">
+                                <p style="margin: 0; color: #856404;"><strong>Ingen behandlinger fundet</strong><br>Der er ingen behandlinger der matcher din prostata størrelse. Kontakt venligst din læge for vejledning.</p>
+                            </div>
+                        ` : ''}
                         
                         <div style="display: grid; gap: 1rem;">
                             ${(() => {
                                 const topFive = ranked.slice(0, 5);
+                                if (topFive.length === 0) return '';
                                 // Calculate displayed percent for each (clamped and rounded)
                                 const percents = topFive.map(t => {
                                     const raw = 100 - (t.distance / Math.sqrt(50)) * 100; // keep existing normalization
@@ -247,7 +338,7 @@ gtag('config', 'G-N5F79SNVLK');
                                     const shadow = isTop ? 'box-shadow: 0 4px 15px rgba(74, 144, 217, 0.3);' : '';
                                     const pillBg = isTop ? '#4a90d9' : '#6c757d';
                                     const pillText = isTop ? `Bedste match – ${percent}%` : `Match: ${percent}%`;
-                                    const titlePrefix = index === 0 ? ' ' : `${index + 1}. `;
+                                    const titlePrefix = index === 0 ? '1. ' : `${index + 1}. `;
                                     return `
                                         <div class="treatment-result-card" style="background: white; padding: 1.5rem; border-radius: 10px; border: 2px solid ${border}; ${shadow} transition: all 0.3s ease; cursor: pointer;">
                                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
