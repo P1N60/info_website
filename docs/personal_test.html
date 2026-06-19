@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -52,6 +53,15 @@ gtag('config', 'G-N5F79SNVLK');
     </main>
     
     <script>
+        const preferenceQuestion = {
+            id: 'preference',
+            text: 'Hvad er vigtigst for dig?',
+            options: [
+                { value: 'symptomlindring', label: 'Jeg foretrækker størst mulig og mest varig symptomlindring – selv hvis det kræver operation i fuld bedøvelse, længere restitution og højere risiko for komplikationer og seksuelle bivirkninger.' },
+                { value: 'skansom', label: 'Jeg foretrækker lavere risiko og hurtigere restitution – selv hvis symptomlindringen kan være mindre eller kortvarig, og operationen kræver gentagen behandling på sigt.' }
+            ]
+        };
+
         const prostateSizeQuestion = {
             id: 'prostateSize',
             text: 'Prostata størrelse',
@@ -65,24 +75,22 @@ gtag('config', 'G-N5F79SNVLK');
         };
 
         const questions = [
-            { id: 'effectiveness', text: 'Hvor vigtigt er det, at du får den mest effektive behandling?', info: 'Med effektiv menes der at man fjerner mest muligt prostatavæv samt at der ses den største forbedring af vandladningstrålen og største reduktion af vandladningsgener.' },
             { id: 'retreatment', text: 'Hvor vigtigt er det, at risikoen for genbehandling er mindst mulig?', info: 'Risikoen for genbehandling nedsættes jo mere prostatavæv der fjernes.' },
-            { id: 'gentle', text: 'Hvor vigtigt er det, at du får den mest skånsomme behandling med færrest mulige komplikationer?', info: 'Ved skånsom behandling menes at reducere risikoen for komplikationer ofter operationen. F.eks. infektion, blødning, inkontinens (utæthed), forsnævring af urinrøret, seksuelle bivirkninger m.m.' },
             { id: 'sexual', text: 'Hvor vigtigt er det at undgå seksuelle bivirkninger?', info: 'Den hyppigste seksuelle bivirkning er retrograd ejakulation (tør orgasme). Herudover kan der også opstå rejsningsbesvær ifm. med operation mod vandladningsbesvær.' },
             { id: 'catheter', text: 'Hvor vigtigt er det at undgå et kateter efter behandlingen?', info: 'Efter de fleste operationer anlægges et midlertidigt blærekateter. I nogle tilfælde fjernes det umiddelbart efter operationen og andre i tilfælde bliver man sendt hjem med et blærekateter.' }
         ];
 
         const treatments = {
-            'TUI-P': { name: 'TUI-P', fullName: 'Transurethral incision af prostata', scores: [2, 2, -1, -1, 2], prostateSize: [0, 29] },
-            'TUR-P': { name: 'TUR-P', fullName: 'Transurethral resektion af prostata', scores: [2, 2, -1, -2, 2], prostateSize: [30, 80] },
-            'PVP': { name: 'PVP', fullName: 'Transurethral prostatavarisation', scores: [0, 0, -1, -2, 2], prostateSize: [30, 80] },
-            'AEEP': { name: 'AEEP', fullName: 'Transurethral enukleation', scores: [2, 2, -2, -2, -2], prostateSize: [81, 999] },
-            'FREYER': { name: 'FREYER', fullName: 'Åben transvesikal prostatektomi', scores: [2, 2, -2, -2, -2], prostateSize: [81, 999] },
-            'RASP': { name: 'RASP', fullName: 'Robotassisteret transvesikal prostatektomi', scores: [2, 2, -2, -2, -2], prostateSize: [81, 999] },
-            'PAE': { name: 'PAE', fullName: 'Prostataembolisering', scores: [-2, -2, 2, 2, -2], prostateSize: [30, 999] },
-            'TUMT': { name: 'TUMT', fullName: 'Mikrobølgebehandling (CoreTherm)', scores: [-2, -2, 2, 2, -2], prostateSize: [30, 999] },
-            'UROLIFT': { name: 'UROLIFT', fullName: 'Prostatic urethral lift', scores: [-2, -2, 2, 2, 0], prostateSize: [0, 69] },
-            'REZUM': { name: 'REZUM', fullName: 'Rezum-behandling', scores: [-2, -2, 2, 2, 0], prostateSize: [30, 80] }
+            'TUI-P': { name: 'TUI-P', fullName: 'Transurethral incision af prostata', scores: [2, -1, 2], prostateSize: [0, 29] },
+            'TUR-P': { name: 'TUR-P', fullName: 'Transurethral resektion af prostata', scores: [2, -2, 2], prostateSize: [30, 80] },
+            'PVP': { name: 'PVP', fullName: 'Transurethral prostatavarisation', scores: [0, -2, 2], prostateSize: [30, 80] },
+            'AEEP': { name: 'AEEP', fullName: 'Transurethral enukleation', scores: [2, -2, -2], prostateSize: [81, 999] },
+            'FREYER': { name: 'FREYER', fullName: 'Åben transvesikal prostatektomi', scores: [2, -2, -2], prostateSize: [81, 999] },
+            'RASP': { name: 'RASP', fullName: 'Robotassisteret transvesikal prostatektomi', scores: [2, -2, -2], prostateSize: [81, 999] },
+            'PAE': { name: 'PAE', fullName: 'Prostataembolisering', scores: [-2, 2, -2], prostateSize: [30, 999] },
+            'TUMT': { name: 'TUMT', fullName: 'Mikrobølgebehandling (CoreTherm)', scores: [-2, 2, -2], prostateSize: [30, 999] },
+            'UROLIFT': { name: 'UROLIFT', fullName: 'Prostatic urethral lift', scores: [-2, 2, 0], prostateSize: [0, 69] },
+            'REZUM': { name: 'REZUM', fullName: 'Rezum-behandling', scores: [-2, 2, 0], prostateSize: [30, 80] }
         };
 
         const labels = ['Meget uvigtigt', 'Lidt uvigtigt', 'Neutral', 'Lidt vigtigt', 'Meget vigtigt'];
@@ -98,6 +106,25 @@ gtag('config', 'G-N5F79SNVLK');
             const container = document.getElementById('questions');
             container.innerHTML = `
                 <div class="effectiveness-question">
+                    <!-- Overordnet preference spørgsmål -->
+                    <div class="slider-container">
+                        <div class="slider-wrapper">
+                            <h2>
+                                ${preferenceQuestion.text}
+                            </h2>
+                            <div class="preference-scale" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; margin-bottom: 2rem;">
+                                ${preferenceQuestion.options.map(option => `
+                                    <label class="preference-item" style="cursor: pointer; width: 100%;">
+                                        <input type="radio" name="preference" value="${option.value}" style="display: none;">
+                                        <div class="preference-card" data-value="${option.value}" style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 8px; background: #fff; transition: all 0.2s;">
+                                            <div class="rating-label" style="font-weight: 600; color: #2c5aa0; font-size: 1.05rem; line-height: 1.4;">${option.label}</div>
+                                        </div>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Prostata størrelse spørgsmål -->
                     <div class="slider-container">
                         <div class="slider-wrapper">
@@ -164,17 +191,45 @@ gtag('config', 'G-N5F79SNVLK');
         }
 
         function setupEventListeners() {
-            // Handle prostata size selection
+            // Handle pill selections (preference and prostate size)
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('rating-pill') || e.target.closest('.rating-pill')) {
                     const pill = e.target.classList.contains('rating-pill') ? e.target : e.target.closest('.rating-pill');
-                    const radioInput = pill.closest('label').querySelector('input[type="radio"]');
+                    const label = pill.closest('label');
+                    const radioInput = label.querySelector('input[type="radio"]');
+                    const radioName = radioInput.name;
                     
-                    // Remove selected class from all pills
-                    document.querySelectorAll('.rating-pill').forEach(p => p.classList.remove('selected'));
+                    // Remove selected class from all pills in the same group
+                    document.querySelectorAll(`input[name="${radioName}"]`).forEach(input => {
+                        input.closest('label').querySelector('.rating-pill').classList.remove('selected');
+                    });
                     
                     // Add selected class to clicked pill
                     pill.classList.add('selected');
+                    radioInput.checked = true;
+                    
+                    updateResultsButton();
+                }
+                
+                // Handle preference card clicks
+                if (e.target.classList.contains('preference-card') || e.target.closest('.preference-card')) {
+                    const card = e.target.classList.contains('preference-card') ? e.target : e.target.closest('.preference-card');
+                    const label = card.closest('label');
+                    const radioInput = label.querySelector('input[type="radio"]');
+                    const radioName = radioInput.name;
+                    
+                    // Reset all cards in this group
+                    document.querySelectorAll(`input[name="${radioName}"]`).forEach(input => {
+                        const siblingCard = input.closest('label').querySelector('.preference-card');
+                        siblingCard.style.borderColor = '#dee2e6';
+                        siblingCard.style.backgroundColor = '#fff';
+                        siblingCard.style.boxShadow = 'none';
+                    });
+                    
+                    // Highlight the selected card
+                    card.style.borderColor = '#2c5aa0';
+                    card.style.backgroundColor = '#eef5f9';
+                    card.style.boxShadow = '0 4px 12px rgba(44, 90, 160, 0.15)';
                     radioInput.checked = true;
                     
                     updateResultsButton();
@@ -207,9 +262,10 @@ gtag('config', 'G-N5F79SNVLK');
         function updateResultsButton() {
             const sliders = document.querySelectorAll('.rating-slider');
             const prostateSizeSelected = document.querySelector('input[name="prostateSize"]:checked');
+            const preferenceSelected = document.querySelector('input[name="preference"]:checked');
             const btn = document.querySelector('.compare-btn');
             
-            const allAnswered = sliders.length === questions.length && prostateSizeSelected;
+            const allAnswered = sliders.length === questions.length && prostateSizeSelected && preferenceSelected;
             btn.disabled = !allAnswered;
             btn.style.opacity = btn.disabled ? '0.6' : '1';
             btn.textContent = btn.disabled ? 'BESVAR ALLE SPØRGSMÅL' : 'SE MINE RESULTATER';
@@ -235,8 +291,11 @@ gtag('config', 'G-N5F79SNVLK');
             
             // Get prostata size selection
             const prostateSizeInput = document.querySelector('input[name="prostateSize"]:checked');
-            const prostateSizeValue = prostateSizeInput ? prostateSizeInput.value : null;
-            results.prostateSize = prostateSizeValue;
+            results.prostateSize = prostateSizeInput ? prostateSizeInput.value : null;
+
+            // Get preference selection
+            const preferenceInput = document.querySelector('input[name="preference"]:checked');
+            results.preference = preferenceInput ? preferenceInput.value : null;
 
             localStorage.setItem('testResults', JSON.stringify(results));
             const ranked = rankTreatments(results);
@@ -251,9 +310,37 @@ gtag('config', 'G-N5F79SNVLK');
             const prostateSizeOption = prostateSizeQuestion.options.find(opt => opt.value === userAnswers.prostateSize);
             const userProstateRange = prostateSizeOption ? prostateSizeOption.range : null;
             
-            // Filter treatments based on prostata size and calculate distance
-            // If userProstateRange is null (Ved ikke), show all treatments
+            // URL params filtering
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlTreatmentsParam = urlParams.get('treatments');
+            let allowedTreatments = null;
+            if (urlTreatmentsParam) {
+                allowedTreatments = urlTreatmentsParam.toUpperCase().replace(/-/g, '').split(',');
+            }
+
+            // Preference groups
+            const symptomlindringGroup = ['TUI-P', 'TUR-P', 'PVP', 'AEEP', 'FREYER', 'RASP'];
+            const skansomGroup = ['PAE', 'TUMT', 'UROLIFT', 'REZUM'];
+            
+            // Filter treatments based on url, preference and prostata size
             const filteredTreatments = Object.entries(treatments).filter(([id, treatment]) => {
+                // 1. URL parameter filtering
+                if (allowedTreatments) {
+                    const normalizedId = id.toUpperCase().replace(/-/g, '');
+                    if (!allowedTreatments.includes(normalizedId)) {
+                        return false;
+                    }
+                }
+
+                // 2. Preference filtering
+                if (userAnswers.preference === 'symptomlindring' && !symptomlindringGroup.includes(id)) {
+                    return false;
+                }
+                if (userAnswers.preference === 'skansom' && !skansomGroup.includes(id)) {
+                    return false;
+                }
+
+                // 3. Prostate size filtering
                 // If user selected "Ved ikke", show all treatments
                 if (userProstateRange === null) return true;
                 
@@ -293,6 +380,13 @@ gtag('config', 'G-N5F79SNVLK');
                     <h2 style="color: #2c5aa0; margin-bottom: 1.5rem;">Dine testresultater</h2>
                     
                     <div style="margin-bottom: 2rem;">
+                        <h3 style="color: #1e3a5f; margin-bottom: 1rem;">Dit overordnede valg:</h3>
+                        <div style="background: #e3f2fd; padding: 1rem; border-radius: 8px; border-left: 4px solid #2196f3; margin-bottom: 1.5rem;">
+                            <strong style="color: #1565c0;">
+                                ${preferenceQuestion.options.find(opt => opt.value === userAnswers.preference)?.label || 'Ikke valgt'}
+                            </strong>
+                        </div>
+
                         <h3 style="color: #1e3a5f; margin-bottom: 1rem;">Din prostata størrelse:</h3>
                         <div style="background: #e3f2fd; padding: 1rem; border-radius: 8px; border-left: 4px solid #2196f3; margin-bottom: 1.5rem;">
                             <strong style="color: #1565c0;">
@@ -300,7 +394,7 @@ gtag('config', 'G-N5F79SNVLK');
                             </strong>
                         </div>
                         
-                        <h3 style="color: #1e3a5f; margin-bottom: 1rem;">Dine prioriteter:</h3>
+                        <h3 style="color: #1e3a5f; margin-bottom: 1rem;">Dine prioriteter i detaljer:</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                             ${questions.map(q => `
                                 <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #4a90d9;">
@@ -317,7 +411,7 @@ gtag('config', 'G-N5F79SNVLK');
                         
                         ${ranked.length === 0 ? `
                             <div style="background: #fff3cd; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 1rem;">
-                                <p style="margin: 0; color: #856404;"><strong>Ingen behandlinger fundet</strong><br>Der er ingen behandlinger der matcher din prostata størrelse. Kontakt venligst din læge for vejledning.</p>
+                                <p style="margin: 0; color: #856404;"><strong>Ingen behandlinger fundet</strong><br>Der er ingen behandlinger der matcher din overordnede præference eller prostata størrelse.</p>
                             </div>
                         ` : ''}
                         
@@ -327,7 +421,8 @@ gtag('config', 'G-N5F79SNVLK');
                                 if (topFive.length === 0) return '';
                                 // Calculate displayed percent for each (clamped and rounded)
                                 const percents = topFive.map(t => {
-                                    const raw = 100 - (t.distance / Math.sqrt(50)) * 100; // keep existing normalization
+                                    // Maksimale afstandsdifference reduceret til 3 spørgsmål
+                                    const raw = 100 - (t.distance / Math.sqrt(48)) * 100;
                                     return Math.max(0, Math.min(100, Math.round(raw)));
                                 });
                                 const maxPercent = percents.length ? Math.max(...percents) : 0;

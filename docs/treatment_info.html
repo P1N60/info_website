@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -5,6 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Behandlingsinformation - Vandladningsbesvær</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .item {
+            margin-bottom: 20px;
+        }
+        .title {
+            cursor: pointer;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #2c5aa0;
+        }
+        .title h3 {
+            margin: 0 0 5px 0;
+            color: #2c5aa0;
+        }
+        .title a {
+            margin: 0;
+            color: #666;
+            font-style: italic;
+            display: block;
+        }
+        .content {
+            display: none;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-top: none;
+            background: #fff;
+        }
+        .content.open {
+            display: block;
+        }
+    </style>
 </head>
 
 <!-- Google tag (gtag.js) -->
@@ -40,94 +73,145 @@ gtag('config', 'G-N5F79SNVLK');
         <div class="treatment-page">
             <h1 style="color: #2c5aa0;">Information om behandlinger</h1>
             <br>
-            <!-- TUI-P -->
-            <h3>TUI-P</h3>
-            <a>Transurethral incision af prostata</a>
-            <p><strong>Beskrivelse: </strong>TUI‑P (transurethral incision of the prostate) er en kikkertoperation, der foretages gennem urinrøret for at lette vandladningen, når en mindre forstørret prostata giver problemer. I stedet for at fjerne væv skærer kirurgen et eller to dybe snit i blærehalsen og prostata for at udvide urinrøret. Operationen udføres oftest i fuld bedøvelse.</p>
-            <p><strong>Velegnet til: </strong> Små prostataer.</p>
-            <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt.</p>
-            <p><strong>Efter behandling: </strong>Du vil være indlagt, men udskrives typisk samme dag eller dagen efter. Som regel anlægges et midlertidigt blærekateter, der fjernes samme dag eller efter få dage.</p>
-            <p><strong>Bemærkninger: </strong>Operationen minder om TUR-P, men ved TUI-P fjernes der ikke væv, som ved TUR-P.</p>
-            <br>
-            <!-- TUR-P -->
-            <h3>TUR-P</h3>
-            <a>Transurethral resektion af prostata</a>
-            <p><strong>Beskrivelse: </strong>TUR‑P (transurethral resektion af prostata) er en kikkertoperation, hvor overskydende prostatavæv fjernes gennem urinrøret, når prostata er forstørret og giver vandladningsproblemer. Operationen kaldes også “skrælning af prostata” og betegnes som ‘guldstandard’ med meget veldokumenteret effekt. Metoden har været anvendt siden 1926. Behandlingen er derfor ofte den som patienter oftest tilbydes.</p>
-            <p><strong>Velegnet til: </strong>Moderat forstørrede prostataer.</p>
-            <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt.</p>
-            <p><strong>Efter behandling: </strong>Du vil være indlagt, men typisk udskrives samme dag eller dagen efter. Som regel anlægges et midlertidigt blærekateter, der fjernes samme dag eller efter få dage.</p>
-            <p><strong>Bemærkninger: </strong>Operationen minder om PVP, men TUR-P er langt mere veldokumenteret og afprøvet.</p>
-            <br>
-            <!-- PVP -->
-            <h3>PVP</h3>
-            <a>Transurethral prostatavarisation</a>
-            <p><strong>Beskrivelse: </strong>PVP (photoselective vaporization of the prostate) er en kikkertoperation gennem urinrøret. Ved hjælp af en laser fordamper kirurgen det prostatavæv, der blokerer urinpassagen. Laseren forsegler samtidig blodkarrene, hvilket giver mindre blødning.</p>
-            <p><strong>Velegnet til: </strong>Moderat forstørrede prostataer, men kan også anvendes til lidt større kirtler.</p>
-            <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt.</p>
-            <p><strong>Efter behandling: </strong>Du vil være indlagt, men typisk udskrives samme dag eller dagen efter. Som regel anlægges et midlertidigt blærekateter, der fjernes samme dag eller efter få dage.</p>
-            <p><strong>Bemærkninger: </strong>Operationen minder om TUR-P, men der er lidt lavere blødningsrisiko. PVP er dog mindre veldokumenteret end TUR-P.</p>
-            <br>
-            <!-- AEEP -->
-            <h3>AEEP</h3>
-            <a>Transurethral enukleation</a>
-            <p><strong>Beskrivelse: </strong>AEEP (anatomical endoscopic enucleation of the prostate) er et samlebegreb for kikkertoperationer, hvor den inderste del af prostata fjernes (enukleation), så urinpassagen lettes. Energikilden er oftest laser, men andre energikilder kan også benyttes f.eks plasma. Operationer kaldes bl.a. HoLEP, ThuFLEP, ThuLEP og TUEB mm. afhængigt af energikilden.</p>
-            <p><strong>Velegnet til: </strong>Mellemstore og helt store prostataer.</p>
-            <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt.</p>
-            <p><strong>Efter behandling: </strong>Du vil være indlagt, men typisk udskrives samme dag eller dagen efter. Som regel anlægges et midlertidigt blærekateter, der fjernes samme dag eller efter få dage.</p>
-            <p><strong>Bemærkninger: </strong>Operationen minder om RASP og Freyer, men indlæggelsestiden er kortere, og du kan hurtigere vende tilbage til dine vanlige aktiviteter. Effekten af AEEP vurderes som ligeværdig med Freyer og RASP.</p>
-            <br>
-            <!-- FREYER -->
-            <h3>FREYER</h3>
-            <a>Åben transvesikal prostatektomi</a>
-            <p><strong>Beskrivelse: </strong>Freyer-operation (åben simpel prostatektomi) udføres gennem et snit under navlen, hvor kirurgen åbner blæren og fjerner den indvendige del af prostata (enukleation). </p>
-            <p><strong>Velegnet til: </strong>Helt store prostataer.</p>
-            <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt.</p>
-            <p><strong>Efter behandling: </strong>Du vil være indlagt og udskrives med et kateter. I nogle tilfælde anlægges et midlertidigt topkateter via maven. Du skal have fjernet sutur eller klips hos egen læge efterfølgende. Du bør undgå tunge løft i de første uger efter operationen.</p>
-            <p><strong>Bemærkninger: </strong>Operationen minder om RASP, men RASP udføres som kikkertoperation og har derfor oftest kortere indlæggelse. Resultaterne af behandling vurderes som ligeværdige. </p>
-            <br>
-            <!-- RASP -->
-            <h3>RASP</h3>
-            <a>Robotassisteret transvesikal prostatektomi</a>
-            <p><strong>Beskrivelse: </strong>RASP (robot-assisted simple prostatectomi) er en kikkertoperation, hvor kirurgen ved hjælp af en robot fjerner den indvendige del af prostata (enukleation) gennem fem små snit i bugvæggen.</p>
-            <p><strong>Velegnet til: </strong>Meget store prostataer.</p>
-            <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt</p>
-            <p><strong>Efter behandling: </strong>Du vil være indlagt og udskrives med et kateter. Du skal have fjernet sutur eller klips hos egen læge efterfølgende Du bør undgå tunge løft i de første uger efter operationen.</p>
-            <p><strong>Bemærkninger: </strong>Operationen minder om Freyer, men Freyer foregår som åben kirurgi med et større snit i bugvæggen. Indlæggelsestiden for RASP vil derfor oftest være kortere end Freyer. Resultaterne af behandling vurderes som ligeværdige. </p>
-            <br>
-            <!-- PAE -->
-            <h3>PAE</h3>
-            <a>Prostataembolisering</a>
-            <p><strong>Beskrivelse: </strong>PAE (prostatic artery embolization) er en minimalt invasiv røntgenvejledt behandling. Via et tyndt kateter i lysken eller håndleddet indsætter røntgenlægen små partikler i prostataarterierne, som blokerer blodtilførslen. Kirtlen skrumper over uger til måneder. Behandlingen foretages i lokalbedøvelse med let beroligende medicin. Minimalt invasive behandlinger er generelt mere skånsomme, men har ofte en mindre effekt og en øget risiko for behov for senere genbehandling.</p>
-            <p><strong>Velegnet til: </strong>Små og meget store prostataer, især hos patienter, der ønsker at undgå konventionel kirurgi eller ikke tåler fuld bedøvelse.</p>
-            <p><strong>Bedøvelse: </strong>Lokalbedøvelse.</p>
-            <p><strong>Efter behandling: </strong>Indlæggelse er ikke nødvendigt. Kateter efter operationen er som udgangspunkt ikke nødvendigt. Der er normalt ikke behov for sygemelding, og du kan genoptage dine vanlige aktiviteter hurtigt. I nogle tilfælde kan man opleve “post-emboliseringssyndrom” med influenzalignende symptomer som træthed, smerter og feber. Symptomerne er ufarlige og går over af sig selv.</p>
-            <p><strong>Bemærkninger: </strong>PAE er en minimal invasiv behandling ligesom TUMT, UroLift og Rezum.</p>
-            <br>
-            <!-- TUMT -->
-            <h3>TUMT</h3>
-            <a>Mikrobølgebehandling (CoreTherm)</a>
-            <p><strong>Beskrivelse: </strong>TUMT (transurethral microwave thermotherapy) er en minimalt invasiv behandling, hvor et kateter føres op gennem urinrøret, og mikrobølger opvarmer og ødelægger det prostatavæv, som blokerer urinpassagen. Behandlingen har eksisteret siden 1990. Minimalt invasive behandlinger er generelt mere skånsomme, men har ofte en mindre effekt og en øget risiko for behov for senere genbehandling.</p>
-            <p><strong>Velegnet til: </strong>Små, moderate og meget forstørrede prostataer, især hos patienter, der ønsker en skånsom behandling eller ikke tåler fuld bedøvelse.</p>
-            <p><strong>Bedøvelse: </strong>Lokalbedøvelse.</p>
-            <p><strong>Efter behandling: </strong>Indlæggelse er ikke nødvendig. Du får anlagt et midlertidigt blærekateter. Du kan hurtigt genoptage dine vanlige aktiviteter.</p>
-            <p><strong>Bemærkninger: </strong>Operationen minder om Rezum. TUMT er en minimal invasiv behandling ligesom PAE, UroLift og Rezum.</p>
-            <br>
-            <!-- UROLIFT -->
-            <h3>UROLIFT</h3>
-            <a>Prostatic urethral lift</a>
-            <p><strong>Beskrivelse: </strong>UroLift er en minimal invasiv behandling, hvor små permanente implantater placeres i prostata og mekanisk åbner urinrøret uden at fjerne væv. Implantaterne består af to metalkroge forbundet med en tynd tråd, som trækker vævet til siden og skaber plads til urinpassagen. Typisk indsættes 2–5 implantater afhængig af prostataens størrelse og udformning. Minimalt invasive behandlinger er generelt mere skånsomme, men har ofte en mindre effekt og en øget risiko for behov for senere genbehandling.</p>
-            <p><strong>Velegnet til: </strong>Moderat forstørrede prostataer. Behandlingen er særlig velegnet, hvis man ønsker at undgå seksuelle bivirkninger.</p>
-            <p><strong>Bedøvelse: </strong>Kan udføres i fuld-, rygmarvs- eller lokalbedøvelse, evt. med beroligende medicin.</p>
-            <p><strong>Efter behandling: </strong>Indlæggelse er kun nødvendig ved fuld bedøvelse. Midlertidigt blærekateter kan være nødvendigt. Du kan hurtigt genoptage dine vanlige aktiviteter.</p>
-            <p><strong>Bemærkninger: </strong>Ingen direkte alternative behandlinger, men UroLift hører til minimal invasive behandlinger ligesom TUMT, PAE og Rezum.</p>
-            <br>
-            <!-- REZUM -->
-            <h3>REZUM</h3>
-            <p><strong>Beskrivelse: </strong>Rezum er en minimal invasiv kikkertoperation gennem urinrøret, hvor varm vanddamp ødelægger prostataceller. Kroppen nedbryder efterfølgende det ødelagte væv over uger, så urinpassagen forbedres og symptomer mindskes. Behandlingen er af nyere dato og har eksisteret siden 2015. Minimalt invasive behandlinger er generelt mere skånsomme, men har ofte en mindre effekt og en øget risiko for behov for senere genbehandling.</p>
-            <p><strong>Velegnet til: </strong>Moderat forstørrede prostataer, især patienter, der ønsker en skånsom behandling eller ikke tåler fuld bedøvelse. </p>
-            <p><strong>Bedøvelse: </strong>Lokalbedøvelse eller kortvarig fuld bedøvelse</p>
-            <p><strong>Efter behandling: </strong>Indlæggelse er kun nødvendigt ved fuld bedøvelse. Du får anlagt et midlertidigt blærekateter. Du kan hurtigt genoptage dine vanlige aktiviteter.</p>
-            <p><strong>Bemærkninger: </strong>Operationen minder om TUMT, men anvender vanddamp i stedet for mikrobølgeteknologi. Rezum er en minimal invasiv behandling ligesom PAE, UroLift og TUMT.</p>
+            
+            <div class="item">
+                <div class="title" data-id="tui-p">
+                    <h3>TUI-P</h3>
+                    <a>Transurethral incision af prostata</a>
+                </div>
+                <div class="content" id="tui-p">
+                    <p><strong>Beskrivelse: </strong>TUI‑P (transurethral incision of the prostate) er en kikkertoperation, der foretages gennem urinrøret for at lette vandladningen, når en mindre forstørret prostata giver problemer. I stedet for at fjerne væv skærer kirurgen et eller to dybe snit i blærehalsen og prostata for at udvide urinrøret. Operationen udføres oftest i fuld bedøvelse.</p>
+                    <p><strong>Velegnet til: </strong> Små prostataer.</p>
+                    <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt.</p>
+                    <p><strong>Efter behandling: </strong>Du vil være indlagt, men udskrives typisk samme dag eller dagen efter. Som regel anlægges et midlertidigt blærekateter, der fjernes samme dag eller efter få dage.</p>
+                    <p><strong>Bemærkninger: </strong>Operationen minder om TUR-P, men ved TUI-P fjernes der ikke væv, som ved TUR-P.</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="title" data-id="tur-p">
+                    <h3>TUR-P</h3>
+                    <a>Transurethral resektion af prostata</a>
+                </div>
+                <div class="content" id="tur-p">
+                    <p><strong>Beskrivelse: </strong>TUR‑P (transurethral resektion af prostata) er en kikkertoperation, hvor overskydende prostatavæv fjernes gennem urinrøret, når prostata er forstørret og giver vandladningsproblemer. Operationen kaldes også “skrælning af prostata” og betegnes som ‘guldstandard’ med meget veldokumenteret effekt. Metoden har været anvendt siden 1926. Behandlingen er derfor ofte den som patienter oftest tilbydes.</p>
+                    <p><strong>Velegnet til: </strong>Moderat forstørrede prostataer.</p>
+                    <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt.</p>
+                    <p><strong>Efter behandling: </strong>Du vil være indlagt, men typisk udskrives samme dag eller dagen efter. Som regel anlægges et midlertidigt blærekateter, der fjernes samme dag eller efter få dage.</p>
+                    <p><strong>Bemærkninger: </strong>Operationen minder om PVP, men TUR-P er langt mere veldokumenteret og afprøvet.</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="title" data-id="pvp">
+                    <h3>PVP</h3>
+                    <a>Transurethral prostatavarisation</a>
+                </div>
+                <div class="content" id="pvp">
+                    <p><strong>Beskrivelse: </strong>PVP (photoselective vaporization of the prostate) er en kikkertoperation gennem urinrøret. Ved hjælp af en laser fordamper kirurgen det prostatavæv, der blokerer urinpassagen. Laseren forsegler samtidig blodkarrene, hvilket giver mindre blødning.</p>
+                    <p><strong>Velegnet til: </strong>Moderat forstørrede prostataer, men kan også anvendes til lidt større kirtler.</p>
+                    <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt.</p>
+                    <p><strong>Efter behandling: </strong>Du vil være indlagt, men typisk udskrives samme dag eller dagen efter. Som regel anlægges et midlertidigt blærekateter, der fjernes samme dag eller efter få dage.</p>
+                    <p><strong>Bemærkninger: </strong>Operationen minder om TUR-P, men der er lidt lavere blødningsrisiko. PVP er dog mindre veldokumenteret end TUR-P.</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="title" data-id="aeep">
+                    <h3>AEEP</h3>
+                    <a>Transurethral enukleation</a>
+                </div>
+                <div class="content" id="aeep">
+                    <p><strong>Beskrivelse: </strong>AEEP (anatomical endoscopic enucleation of the prostate) er et samlebegreb for kikkertoperationer, hvor den inderste del af prostata fjernes (enukleation), så urinpassagen lettes. Energikilden er oftest laser, men andre energikilder kan også benyttes f.eks plasma. Operationer kaldes bl.a. HoLEP, ThuFLEP, ThuLEP og TUEB mm. afhængigt af energikilden.</p>
+                    <p><strong>Velegnet til: </strong>Mellemstore og helt store prostataer.</p>
+                    <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt.</p>
+                    <p><strong>Efter behandling: </strong>Du vil være indlagt, men typisk udskrives samme dag eller dagen efter. Som regel anlægges et midlertidigt blærekateter, der fjernes samme dag eller efter få dage.</p>
+                    <p><strong>Bemærkninger: </strong>Operationen minder om RASP og Freyer, men indlæggelsestiden er kortere, og du kan hurtigere vende tilbage til dine vanlige aktiviteter. Effekten af AEEP vurderes som ligeværdig med Freyer og RASP.</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="title" data-id="freyer">
+                    <h3>FREYER</h3>
+                    <a>Åben transvesikal prostatektomi</a>
+                </div>
+                <div class="content" id="freyer">
+                    <p><strong>Beskrivelse: </strong>Freyer-operation (åben simpel prostatektomi) udføres gennem et snit under navlen, hvor kirurgen åbner blæren og fjerner den indvendige del af prostata (enukleation). </p>
+                    <p><strong>Velegnet til: </strong>Helt store prostataer.</p>
+                    <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt.</p>
+                    <p><strong>Efter behandling: </strong>Du vil være indlagt og udskrives med et kateter. I nogle tilfælde anlægges et midlertidigt topkateter via maven. Du skal have fjernet sutur eller klips hos egen læge efterfølgende. Du bør undgå tunge løft i de første uger efter operationen.</p>
+                    <p><strong>Bemærkninger: </strong>Operationen minder om RASP, men RASP udføres som kikkertoperation og har derfor oftest kortere indlæggelse. Resultaterne af behandling vurderes som ligeværdige. </p>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="title" data-id="rasp">
+                    <h3>RASP</h3>
+                    <a>Robotassisteret transvesikal prostatektomi</a>
+                </div>
+                <div class="content" id="rasp">
+                    <p><strong>Beskrivelse: </strong>RASP (robot-assisted simple prostatectomi) er en kikkertoperation, hvor kirurgen ved hjælp af en robot fjerner den indvendige del af prostata (enukleation) gennem fem små snit i bugvæggen.</p>
+                    <p><strong>Velegnet til: </strong>Meget store prostataer.</p>
+                    <p><strong>Bedøvelse: </strong>Fuld bedøvelse som udgangspunkt</p>
+                    <p><strong>Efter behandling: </strong>Du vil være indlagt og udskrives med et kateter. Du skal have fjernet sutur eller klips hos egen læge efterfølgende Du bør undgå tunge løft i de første uger efter operationen.</p>
+                    <p><strong>Bemærkninger: </strong>Operationen minder om Freyer, men Freyer foregår som åben kirurgi med et større snit i bugvæggen. Indlæggelsestiden for RASP vil derfor oftest være kortere end Freyer. Resultaterne af behandling vurderes som ligeværdige. </p>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="title" data-id="pae">
+                    <h3>PAE</h3>
+                    <a>Prostataembolisering</a>
+                </div>
+                <div class="content" id="pae">
+                    <p><strong>Beskrivelse: </strong>PAE (prostatic artery embolization) er en minimalt invasiv røntgenvejledt behandling. Via et tyndt kateter i lysken eller håndleddet indsætter røntgenlægen små partikler i prostataarterierne, som blokerer blodtilførslen. Kirtlen skrumper over uger til måneder. Behandlingen foretages i lokalbedøvelse med let beroligende medicin. Minimalt invasive behandlinger er generelt mere skånsomme, men har ofte en mindre effekt og en øget risiko for behov for senere genbehandling.</p>
+                    <p><strong>Velegnet til: </strong>Små og meget store prostataer, især hos patienter, der ønsker at undgå konventionel kirurgi eller ikke tåler fuld bedøvelse.</p>
+                    <p><strong>Bedøvelse: </strong>Lokalbedøvelse.</p>
+                    <p><strong>Efter behandling: </strong>Indlæggelse er ikke nødvendigt. Kateter efter operationen er som udgangspunkt ikke nødvendigt. Der er normalt ikke behov for sygemelding, og du kan genoptage dine vanlige aktiviteter hurtigt. I nogle tilfælde kan man opleve “post-emboliseringssyndrom” med influenzalignende symptomer som træthed, smerter og feber. Symptomerne er ufarlige og går over af sig selv.</p>
+                    <p><strong>Bemærkninger: </strong>PAE er en minimal invasiv behandling ligesom TUMT, UroLift og Rezum.</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="title" data-id="tumt">
+                    <h3>TUMT</h3>
+                    <a>Mikrobølgebehandling (CoreTherm)</a>
+                </div>
+                <div class="content" id="tumt">
+                    <p><strong>Beskrivelse: </strong>TUMT (transurethral microwave thermotherapy) er en minimalt invasiv behandling, hvor et kateter føres op gennem urinrøret, og mikrobølger opvarmer og ødelægger det prostatavæv, som blokerer urinpassagen. Behandlingen har eksisteret siden 1990. Minimalt invasive behandlinger er generelt mere skånsomme, men har ofte en mindre effekt og en øget risiko for behov for senere genbehandling.</p>
+                    <p><strong>Velegnet til: </strong>Små, moderate og meget forstørrede prostataer, især hos patienter, der ønsker en skånsom behandling eller ikke tåler fuld bedøvelse.</p>
+                    <p><strong>Bedøvelse: </strong>Lokalbedøvelse.</p>
+                    <p><strong>Efter behandling: </strong>Indlæggelse er ikke nødvendig. Du får anlagt et midlertidigt blærekateter. Du kan hurtigt genoptage dine vanlige aktiviteter.</p>
+                    <p><strong>Bemærkninger: </strong>Operationen minder om Rezum. TUMT er en minimal invasiv behandling ligesom PAE, UroLift og Rezum.</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="title" data-id="urolift">
+                    <h3>UROLIFT</h3>
+                    <a>Prostatic urethral lift</a>
+                </div>
+                <div class="content" id="urolift">
+                    <p><strong>Beskrivelse: </strong>UroLift er en minimal invasiv behandling, hvor små permanente implantater placeres i prostata og mekanisk åbner urinrøret uden at fjerne væv. Implantaterne består af to metalkroge forbundet med en tynd tråd, som trækker vævet til siden og skaber plads til urinpassagen. Typisk indsættes 2–5 implantater afhængig af prostataens størrelse og udformning. Minimalt invasive behandlinger er generelt mere skånsomme, men har ofte en mindre effekt og en øget risiko for behov for senere genbehandling.</p>
+                    <p><strong>Velegnet til: </strong>Moderat forstørrede prostataer. Behandlingen er særlig velegnet, hvis man ønsker at undgå seksuelle bivirkninger.</p>
+                    <p><strong>Bedøvelse: </strong>Kan udføres i fuld-, rygmarvs- eller lokalbedøvelse, evt. med beroligende medicin.</p>
+                    <p><strong>Efter behandling: </strong>Indlæggelse er kun nødvendig ved fuld bedøvelse. Midlertidigt blærekateter kan være nødvendigt. Du kan hurtigt genoptage dine vanlige aktiviteter.</p>
+                    <p><strong>Bemærkninger: </strong>Ingen direkte alternative behandlinger, men UroLift hører til minimal invasive behandlinger ligesom TUMT, PAE og Rezum.</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="title" data-id="rezum">
+                    <h3>REZUM</h3>
+                </div>
+                <div class="content" id="rezum">
+                    <p><strong>Beskrivelse: </strong>Rezum er en minimal invasiv kikkertoperation gennem urinrøret, hvor varm vanddamp ødelægger prostataceller. Kroppen nedbryder efterfølgende det ødelagte væv over uger, så urinpassagen forbedres og symptomer mindskes. Behandlingen er af nyere dato og har eksisteret siden 2015. Minimalt invasive behandlinger er generelt mere skånsomme, men har ofte en mindre effekt og en øget risiko for behov for senere genbehandling.</p>
+                    <p><strong>Velegnet til: </strong>Moderat forstørrede prostataer, især patienter, der ønsker en skånsom behandling eller ikke tåler fuld bedøvelse. </p>
+                    <p><strong>Bedøvelse: </strong>Lokalbedøvelse eller kortvarig fuld bedøvelse</p>
+                    <p><strong>Efter behandling: </strong>Indlæggelse er kun nødvendigt ved fuld bedøvelse. Du får anlagt et midlertidigt blærekateter. Du kan hurtigt genoptage dine vanlige aktiviteter.</p>
+                    <p><strong>Bemærkninger: </strong>Operationen minder om TUMT, men anvender vanddamp i stedet for mikrobølgeteknologi. Rezum er en minimal invasiv behandling ligesom PAE, UroLift og TUMT.</p>
+                </div>
+            </div>
             
             <div class="compare-section">
                 <a href="treatments.html" class="compare-btn" style="display: inline-block; text-decoration: none; color: white;">
@@ -138,5 +222,81 @@ gtag('config', 'G-N5F79SNVLK');
     </main>
     
     <script src="mobile-dropdown.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            function getParams() {
+                const params = new URLSearchParams(window.location.search);
+                let open = params.get('open');
+                let treatments = params.get('treatments');
+                
+                let openItems = open ? open.split(',').map(s => s.trim().toLowerCase()).filter(Boolean) : [];
+                let treatmentItems = treatments ? treatments.split(',').map(s => s.trim().toLowerCase()).filter(Boolean) : [];
+                
+                return {
+                    openItems: openItems.length ? openItems : treatmentItems,
+                    filterItems: treatmentItems
+                };
+            }
+
+            function renderState() {
+                const { openItems, filterItems } = getParams();
+                const allItems = document.querySelectorAll('.item');
+                
+                allItems.forEach(item => {
+                    const titleEl = item.querySelector('.title');
+                    const contentEl = item.querySelector('.content');
+                    const id = titleEl.dataset.id.toLowerCase();
+                    
+                    if (openItems.includes(id)) {
+                        contentEl.classList.add('open');
+                    } else {
+                        contentEl.classList.remove('open');
+                    }
+                    
+                    if (filterItems.length > 0) {
+                        if (filterItems.includes(id)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    } else {
+                        item.style.display = '';
+                    }
+                });
+            }
+
+            function updateUrl(openItems, currentFilterItems) {
+                const url = new URL(window.location);
+                
+                if (openItems.length) {
+                    url.searchParams.set('open', openItems.join(','));
+                } else {
+                    url.searchParams.delete('open');
+                }
+                
+                history.pushState({}, '', url);
+            }
+
+            document.querySelectorAll('.title').forEach(title => {
+                title.addEventListener('click', () => {
+                    const id = title.dataset.id.toLowerCase();
+                    const { openItems, filterItems } = getParams();
+                    
+                    let newOpenItems = [...openItems];
+                    if (newOpenItems.includes(id)) {
+                        newOpenItems = newOpenItems.filter(x => x !== id);
+                    } else {
+                        newOpenItems.push(id);
+                    }
+                    
+                    updateUrl(newOpenItems, filterItems);
+                    renderState();
+                });
+            });
+
+            window.addEventListener('popstate', renderState);
+            renderState();
+        });
+    </script>
 </body>
 </html>

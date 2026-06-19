@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BPH Behandlingsformular</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    max-width: 720px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .card-header {
+    background: #2c5aa0;
+    color: white;
+    padding: 32px 40px;
+  }
+
+  .card-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  .card-body {
+    padding: 36px 40px;
+  }
+
+  .form-group {
+    margin-bottom: 22px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  input[type="email"],
+  input[type="text"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.97rem;
+    color: #111827;
+    background: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #2c5aa0;
+    box-shadow: 0 0 0 3px rgba(44,90,160,0.12);
+    background: #fff;
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1.5px solid #e5e7eb;
+    margin: 28px 0;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2c5aa0;
+    margin-bottom: 16px;
+  }
+
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-transform: none;
+    letter-spacing: normal;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    margin-right: 8px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+
+  button[type="submit"] {
+    margin-top: 28px;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #4a90d9, #2c5aa0);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: all 0.2s;
+  }
+
+  button[type="submit"]:hover {
+    background: #1a4f7a;
+    transform: scale(1.01);
+  }
+
+  button[type="submit"]:active {
+    transform: scale(0.99);
+  }
+
+  @media (max-width: 540px) {
+    .card-header, .card-body {
+      padding: 24px 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-header">
+    <h1>BPH Behandlingsformular</h1>
+  </div>
+
+  <div class="card-body">
+    <form id="mailForm">
+
+      <div class="form-group">
+        <label for="email">Patientens e-mail</label>
+        <input type="email" id="email" name="email" placeholder="patient@eksempel.dk" required>
+      </div>
+
+      <div class="form-group">
+        <label for="patientName">Patientens navn</label>
+        <input type="text" id="patientName" name="patientName" placeholder="F.eks. Jens Jensen" required>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Dit navn</label>
+        <input type="text" id="name" name="name" placeholder="Fulde navn" required>
+      </div>
+
+      <div class="form-group">
+        <label for="hospital">Dit hospital</label>
+        <select id="hospital" name="hospital" required>
+          <option value="">Vælg hospital</option>
+          <option>Rigshospitalet</option>
+          <option>Herlev Hospital</option>
+          <option>Hvidovre Hospital</option>
+          <option>Nordsjællands Hospital</option>
+          <option>Sjællands Universitetshospital (Roskilde/Næstved)</option>
+          <option>Slagelse Sygehus</option>
+          <option>Odense Universitetshospital</option>
+          <option>Svendborg Sygehus</option>
+          <option>Kolding Sygehus</option>
+          <option>Esbjerg Sygehus</option>
+          <option>Aabenraa Sygehus</option>
+          <option>Aarhus Universitetshospital</option>
+          <option>Regionshospital Gødstrup</option>
+          <option>Regionshospital Viborg</option>
+          <option>Aalborg Universitetshospital</option>
+          <option>Aleris Hospital</option>
+          <option>Capio Privathospital</option>
+          <option>Privathospitalet Mølholm</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="comment">Besked til patienten</label>
+        <textarea
+          id="comment"
+          name="comment"
+          rows="6"
+          placeholder="Skriv din besked til patienten her. Det du skriver her vil være selve e-mailen (indsættes lige før links)."
+        ></textarea>
+      </div>
+
+      <hr class="divider">
+
+      <p class="section-title">Vælg behandlingsmuligheder</p>
+
+      <div class="checkbox-grid">
+        <label class="checkbox-label"><input type="checkbox" name="treatments" value="tui-p"> TUI-P</label>
+        <label class="checkbox-label"><input type="checkbox" name="treatments" value="tur-p"> TUR-P</label>
+        <label class="checkbox-label"><input type="checkbox" name="treatments" value="pvp"> PVP</label>
+        <label class="checkbox-label"><input type="checkbox" name="treatments" value="aeep"> AEEP</label>
+        <label class="checkbox-label"><input type="checkbox" name="treatments" value="freyer"> FREYER</label>
+        <label class="checkbox-label"><input type="checkbox" name="treatments" value="rasp"> RASP</label>
+        <label class="checkbox-label"><input type="checkbox" name="treatments" value="pae"> PAE</label>
+        <label class="checkbox-label"><input type="checkbox" name="treatments" value="tumt"> TUMT</label>
+        <label class="checkbox-label"><input type="checkbox" name="treatments" value="urolift"> UROLIFT</label>
+        <label class="checkbox-label"><input type="checkbox" name="treatments" value="rezum"> REZUM</label>
+      </div>
+
+      <button type="submit">Send formular</button>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  const patientNameInput = document.getElementById('patientName');
+  const commentInput = document.getElementById('comment');
+  
+  patientNameInput.addEventListener('input', function(e) {
+    // Fill text only if it's currently empty, or matches our standard default
+    const currentName = e.target.value.trim();
+    const standardGreetingText = "Her er information og overblik over de valgte behandlingsmuligheder, vi talte om.";
+    
+    if (commentInput.value.trim() === "" || commentInput.value.includes(standardGreetingText)) {
+      if (currentName) {
+        commentInput.value = `Kære ${currentName},\n\n${standardGreetingText}`;
+      } else {
+        commentInput.value = "";
+      }
+    }
+  });
+
+  document.getElementById('mailForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const patientName = document.getElementById('patientName').value.trim();
+    const name = document.getElementById('name').value.trim();
+    const hospital = document.getElementById('hospital').value;
+    let comment = document.getElementById('comment').value.trim();
+
+    const checkboxes = document.querySelectorAll('input[name="treatments"]:checked');
+    const selectedTreatments = Array.from(checkboxes).map(cb => cb.value).join(',');
+
+    if (!comment) {
+      comment = `Kære ${patientName},\n\nHer er information og overblik over de valgte behandlingsmuligheder, vi talte om.`;
+    }
+
+    const bodyText = `${comment}
+
+---
+Læs om de valgte behandlinger:
+https://vandladningsbesvær.dk/treatment_info.html?treatments=${selectedTreatments}
+
+Sammenlign de valgte behandlinger:
+https://vandladningsbesvær.dk/comparison.html?treatments=${selectedTreatments}
+
+Tag en personlig test for disse behandlinger:
+https://vandladningsbesvær.dk/personal_test.html?treatments=${selectedTreatments}
+---
+Med venlig hilsen
+${name}
+${hospital}`;
+
+    const subject = encodeURIComponent('Behandlingsmuligheder - BPH');
+    const body = encodeURIComponent(bodyText);
+
+    const mailtoLink = `mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`;
+    window.location.href = mailtoLink;
+  });
+</script>
+
+</body>
+</html>
