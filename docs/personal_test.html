@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -7,6 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personlig Test - Vandladningsbesvær</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+      :root{
+        --paper:#F4F6F9; --card:#FFFFFF; --ink:#3D3D3D; --ink-soft:#6B7280;
+        --teal-900:#1E3A5F; --teal-700:#2C5282; --teal-500:#4F86C6;
+        --teal-300:#8FB4E0; --teal-150:#E8F0FA; --teal-100:#EFF4FB;
+        --ochre-600:#5B7290; --ochre-400:#9CA3AF;
+        --line:#E2E5EA; --line-soft:#EDF0F4;
+      }
+      .page{max-width:920px;margin:20px auto 0 auto;padding:44px 24px 70px;}
+      .eyebrow{font-family:'Segoe UI',sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-700);margin:0 0 14px;}
+      h1{font-family:'Segoe UI',sans-serif;font-weight:700;font-size:clamp(26px,4vw,38px);line-height:1.15;margin:0 0 16px;color:var(--teal-900);}
+      h2{font-family:'Segoe UI',sans-serif;font-weight:700;font-size:21px;color:var(--teal-900);margin:0 0 10px;}
+      p{margin:0 0 14px;color:var(--ink-soft);font-size:15px;}
+      p strong{color:var(--ink);font-weight:600;}
+      .screen{display:none;}
+      .screen.active{display:block;}
+      button{font-family:'Segoe UI',sans-serif;cursor:pointer;}
+      .howto{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:28px 0;}
+      .howto div{background:var(--card);padding:16px 18px;}
+      .howto .num{font-family:'Segoe UI',sans-serif;font-size:12px;color:var(--ochre-600);display:block;margin-bottom:6px;}
+      .howto p{margin:0;font-size:13.5px;}
+      .start-btn{margin-top:28px;display:inline-block;padding:15px 32px;border-radius:999px;border:none;background:#2c5aa0;color:#fff;font-size:13.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-family:'Segoe UI',sans-serif;}
+      .start-btn:disabled{background:var(--line);color:var(--ink-soft);cursor:not-allowed;}
+      .treatment-picker{margin:26px 0 6px;}
+      .tp-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
+      .tp-head .lbl{font-size:13.5px;font-weight:600;color:var(--ink);}
+      .tp-toggle-all{background:none;border:none;color:var(--teal-700);font-size:12.5px;font-weight:700;font-family:'Segoe UI',sans-serif;text-decoration:underline;padding:0;cursor:pointer;}
+      .tp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 10px;}
+      .tp-card{cursor:pointer;text-align:center;padding:12px 6px;border-radius:12px;border:1.5px solid transparent;transition:.15s;}
+      .tp-card:hover{background:var(--teal-100);}
+      .tp-card.selected{border-color:var(--teal-300);background:var(--teal-100);}
+      .tp-circle{width:58px;height:58px;border-radius:50%;background:var(--line);margin:0 auto 9px;display:flex;align-items:center;justify-content:center;transition:.15s;}
+      .tp-card.selected .tp-circle, .progress-fill, .imp-fill, .match-fill { background: #4a90d9 !important; }
+      .progress-fill, .imp-fill, .match-fill{display:block;height:100%;border-radius:inherit;min-width:2px;}
+      .tp-circle svg{width:24px;height:24px;display:none;}
+      .tp-card.selected .tp-circle svg{display:block;}
+      .tp-name{font-family:'Segoe UI',sans-serif;font-weight:700;font-size:13.5px;color:var(--teal-900);margin:0 0 3px;}
+      .tp-card.selected .tp-name, .rank-name { color: #2c5aa0; }
+      .tp-full{font-size:10.5px;color:var(--ink-soft);line-height:1.3;}
+      .tp-hint{font-size:12px;color:var(--ochre-600);margin-top:12px;}
+      .tp-hint.ok{visibility:hidden;}
+      .tie-notice{margin:18px 0;padding:18px 20px;background:var(--teal-100);border:1px solid var(--teal-150);border-radius:10px;font-size:13.5px;color:var(--ink);}
+      .progress-row{display:flex;align-items:center;gap:14px;margin-bottom:26px;}
+      .progress-track{flex:1;height:7px;background:var(--line-soft);border-radius:4px;overflow:hidden;}
+      .progress-label{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:var(--teal-700);white-space:nowrap;}
+      .task-intro{font-size:14px;color:var(--ink-soft);margin-bottom:20px;}
+      .profiles{display:grid;grid-template-columns:1fr 40px 1fr;gap:14px;align-items:stretch;}
+      .profile{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:22px 20px;display:flex;flex-direction:column;}
+      .profile-tag{font-family:'Segoe UI',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ochre-600);margin-bottom:14px;}
+      .attr-line{padding:9px 0;border-bottom:1px solid var(--line-soft);}
+      .attr-line:last-of-type{border-bottom:none;}
+      .attr-line .alabel{font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+      .attr-line .aval{font-size:13.5px;color:var(--ink);font-weight:500;}
+      .attr-line .lvl-bar{display:flex;gap:3px;flex:none;}
+      .attr-line .lvl-bar span{width:14px;height:7px;border-radius:2px;background:var(--line);}
+      .attr-line .lvl-bar.lvl-good span.filled{background:#3B9E6A;}
+      .attr-line .lvl-bar.lvl-mid  span.filled{background:#D97706;}
+      .attr-line .lvl-bar.lvl-bad  span.filled{background:#DC2626;}
+      .attr-info{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:var(--line);color:var(--ink-soft);font-size:10px;font-weight:700;font-style:normal;cursor:pointer;flex:none;margin-left:5px;transition:.15s;font-family:'Segoe UI',sans-serif;}
+      .attr-info:hover{background:var(--teal-300);color:var(--teal-900);}
+      .attr-tooltip{display:none;margin-top:5px;padding:9px 12px;background:var(--teal-100);border:1px solid var(--teal-150);border-radius:8px;font-size:12px;color:var(--teal-900);line-height:1.5;}
+      .attr-tooltip.open{display:block;}
+      .tie-row{margin-top:14px;display:flex;justify-content:center;}
+      .tie-btn{padding:10px 20px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);font-size:12.5px;font-weight:600;font-family:'Segoe UI',sans-serif;cursor:pointer;letter-spacing:.01em;}
+      .tie-btn:hover{border-color:var(--teal-300);color:var(--ink);}
+      .choose-btn{margin-top:18px;padding:12px 16px;border-radius:999px;border:1.5px solid #2c5aa0;background:#fff;color:#2c5aa0;font-size:13.5px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;font-family:'Segoe UI',sans-serif;}
+      .choose-btn:hover{background:#2c5aa0;color:#fff;}
+      .vs{display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',sans-serif;font-size:13px;color:var(--ink-soft);}
+      .byo-list{margin:24px 0 8px;display:flex;flex-direction:column;gap:9px;}
+      .byo-row{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:14px;background:var(--card);border:1.5px solid var(--line);border-radius:11px;padding:13px 16px;}
+      .byo-rank{font-family:'Segoe UI',sans-serif;font-weight:700;font-size:18px;color:var(--teal-700);text-align:center;}
+      .byo-label{font-size:14px;color:var(--ink);font-weight:500;}
+      .byo-arrows{display:flex;gap:6px;}
+      .byo-arrows button{width:30px;height:30px;border-radius:7px;border:1.5px solid var(--line);background:#fff;color:var(--teal-700);font-size:13px;line-height:1;}
+      .byo-arrows button:hover:not(:disabled){border-color:var(--teal-700);background:var(--teal-100);}
+      .byo-arrows button:disabled{opacity:.3;cursor:default;}
+      .byo-hint{font-size:12.5px;color:var(--ink-soft);margin:-2px 0 4px;}
+      .imp-row{display:grid;grid-template-columns:230px 1fr 46px;align-items:center;gap:12px;margin-bottom:11px;}
+      .imp-row .iname{font-size:13px;color:var(--ink);}
+      .imp-track{height:11px;background:var(--line-soft);border-radius:6px;overflow:hidden;}
+      .imp-pct{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:var(--teal-700);text-align:right;}
+      .compare-head{display:grid;grid-template-columns:190px 100px 100px 1fr;gap:10px;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:8px;}
+      .compare-row{display:grid;grid-template-columns:190px 100px 100px 1fr;align-items:center;gap:10px;margin-bottom:8px;}
+      .compare-row .clabel{font-size:13px;color:var(--ink);}
+      .compare-badge{font-family:'Segoe UI',sans-serif;font-size:12px;padding:5px 0;border-radius:6px;background:var(--teal-100);color:var(--teal-900);text-align:center;font-weight:600;}
+      .compare-delta{font-size:12px;}
+      .compare-delta.match{color:var(--teal-700);}
+      .compare-delta.diff{color:var(--ochre-600);}
+      .ranklist{margin-top:8px;}
+      .rank-card{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px 18px;margin-bottom:10px;}
+      .rank-card-main{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:14px;}
+      .rank-num{font-family:'Segoe UI',sans-serif;font-weight:700;font-size:19px;color:var(--teal-700);text-align:center;}
+      .rank-full{font-size:11.5px;color:var(--ink-soft);margin-top:1px;}
+      .rank-flag{font-size:10.5px;color:var(--ochre-600);margin-top:3px;}
+      .rank-match{text-align:right;min-width:60px;}
+      .match-label{font-size:10px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+      .match-track{height:7px;background:var(--line-soft);border-radius:5px;overflow:hidden;margin-top:5px;}
+      .rank-card.top{border-color:var(--teal-500);border-width:1.5px;}
+      .rank-explain-toggle{display:flex;align-items:center;gap:6px;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line-soft);cursor:pointer;font-size:12px;font-weight:700;color:var(--teal-700);font-family:'Segoe UI',sans-serif;background:none;border-left:none;border-right:none;border-bottom:none;width:100%;text-align:left;}
+      .rank-explain-toggle .arrow{transition:transform .2s;font-size:10px;}
+      .rank-explain-toggle.open .arrow{transform:rotate(180deg);}
+      .rank-explain-body{display:none;margin-top:10px;font-size:13px;color:var(--ink-soft);line-height:1.6;}
+      .rank-explain-body.open{display:block;}
+      .rank-explain-body .strength{color:var(--teal-700);font-weight:600;}
+      .rank-explain-body .weakness{color:var(--ochre-600);font-weight:600;}
+      .disclaimer{margin-top:30px;padding:16px 18px;background:var(--teal-100);border:1px solid var(--teal-150);border-radius:10px;font-size:12.5px;color:var(--ink-soft);}
+      .actions{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;}
+      .secondary-btn{padding:12px 22px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);font-size:13px;font-weight:700;font-family:'Segoe UI',sans-serif;letter-spacing:.02em;}
+      .secondary-btn:hover{border-color:var(--teal-300);}
+      @media (max-width:680px){.profiles{grid-template-columns:1fr;}.vs{padding:2px 0;}.rank-card{grid-template-columns:28px 1fr 90px;}.byo-row{grid-template-columns:26px 1fr auto;padding:11px 12px;}.compare-head,.compare-row{grid-template-columns:1fr 70px 70px;}.compare-head span:last-child{display:none;}}
+      @media (max-width:420px){.tp-grid{grid-template-columns:repeat(2,1fr);}}
+    </style>
 </head>
 
 <!-- Google tag (gtag.js) -->
@@ -37,224 +147,8 @@ gtag('config', 'G-N5F79SNVLK');
             </div>
         </div>
     </header>
-<style>
 
-  :root{
-    --paper:#F4F6F9; --card:#FFFFFF; --ink:#3D3D3D; --ink-soft:#6B7280;
-    --teal-900:#1E3A5F; --teal-700:#2C5282; --teal-500:#4F86C6;
-    --teal-300:#8FB4E0; --teal-150:#E8F0FA; --teal-100:#EFF4FB;
-    --ochre-600:#5B7290; --ochre-400:#9CA3AF;
-    --line:#E2E5EA; --line-soft:#EDF0F4;
-  }
-  *{box-sizing:border-box;}
-  
-  .page{max-width:920px;margin:0 auto;padding:44px 24px 70px;}
-  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-700);margin:0 0 14px;}
-  h1{font-weight:700;font-size:clamp(26px,4vw,38px);line-height:1.15;margin:0 0 16px;color:var(--teal-900);}
-  h2{font-weight:700;font-size:21px;color:var(--teal-900);margin:0 0 10px;}
-  p{margin:0 0 14px;color:var(--ink-soft);font-size:15px;}
-  p strong{color:var(--ink);font-weight:600;}
-  .screen{display:none;}
-  .screen.active{display:block;}
-  button{cursor:pointer;}
-
-  /* ---- intro ---- */
-  .howto{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:28px 0;}
-  .howto div{background:var(--card);padding:16px 18px;}
-  .howto .num{font-size:12px;color:var(--ochre-600);display:block;margin-bottom:6px;}
-  .howto p{margin:0;font-size:13.5px;}
-
-  .start-btn{
-    margin-top:28px;display:inline-block;padding:15px 32px;border-radius:999px;border:none;
-    background:var(--teal-700);color:#fff;font-size:13.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
-    
-  }
-  .start-btn:disabled{background:var(--line);color:var(--ink-soft);cursor:not-allowed;}
-
-  /* ---- treatment picker ---- */
-  .treatment-picker{margin:26px 0 6px;}
-  .tp-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
-  .tp-head .lbl{font-size:13.5px;font-weight:600;color:var(--ink);}
-  .tp-toggle-all{background:none;border:none;color:var(--teal-700);font-size:12.5px;font-weight:700;text-decoration:underline;padding:0;cursor:pointer;}
-  .tp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 10px;}
-  .tp-card{cursor:pointer;text-align:center;padding:12px 6px;border-radius:12px;border:1.5px solid transparent;transition:.15s;}
-  .tp-card:hover{background:var(--teal-100);}
-  .tp-card.selected{border-color:var(--teal-300);background:var(--teal-100);}
-  .tp-circle{
-    width:58px;height:58px;border-radius:50%;background:var(--line);margin:0 auto 9px;
-    display:flex;align-items:center;justify-content:center;transition:.15s;
-  }
-  .tp-card.selected .tp-circle{background:var(--teal-500);}
-  .tp-circle svg{width:24px;height:24px;display:none;}
-  .tp-card.selected .tp-circle svg{display:block;}
-  .tp-name{font-weight:700;font-size:13.5px;color:var(--teal-900);margin:0 0 3px;}
-  .tp-full{font-size:10.5px;color:var(--ink-soft);line-height:1.3;}
-  .tp-hint{font-size:12px;color:var(--ochre-600);margin-top:12px;}
-  .tp-hint.ok{visibility:hidden;}
-
-  /* ---- dynamic-length / tie notice on result screen ---- */
-  .tie-notice{
-    margin:18px 0;padding:18px 20px;background:var(--teal-100);border:1px solid var(--teal-150);
-    border-radius:10px;font-size:13.5px;color:var(--ink);
-  }
-
-  /* ---- task screen ---- */
-  .progress-row{display:flex;align-items:center;gap:14px;margin-bottom:26px;}
-  .progress-track{flex:1;height:7px;background:var(--line-soft);border-radius:4px;overflow:hidden;}
-  .progress-fill{height:100%;background:var(--teal-500);border-radius:4px;transition:width .25s ease;}
-  .progress-label{font-size:11.5px;color:var(--teal-700);white-space:nowrap;}
-
-  .task-intro{font-size:14px;color:var(--ink-soft);margin-bottom:20px;}
-
-  .profiles{display:grid;grid-template-columns:1fr 40px 1fr;gap:14px;align-items:stretch;}
-  .profile{
-    background:var(--card);border:1.5px solid var(--line);border-radius:14px;
-    padding:22px 20px;display:flex;flex-direction:column;
-  }
-  .profile-tag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ochre-600);margin-bottom:14px;}
-  .attr-line{padding:9px 0;border-bottom:1px solid var(--line-soft);}
-  .attr-line:last-of-type{border-bottom:none;}
-  .attr-line .alabel{font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
-  .attr-line .aval{font-size:13.5px;color:var(--ink);font-weight:500;}
-  .attr-line .lvl-bar{display:flex;gap:3px;flex:none;}
-  .attr-line .lvl-bar span{width:14px;height:7px;border-radius:2px;background:var(--line);}
-  .attr-line .lvl-bar.lvl-good span.filled{background:#3B9E6A;}
-  .attr-line .lvl-bar.lvl-mid  span.filled{background:#D97706;}
-  .attr-line .lvl-bar.lvl-bad  span.filled{background:#DC2626;}
-
-  /* ---- attribute tooltip ---- */
-  .attr-info{
-    display:inline-flex;align-items:center;justify-content:center;
-    width:15px;height:15px;border-radius:50%;background:var(--line);
-    color:var(--ink-soft);font-size:10px;font-weight:700;font-style:normal;
-    cursor:pointer;flex:none;margin-left:5px;transition:.15s;
-    
-  }
-  .attr-info:hover{background:var(--teal-300);color:var(--teal-900);}
-  .attr-tooltip{
-    display:none;margin-top:5px;padding:9px 12px;
-    background:var(--teal-100);border:1px solid var(--teal-150);border-radius:8px;
-    font-size:12px;color:var(--teal-900);line-height:1.5;
-  }
-  .attr-tooltip.open{display:block;}
-
-  /* ---- tie / equal button ---- */
-  .tie-row{
-    margin-top:14px;display:flex;justify-content:center;
-  }
-  .tie-btn{
-    padding:10px 20px;border-radius:999px;border:1.5px solid var(--line);background:#fff;
-    color:var(--ink-soft);font-size:12.5px;font-weight:600;
-    cursor:pointer;letter-spacing:.01em;
-  }
-  .tie-btn:hover{border-color:var(--teal-300);color:var(--ink);}
-  .choose-btn{
-    margin-top:18px;padding:12px 16px;border-radius:999px;border:1.5px solid var(--teal-700);
-    background:#fff;color:var(--teal-700);font-size:13.5px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
-    
-  }
-  .choose-btn:hover{background:var(--teal-700);color:#fff;}
-
-  .vs{
-    display:flex;align-items:center;justify-content:center;
-    font-size:13px;color:var(--ink-soft);
-  }
-
-  /* ---- BYO ranking screen ---- */
-  .byo-list{margin:24px 0 8px;display:flex;flex-direction:column;gap:9px;}
-  .byo-row{
-    display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:14px;
-    background:var(--card);border:1.5px solid var(--line);border-radius:11px;
-    padding:13px 16px;
-  }
-  .byo-rank{font-weight:700;font-size:18px;color:var(--teal-700);text-align:center;}
-  .byo-label{font-size:14px;color:var(--ink);font-weight:500;}
-  .byo-arrows{display:flex;gap:6px;}
-  .byo-arrows button{
-    width:30px;height:30px;border-radius:7px;border:1.5px solid var(--line);background:#fff;
-    color:var(--teal-700);font-size:13px;line-height:1;
-  }
-  .byo-arrows button:hover:not(:disabled){border-color:var(--teal-700);background:var(--teal-100);}
-  .byo-arrows button:disabled{opacity:.3;cursor:default;}
-  .byo-hint{font-size:12.5px;color:var(--ink-soft);margin:-2px 0 4px;}
-
-  /* ---- result screen ---- */
-  .imp-row{display:grid;grid-template-columns:230px 1fr 46px;align-items:center;gap:12px;margin-bottom:11px;}
-  .imp-row .iname{font-size:13px;color:var(--ink);}
-  .imp-track{height:11px;background:var(--line-soft);border-radius:6px;overflow:hidden;}
-  .imp-fill{height:100%;background:var(--teal-500);border-radius:6px;}
-  .imp-pct{font-size:11.5px;color:var(--teal-700);text-align:right;}
-
-  .compare-head{display:grid;grid-template-columns:190px 100px 100px 1fr;gap:10px;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:8px;}
-  .compare-row{display:grid;grid-template-columns:190px 100px 100px 1fr;align-items:center;gap:10px;margin-bottom:8px;}
-  .compare-row .clabel{font-size:13px;color:var(--ink);}
-  .compare-badge{font-size:12px;padding:5px 0;border-radius:6px;background:var(--teal-100);color:var(--teal-900);text-align:center;font-weight:600;}
-  .compare-delta{font-size:12px;}
-  .compare-delta.match{color:var(--teal-700);}
-  .compare-delta.diff{color:var(--ochre-600);}
-
-  .ranklist{margin-top:8px;}
-  .rank-card{
-    background:var(--card);border:1px solid var(--line);border-radius:11px;
-    padding:16px 18px;margin-bottom:10px;
-  }
-  .rank-card-main{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:14px;}
-  .rank-num{font-weight:700;font-size:19px;color:var(--teal-700);text-align:center;}
-  .rank-name{font-weight:700;font-size:16px;color:var(--teal-900);}
-  .rank-full{font-size:11.5px;color:var(--ink-soft);margin-top:1px;}
-  .rank-flag{font-size:10.5px;color:var(--ochre-600);margin-top:3px;}
-  .rank-match{text-align:right;min-width:60px;}
-  .match-label{font-size:10px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
-  .match-track{height:7px;background:var(--line-soft);border-radius:5px;overflow:hidden;margin-top:5px;}
-  .match-fill{height:100%;background:var(--teal-500);border-radius:5px;}
-  .rank-card.top{border-color:var(--teal-500);border-width:1.5px;}
-
-  /* explanation toggle */
-  .rank-explain-toggle{
-    display:flex;align-items:center;gap:6px;margin-top:12px;padding-top:10px;
-    border-top:1px dashed var(--line-soft);cursor:pointer;
-    font-size:12px;font-weight:700;color:var(--teal-700);
-    background:none;border-left:none;border-right:none;border-bottom:none;width:100%;text-align:left;
-  }
-  .rank-explain-toggle .arrow{transition:transform .2s;font-size:10px;}
-  .rank-explain-toggle.open .arrow{transform:rotate(180deg);}
-  .rank-explain-body{display:none;margin-top:10px;font-size:13px;color:var(--ink-soft);line-height:1.6;}
-  .rank-explain-body.open{display:block;}
-  .rank-explain-body .strength{color:var(--teal-700);font-weight:600;}
-  .rank-explain-body .weakness{color:var(--ochre-600);font-weight:600;}
-
-  .disclaimer{
-    margin-top:30px;padding:16px 18px;background:var(--teal-100);border:1px solid var(--teal-150);
-    border-radius:10px;font-size:12.5px;color:var(--ink-soft);
-  }
-  .actions{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;}
-  .secondary-btn{
-    padding:12px 22px;border-radius:999px;border:1.5px solid var(--line);background:#fff;
-    color:var(--ink-soft);font-size:13px;font-weight:700;letter-spacing:.02em;
-  }
-  .secondary-btn:hover{border-color:var(--teal-300);}
-
-  @media (max-width:680px){
-    .profiles{grid-template-columns:1fr;}
-    .vs{padding:2px 0;}
-    .rank-card{grid-template-columns:28px 1fr 90px;}
-    .byo-row{grid-template-columns:26px 1fr auto;padding:11px 12px;}
-    .compare-head,.compare-row{grid-template-columns:1fr 70px 70px;}
-    .compare-head span:last-child{display:none;}
-  }
-  @media (max-width:420px){
-    .tp-grid{grid-template-columns:repeat(2,1fr);}
-  }
- /* Remove body overrides to keep site styles */
-.page { margin-top: 20px; }
-.tp-card.selected .tp-name, .rank-name { color: #2c5aa0; }
-.tp-card.selected .tp-circle, .progress-fill, .imp-fill, .match-fill { background: #4a90d9 !important; }
-.start-btn, .choose-btn:hover { background: #2c5aa0 !important; border-color: #2c5aa0 !important; }
-.choose-btn { color: #2c5aa0 !important; border-color: #2c5aa0 !important; }
-</style>
-
-<main class="page">
-
+<main class="page active">
 
   <!-- ================= INTRO ================= -->
   <section id="screen-intro" class="screen active">
@@ -281,21 +175,22 @@ gtag('config', 'G-N5F79SNVLK');
     <button class="start-btn" id="startBtn">Næste: ranger dine prioriteter →</button>
   </section>
 
-  <!-- ================= BYO: RANK YOUR OWN PRIORITIES ================= -->
+  <!-- ================= BYO ================= -->
   <section id="screen-byo" class="screen">
     <p class="eyebrow">Trin 1 af 2 · dine egne prioriteter</p>
     <h1>Ranger de fem forhold efter, hvad der betyder mest for dig</h1>
     <p>Brug pilene til at sætte det vigtigste øverst og det mindst vigtige nederst. Der er ingen rigtige eller forkerte svar — det er din egen vurdering.</p>
+    <p><strong>Bemærk:</strong> Hvis du placerer <em>lav risiko for ny behandling indenfor 5 år</em> højt, betyder det, at du især vil undgå genbehandling. Højt i listen = vigtigst for dig, ikke noget du ønsker at få mere af.</p>
     <p class="byo-hint">Dette bruges som udgangspunkt for dine efterfølgende valg, som derefter tester og forfiner billedet ud fra dine faktiske valg.</p>
 
     <div class="byo-list" id="byoList"></div>
 
-    <button class="start-btn" id="byoContinueBtn">Start valgene →</button>
+    <button class="start-btn" id="byoContinueBtn">Start testen →</button>
   </section>
 
   <!-- ================= TASK ================= -->
   <section id="screen-task" class="screen">
-    <p class="eyebrow">Trin 2 af 2 · valgene</p>
+    <p class="eyebrow">Trin 2 af 2 · personlige valg</p>
     <div class="progress-row">
       <span class="progress-label" id="progressLabel">Spørgsmål 1 af 9</span>
       <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
@@ -331,7 +226,7 @@ gtag('config', 'G-N5F79SNVLK');
       <h2 style="margin-top:34px;">Din rangering vs. hvad dine valg afslørende</h2>
       <p>Det er helt normalt — og interessant — hvis det du rangerede højest ikke altid var det, der afgjorde dine faktiske valg.</p>
       <details style="margin-bottom:6px;">
-        <summary style="cursor:pointer;font-size:12.5px;color:var(--teal-700);font-weight:600;list-style:none;display:flex;align-items:center;gap:6px;">
+        <summary style="cursor:pointer;font-size:12.5px;color:var(--teal-700);font-weight:600;font-family:'Segoe UI',sans-serif;list-style:none;display:flex;align-items:center;gap:6px;">
           <span>▶</span> Hvad betyder tallene her?
         </summary>
         <p style="margin-top:8px;font-size:12.5px;color:var(--ink-soft);background:var(--teal-100);border-radius:8px;padding:10px 14px;">
@@ -358,10 +253,589 @@ gtag('config', 'G-N5F79SNVLK');
     </div>
   </section>
 
-
 </main>
 
 <script>
+
+(function(){
+
+  const ATTRS = [
+    { key:'effekt', label:'Symptomeffekt',
+      tooltip:'Hvor meget dine vandladningsgener forbedres — fx hyppighed, urinstråle og fornemmelse af fuld blæretømning.',
+      levels:{1:{raw:1.5, text:'Moderat bedring af vandladningsgener'},
+              2:{raw:3,   text:'Stor bedring af vandladningsgener'},
+              3:{raw:5,   text:'Meget stor og hurtig bedring af vandladningsgener'}} },
+    { key:'genbehandling', label:'Lav risiko for ny behandling indenfor 5 år',
+      tooltip:'Sandsynligheden for at behandlingen ikke holder, og at du inden for 5 år har behov for endnu et indgreb. Hvis du vægter dette højt, betyder det, at du især vil undgå genbehandling.',
+      levels:{1:{raw:1.5, text:'Lav risiko for at skulle behandles igen indenfor 5 år'},
+              2:{raw:3,   text:'Middel risiko for at skulle behandles igen indenfor 5 år'},
+              3:{raw:5,   text:'Høj risiko for at skulle behandles igen indenfor 5 år'}} },
+    { key:'sex', label:'Påvirkning af sædafgang/rejsningsevne',
+      tooltip:'Om behandlingen påvirker sædafgang (retrograd ejakulation: sæden løber bagud i blæren i stedet for ud) og/eller evnen til rejsning.',
+      levels:{1:{raw:1.5, text:'Lille påvirkning af sædafgang og rejsningsevne'},
+              2:{raw:3,   text:'Moderat påvirkning af sædafgang og rejsningsevne'},
+              3:{raw:5,   text:'Stor påvirkning — sædafgang udebliver ofte'}} },
+    { key:'kateter', label:'Behov for kateter efter indgrebet',
+      tooltip:'Om du skal have et kateter (tynd slange i urinrøret) efter behandlingen mens vævet heler, og i så fald hvor længe.',
+      levels:{1:{raw:1.5, text:'Sjældent behov for kateter — eller kun ganske kortvarigt'},
+              2:{raw:3,   text:'Kateter i typisk 1-2 dage'},
+              3:{raw:5,   text:'Kateter i typisk en uge eller mere'}} },
+    { key:'belastning', label:'Belastning ved selve indgrebet',
+      tooltip:'Hvor krævende selve indgrebet er — om du kan tage hjem samme dag med lokalbedøvelse, eller om det kræver indlæggelse og fuld bedøvelse.',
+      levels:{1:{raw:1.5, text:'Lokalbedøvelse, ambulant — hjem samme dag'},
+              2:{raw:3,   text:'Bedøvelse og kort indlæggelse'},
+              3:{raw:5,   text:'Fuld bedøvelse og længere indlæggelse'}} }
+  ];
+
+  const TREATMENTS = [
+    {key:'tui-p',    name:'TUIP',    full:'Transurethral incision af prostata',            cat:'Kirurgisk · lille indgreb', values:{effekt:4,genbehandling:3,sex:2,kateter:2,belastning:3}, size:[0,30]},
+    {key:'tur-p',    name:'TURP',    full:'Transurethral resektion af prostata',           cat:'Kirurgisk · resektion',     values:{effekt:5,genbehandling:3,sex:5,kateter:3,belastning:4}, size:[15,100]},
+    {key:'pvp',     name:'PVP',     full:'Fotoselektiv laser-vaporisering (fx GreenLight)',cat:'Laserbehandling',           values:{effekt:5,genbehandling:2,sex:4,kateter:2,belastning:3}, size:[10,150]},
+    {key:'aeep',    name:'AEEP',    full:'Anatomisk laser-enukleation (fx HoLEP/ThuLEP)',  cat:'Laserbehandling',           values:{effekt:5,genbehandling:1,sex:5,kateter:2,belastning:4}, size:[0,200]},
+    {key:'rasp',    name:'RASP',    full:'Robotassisteret simpel prostatektomi',           cat:'Robotkirurgi',              values:{effekt:5,genbehandling:2,sex:5,kateter:5,belastning:5}, size:[80,200]},
+    {key:'pae',     name:'PAE',     full:'Prostata-arterie-embolisering',                  cat:'Røntgenvejledt',            values:{effekt:3,genbehandling:4,sex:1,kateter:1,belastning:1}, size:[15,200]},
+    {key:'tumt',    name:'TUMT',    full:'Transurethral mikrobølgebehandling',             cat:'Varmebehandling',           values:{effekt:2,genbehandling:5,sex:2,kateter:4,belastning:1}, size:[10,60]},
+    {key:'urolift', name:'UroLift', full:'Prostatisk uretral lift',                        cat:'Minimalt invasivt',         values:{effekt:3,genbehandling:4,sex:1,kateter:1,belastning:1}, size:[30,80]},
+    {key:'rezum',   name:'Rezum',   full:'Vanddampsbehandling',                            cat:'Minimalt invasivt',         values:{effekt:3,genbehandling:3,sex:2,kateter:4,belastning:1}, size:[10,80]}
+  ];
+
+  const MIN_TASKS = 3;
+  const MAX_TASKS = 15;
+
+  let state = null;
+  let byoOrder = [];
+  let selectedTreatments = new Set();
+
+  function freshState(byoRank, prostateSize){
+    const score = {}, appearances = {}, realApp = {};
+    ATTRS.forEach(a=>{ score[a.key]={1:0,2:0,3:0}; appearances[a.key]={1:0,2:0,3:0}; realApp[a.key]=0; });
+    return { taskIndex:0, score, appearances, realApp, currentTask:null,
+              prostateSize: prostateSize || 'unknown',
+              byoRank: byoRank || ATTRS.map(a=>a.key),
+              selectedKeys: [], activeAttrs: [], totalTasks: MAX_TASKS, isTie:false };
+  }
+
+  function computeActiveAttrs(selectedKeys){
+    const sel = TREATMENTS.filter(t=>selectedKeys.includes(t.key));
+    return ATTRS.map(a=>a.key).filter(k=>{
+      const vals = sel.map(t=>t.values[k]);
+      return Math.max(...vals) - Math.min(...vals) > 0;
+    });
+  }
+
+  function tasksNeededFor(activeAttrs){
+    if(activeAttrs.length===0) return 0;
+    return Math.min(MAX_TASKS, Math.max(MIN_TASKS, activeAttrs.length*2+1));
+  }
+
+  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+  function twoDistinctLevels(){
+    const a = randInt(1,3);
+    let b; do{ b = randInt(1,3); } while(b===a);
+    return Math.random()<0.5 ? [a,b] : [b,a];
+  }
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+    return a;
+  }
+
+  function preferredLevel(key){ return key==='effekt' ? 3 : 1; }
+  function oppositeLevel(key){ return key==='effekt' ? 1 : 3; }
+
+  function seedFromByo(byoRank){
+    byoRank.forEach((key, idx)=>{
+      const rank = idx+1;
+      const k = (6-rank)*0.5;
+      const pref = preferredLevel(key), opp = oppositeLevel(key);
+      state.score[key][pref] += k;  state.score[key][opp] -= k;
+      state.appearances[key][pref] += k; state.appearances[key][opp] += k;
+    });
+  }
+
+  function generateByoValidationTask(byoRank){
+    const top = byoRank[0], bottom = byoRank[byoRank.length-1];
+    const profA={}, profB={};
+    ATTRS.forEach(a=>{
+      if(a.key===top){ profA[a.key]=preferredLevel(top); profB[a.key]=oppositeLevel(top); }
+      else if(a.key===bottom){ profA[a.key]=oppositeLevel(bottom); profB[a.key]=preferredLevel(bottom); }
+      else { const [la,lb]=twoDistinctLevels(); profA[a.key]=la; profB[a.key]=lb; }
+    });
+    return {profA, profB, forced:[top,bottom]};
+  }
+
+  function generateAdaptiveTask(){
+    const pw = computePartworths();
+    function rangeOf(key){ const v=[pw[key][1],pw[key][2],pw[key][3]]; return Math.max(...v)-Math.min(...v); }
+
+    let pool = state.activeAttrs.slice();
+    if(pool.length<2){
+      const rest = ATTRS.map(a=>a.key).filter(k=>!pool.includes(k));
+      pool = pool.concat(rest);
+    }
+    pool.sort((a,b)=> (state.realApp[a]-state.realApp[b]) || (rangeOf(a)-rangeOf(b)) );
+    const forceKeys = [pool[0], pool[1]];
+
+    const profA={}, profB={};
+    ATTRS.forEach(a=>{
+      if(a.key===forceKeys[0]){ profA[a.key]=3; profB[a.key]=1; }
+      else if(a.key===forceKeys[1]){ profA[a.key]=1; profB[a.key]=3; }
+      else { const [la,lb]=twoDistinctLevels(); profA[a.key]=la; profB[a.key]=lb; }
+    });
+    return {profA, profB, forced:forceKeys};
+  }
+
+  function nextTask(){
+    state.currentTask = state.taskIndex===0
+      ? generateByoValidationTask(state.byoRank)
+      : generateAdaptiveTask();
+  }
+
+  function recordChoice(chosenSide){
+    const {profA, profB, forced} = state.currentTask;
+    const isTieVote = (chosenSide === 'tie');
+    const weight = isTieVote ? 0.25 : 1;
+    if(isTieVote){
+      forced.forEach(key=>{
+        [1,2,3].forEach(l=>{
+          state.appearances[key][l] += weight;
+        });
+        state.realApp[key] += weight;
+      });
+      return;
+    }
+    const chosen = chosenSide==='A' ? profA : profB;
+    const rejected = chosenSide==='A' ? profB : profA;
+    forced.forEach(key=>{
+      const lc = chosen[key], lr = rejected[key];
+      if(lc!==lr){
+        state.score[key][lc]+=1; state.appearances[key][lc]+=1;
+        state.score[key][lr]-=1; state.appearances[key][lr]+=1;
+        state.realApp[key]+=1;
+      }
+    });
+  }
+
+  function computePartworths(){
+    const pw={};
+    ATTRS.forEach(a=>{
+      pw[a.key]={};
+      [1,2,3].forEach(l=>{
+        const app = state.appearances[a.key][l];
+        pw[a.key][l] = app>0 ? state.score[a.key][l]/app : 0;
+      });
+    });
+    return pw;
+  }
+
+  function partworthAt(attrKey, rawValue, pw){
+    const p1=pw[attrKey][1], p2=pw[attrKey][2], p3=pw[attrKey][3];
+    if(rawValue<=1.5) return p1;
+    if(rawValue>=5)   return p3;
+    if(rawValue<=3)   return p1 + (p2-p1)*(rawValue-1.5)/(3-1.5);
+    return p2 + (p3-p2)*(rawValue-3)/(5-3);
+  }
+
+  const checkSvg = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5L9.5 17L19 7" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function renderTreatmentPicker(){
+    const grid = document.getElementById('tpGrid');
+    grid.innerHTML='';
+    TREATMENTS.forEach(t=>{
+      const card=document.createElement('div');
+      card.className='tp-card'+(selectedTreatments.has(t.key)?' selected':'');
+      card.dataset.key=t.key;
+      card.innerHTML =
+        '<div class="tp-circle">'+checkSvg+'</div>'+
+        '<div class="tp-name">'+t.name+'</div>'+
+        '<div class="tp-full">'+t.full+'</div>';
+      grid.appendChild(card);
+    });
+    updateTpHint();
+    syncUrlWithSelection();
+  }
+
+  function toggleTreatment(key){
+    if(selectedTreatments.has(key)) selectedTreatments.delete(key);
+    else selectedTreatments.add(key);
+    renderTreatmentPicker();
+  }
+
+  function syncUrlWithSelection(){
+    const params = new URLSearchParams(window.location.search);
+    if(selectedTreatments.size>0){
+      params.set('treatments', Array.from(selectedTreatments).join(','));
+    } else {
+      params.delete('treatments');
+    }
+    const qs = params.toString();
+    const newUrl = window.location.pathname + (qs ? '?'+qs : '');
+    try{ history.replaceState(null, '', newUrl); } catch(e){ }
+  }
+
+  function loadSelectionFromUrl(){
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('treatments');
+    if(!raw) return;
+    const keys = raw.split(',').map(s=>s.trim()).filter(k=>TREATMENTS.some(t=>t.key===k));
+    if(keys.length>0) selectedTreatments = new Set(keys);
+  }
+
+  function updateTpHint(){
+    const hint = document.getElementById('tpHint');
+    const ok = selectedTreatments.size>=2;
+    hint.classList.toggle('ok', ok);
+    document.getElementById('tpToggleAll').textContent = selectedTreatments.size===0 ? 'Vælg alle' : 'Fravælg alle';
+  }
+
+  function attrLabel(key){ return ATTRS.find(a=>a.key===key).label; }
+
+  function renderByoList(){
+    byoOrder = shuffle(ATTRS.map(a=>a.key));
+    drawByoList();
+  }
+
+  function drawByoList(){
+    const wrap = document.getElementById('byoList');
+    wrap.innerHTML='';
+    byoOrder.forEach((key, idx)=>{
+      const row=document.createElement('div');
+      row.className='byo-row';
+      row.innerHTML =
+        '<div class="byo-rank">'+(idx+1)+'</div>'+
+        '<div class="byo-label">'+attrLabel(key)+'</div>'+
+        '<div class="byo-arrows">'+
+          '<button type="button" data-dir="up" data-idx="'+idx+'" '+(idx===0?'disabled':'')+'>▲</button>'+
+          '<button type="button" data-dir="down" data-idx="'+idx+'" '+(idx===byoOrder.length-1?'disabled':'')+'>▼</button>'+
+        '</div>';
+      wrap.appendChild(row);
+    });
+  }
+
+  function moveByoItem(idx, dir){
+    const swapWith = dir==='up' ? idx-1 : idx+1;
+    if(swapWith<0 || swapWith>=byoOrder.length) return;
+    const tmp = byoOrder[idx]; byoOrder[idx]=byoOrder[swapWith]; byoOrder[swapWith]=tmp;
+    drawByoList();
+  }
+
+  const ATTR_INVERTED = new Set(['genbehandling','sex','kateter','belastning']);
+
+  function levelBarHtml(attrKey, level){
+    const filled = ATTR_INVERTED.has(attrKey) ? (4 - level) : level;
+    const colorClass = filled === 3 ? 'lvl-good' : filled === 2 ? 'lvl-mid' : 'lvl-bad';
+    let segs='';
+    for(let i=1;i<=3;i++){ segs += '<span'+(i<=filled?' class="filled"':'')+'></span>'; }
+    return '<div class="lvl-bar '+colorClass+'">'+segs+'</div>';
+  }
+
+  function renderAttrLines(container, profile){
+    container.innerHTML='';
+    ATTRS.forEach(a=>{
+      const levelNum = profile[a.key];
+      const lvl = a.levels[levelNum];
+      const row = document.createElement('div');
+      row.className = 'attr-line';
+      const tooltipId = 'tt-'+container.id+'-'+a.key;
+      row.innerHTML =
+        '<div class="alabel">'+
+          '<span>'+a.label+'</span>'+
+          '<span style="display:flex;align-items:center;gap:4px;">'+
+            levelBarHtml(a.key, levelNum)+
+            '<i class="attr-info" data-tooltip="'+tooltipId+'" title="">ℹ</i>'+
+          '</span>'+
+        '</div>'+
+        '<div class="aval">'+lvl.text+'</div>'+
+        '<div class="attr-tooltip" id="'+tooltipId+'">'+a.tooltip+'</div>';
+      container.appendChild(row);
+    });
+    
+    container.querySelectorAll('.attr-info').forEach(btn=>{
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        const tt = document.getElementById(this.dataset.tooltip);
+        tt.classList.toggle('open');
+      });
+    });
+  }
+
+  function renderTask(){
+    document.getElementById('progressLabel').textContent = 'Spørgsmål '+(state.taskIndex+1) + (state.taskIndex > 8 ? ' (ekstra spørgsmål for sikkerhed)' : ' af ca. 10');
+    document.getElementById('progressFill').style.width = Math.min((state.taskIndex/10)*100, 100)+'%';
+    renderAttrLines(document.getElementById('profileA'), state.currentTask.profA);
+    renderAttrLines(document.getElementById('profileB'), state.currentTask.profB);
+  }
+
+  function renderResult(){
+    document.getElementById('resultH1').textContent = state.isTie ? 'De valgte behandlinger er ens på de fem målte forhold' : 'Sådan vægter du de fem forhold';
+    document.getElementById('tieNotice').style.display = state.isTie ? 'block' : 'none';
+    document.getElementById('prefsSection').style.display = state.isTie ? 'none' : 'block';
+
+    if(state.isTie){
+      document.getElementById('resultIntro').textContent = 'Vi sprang spørgsmålene over, fordi de behandlinger, du valgte at sammenligne, ikke adskiller sig på effekt, genbehandlingsrisiko, seksuel påvirkning, kateterbehov eller belastning.';
+      document.getElementById('tieNotice').innerHTML =
+        'De behandlinger, du valgte, er identiske på de fem forhold, denne test måler på. Forskellen mellem dem ligger i andre ting — fx metode, tilgængelighed, eller din urologs erfaring med den enkelte behandling — som denne test ikke dækker. Tal med din urolog om, hvad der adskiller dem i praksis.';
+    } else {
+      document.getElementById('resultIntro').textContent = 'Baseret på dine valg — jo bredere fordeling mellem niveauerne for et forhold, jo mere har det styret dine valg.';
+    }
+
+    const pw = computePartworths();
+    const importancesRaw = ATTRS.map(a=>{
+      const v=[pw[a.key][1],pw[a.key][2],pw[a.key][3]];
+      return {key:a.key, label:a.label, range:Math.max(...v)-Math.min(...v)};
+    });
+    const sumRange = importancesRaw.reduce((s,i)=>s+i.range,0) || 1;
+    importancesRaw.forEach(i=> i.pct = Math.round(i.range/sumRange*100));
+    const importancesSorted = importancesRaw.slice().sort((a,b)=>b.pct-a.pct);
+
+    const impWrap = document.getElementById('importanceList');
+    impWrap.innerHTML='';
+    importancesSorted.forEach(i=>{
+      const row=document.createElement('div');
+      row.className='imp-row';
+      row.innerHTML =
+        '<div class="iname">'+i.label+'</div>'+
+        '<div class="imp-track"><div class="imp-fill" style="width:'+Math.max(i.pct,3)+'%"></div></div>'+
+        '<div class="imp-pct">'+i.pct+'%</div>';
+      impWrap.appendChild(row);
+    });
+
+    const revealedRankByKey = {};
+    importancesSorted.forEach((i, idx)=>{ revealedRankByKey[i.key] = idx+1; });
+
+    const compareWrap = document.getElementById('compareList');
+    compareWrap.innerHTML='';
+    state.byoRank.forEach((key, idx)=>{
+      const statedRank = idx+1;
+      const revealedRank = revealedRankByKey[key];
+      const diff = statedRank - revealedRank;
+      let deltaText, deltaClass;
+      if(diff===0){ deltaText='Stemmer overens'; deltaClass='match'; }
+      else if(diff>0){ deltaText='Fyldte mere i dine valg end ventet'; deltaClass='diff'; }
+      else { deltaText='Fyldte mindre i dine valg end ventet'; deltaClass='diff'; }
+      const row=document.createElement('div');
+      row.className='compare-row';
+      row.innerHTML =
+        '<div class="clabel">'+attrLabel(key)+'</div>'+
+        '<div class="compare-badge">#'+statedRank+'</div>'+
+        '<div class="compare-badge">#'+revealedRank+'</div>'+
+        '<div class="compare-delta '+deltaClass+'">'+deltaText+'</div>';
+      compareWrap.appendChild(row);
+    });
+
+    const candidates = TREATMENTS.filter(t=>state.selectedKeys.includes(t.key));
+    const scored = candidates.map(t=>{
+      let total=0;
+      ATTRS.forEach(a=>{ total += partworthAt(a.key, t.values[a.key], pw); });
+      return {t, total};
+    });
+    if (scored.length > 0) {
+      const min = Math.min(...scored.map(s=>s.total));
+      const max = Math.max(...scored.map(s=>s.total));
+      scored.forEach(s=> s.matchPct = (max>min) ? Math.round((s.total-min)/(max-min)*100) : 100);
+      scored.sort((a,b)=>b.total-a.total);
+    }
+
+    const rankWrap = document.getElementById('rankList');
+    rankWrap.innerHTML='';
+    scored.forEach((s,idx)=>{
+      const card=document.createElement('div');
+      card.className='rank-card'+(idx===0 && !state.isTie?' top':'');
+
+      const explanation = buildExplanation(s.t, pw, importancesSorted);
+
+      card.innerHTML =
+        '<div class="rank-card-main">'+
+          '<div class="rank-num">'+(idx+1)+'</div>'+
+          '<div>'+
+            '<div class="rank-name">'+s.t.name+'</div>'+
+            '<div class="rank-full">'+s.t.full+' · '+s.t.cat+'</div>'+
+          '</div>'+
+          '<div class="rank-match">'+
+            '<div class="match-label">Match</div>'+
+            '<div class="match-track"><div class="match-fill" style="width:'+Math.max(s.matchPct,4)+'%"></div></div>'+
+          '</div>'+
+        '</div>'+
+        '<button class="rank-explain-toggle" type="button">'+
+          '<span class="arrow">▼</span> Hvorfor dette match?'+
+        '</button>'+
+        '<div class="rank-explain-body">'+explanation+'</div>';
+
+      card.querySelector('.rank-explain-toggle').addEventListener('click', function(){
+        this.classList.toggle('open');
+        card.querySelector('.rank-explain-body').classList.toggle('open');
+      });
+
+      rankWrap.appendChild(card);
+    });
+  }
+
+  function buildExplanation(treatment, pw, importancesSorted){
+    const attrMeta = {
+      effekt:       { label:'symptomeffekt',              goodVal:5, dir:1  },
+      genbehandling:{ label:'risiko for ny behandling',   goodVal:1, dir:-1 },
+      sex:          { label:'seksuel påvirkning',         goodVal:1, dir:-1 },
+      kateter:      { label:'kateterbehov efter indgrebet', goodVal:1, dir:-1 },
+      belastning:   { label:'belastning ved indgrebet',   goodVal:1, dir:-1 }
+    };
+
+    const attrScores = ATTRS.map(a=>{
+      const meta = attrMeta[a.key];
+      const val = treatment.values[a.key];
+      const impRank = importancesSorted.findIndex(x=>x.key===a.key) + 1;
+      const imp = importancesSorted.find(x=>x.key===a.key).pct;
+
+      const goodness = meta.dir === 1
+        ? (val - 1) / 4
+        : (5 - val) / 4;
+
+      return { key: a.key, label: meta.label, val, imp, impRank, goodness };
+    }).sort((a,b)=>b.imp-a.imp);
+
+    const top1 = attrScores[0];
+    const top2 = attrScores[1];
+    const strengths = attrScores.filter(a=>a.goodness>=0.6 && a.impRank<=3);
+    const weaknesses = attrScores.filter(a=>a.goodness<=0.35 && a.impRank<=3);
+
+    const levelText = (attr) => {
+      const v = attr.val;
+      const m = attrMeta[attr.key];
+      if(attr.key==='effekt') return v>=4 ? 'god til meget god' : v===3 ? 'moderat' : 'begrænset';
+      if(attr.key==='sex') return v<=1 ? 'minimal' : v<=2 ? 'lav til moderat' : v<=3 ? 'moderat' : 'betydelig';
+      if(attr.key==='genbehandling') return v<=1 ? 'meget lav' : v<=2 ? 'lav' : v<=3 ? 'middel' : v<=4 ? 'forhøjet' : 'høj';
+      if(attr.key==='kateter') return v<=1 ? 'sjældent kateter' : v<=2 ? 'kort kateterperiode' : v<=3 ? 'nogle dages kateter' : 'en uges kateter eller mere';
+      if(attr.key==='belastning') return v<=1 ? 'meget lav' : v<=2 ? 'lav' : v<=3 ? 'moderat' : v<=4 ? 'høj' : 'meget høj';
+    };
+
+    let parts = [];
+
+    if(top1.goodness >= 0.6){
+      parts.push('På det du vægter højest — <span class="strength">'+top1.label+'</span> — klarer '+treatment.name+' sig godt med '+levelText(top1)+' påvirkning.');
+    } else if(top1.goodness <= 0.35){
+      parts.push('På det du vægter højest — <span class="weakness">'+top1.label+'</span> — er '+treatment.name+' ikke det stærkeste valg, da niveauet her er '+levelText(top1)+'.');
+    } else {
+      parts.push('På dit vigtigste kriterium — <span class="strength">'+top1.label+'</span> — ligger '+treatment.name+' på et midterniveau med '+levelText(top1)+'.');
+    }
+
+    if(top2.goodness >= 0.6){
+      parts.push('Hvad angår <span class="strength">'+top2.label+'</span>, som er din næstvigtigste prioritet, scorer behandlingen ligeledes gunstigt ('+levelText(top2)+').');
+    } else if(top2.goodness <= 0.35){
+      parts.push('Din næstvigtigste prioritet er <span class="weakness">'+top2.label+'</span>, og her er '+treatment.name+' en svagere kandidat med '+levelText(top2)+'.');
+    } else {
+      parts.push('På din næstvigtigste prioritet — '+top2.label+' — er billedet mere blandet ('+levelText(top2)+').');
+    }
+
+    const noted = new Set([top1.key, top2.key]);
+    const bonus = strengths.find(a=>!noted.has(a.key));
+    const malus = weaknesses.find(a=>!noted.has(a.key));
+    if(bonus){
+      parts.push('Derudover er behandlingens <span class="strength">'+bonus.label+'</span> et plus for netop dit præferencemønster ('+levelText(bonus)+').');
+    } else if(malus){
+      parts.push('Bemærk dog at <span class="weakness">'+malus.label+'</span> er en svaghed for denne behandling set i lyset af dine præferencer ('+levelText(malus)+').');
+    }
+
+    return '<p>'+parts.join(' ')+'</p>';
+  }
+
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function goToByo(){
+    if(selectedTreatments.size<2){
+      document.getElementById('tpHint').classList.remove('ok');
+      document.getElementById('treatmentPickerSection').scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+    renderByoList();
+    showScreen('screen-byo');
+  }
+
+  function startTest(){
+    state = freshState(byoOrder.slice(), 'unknown');
+    state.selectedKeys = Array.from(selectedTreatments);
+    seedFromByo(state.byoRank);
+    state.activeAttrs = computeActiveAttrs(state.selectedKeys);
+    state.totalTasks = tasksNeededFor(state.activeAttrs);
+
+    if(state.totalTasks===0){
+      state.isTie = true;
+      renderResult();
+      showScreen('screen-result');
+      return;
+    }
+    nextTask();
+    renderTask();
+    showScreen('screen-task');
+  }
+
+  function isBestTreatmentCertain() {
+    if (state.taskIndex < 5) return false;
+    const pw = computePartworths();
+    const candidates = TREATMENTS.filter(t=>state.selectedKeys.includes(t.key));
+ 
+    if (candidates.length < 2) return true;
+    const scored = candidates.map(t=>{
+      let total=0;
+      ATTRS.forEach(a=>{ total += partworthAt(a.key, t.values[a.key], pw); });
+      return {t, total};
+    });
+    scored.sort((a,b)=>b.total-a.total);
+    const diff = scored[0].total - scored[1].total;
+    return diff > 1.0;
+  }
+
+  function handleChoice(side){
+    recordChoice(side);
+    state.taskIndex++;
+    if(isBestTreatmentCertain() || state.taskIndex >= 15){
+      renderResult();
+      showScreen('screen-result');
+    } else {
+      nextTask();
+      renderTask();
+    }
+  }
+
+  function resetToIntro(){
+    selectedTreatments = new Set();
+    renderTreatmentPicker();
+    showScreen('screen-intro');
+  }
+
+  document.getElementById('tpGrid').addEventListener('click', function(e){
+    const card = e.target.closest('.tp-card');
+    if(!card) return;
+    toggleTreatment(card.dataset.key);
+  });
+
+  document.getElementById('tpToggleAll').addEventListener('click', function(){
+    if(selectedTreatments.size===0) selectedTreatments = new Set(TREATMENTS.map(t=>t.key));
+    else selectedTreatments.clear();
+    renderTreatmentPicker();
+  });
+
+  document.getElementById('byoList').addEventListener('click', function(e){
+    const btn = e.target.closest('button[data-dir]');
+    if(!btn) return;
+    moveByoItem(parseInt(btn.dataset.idx,10), btn.dataset.dir);
+  });
+
+  document.getElementById('startBtn').addEventListener('click', goToByo);
+  document.getElementById('byoContinueBtn').addEventListener('click', startTest);
+  document.getElementById('chooseA').addEventListener('click', ()=>handleChoice('A'));
+  document.getElementById('chooseB').addEventListener('click', ()=>handleChoice('B'));
+  document.getElementById('chooseTie').addEventListener('click', ()=>handleChoice('tie'));
+  document.getElementById('restartBtn').addEventListener('click', resetToIntro);
+  document.getElementById('printBtn').addEventListener('click', ()=>window.print());
+
+  loadSelectionFromUrl();
+  renderTreatmentPicker(); 
+
+})();
 
 </script>
 <script src="mobile-dropdown.js"></script>
