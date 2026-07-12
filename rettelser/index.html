@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vandladningsbesvær.dk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F9FA;--card:#FFFFFF;--ink:#3D3D3D;--ink-soft:#6B7280;
+  --teal-900:#1E3A5F;--teal-700:#2C5282;--teal-500:#4F86C6;
+  --teal-300:#8FB4E0;--teal-150:#EBEBEB;--teal-100:#F3F4F6;
+  --ochre-600:#5B7290;--ochre-400:#9CA3AF;--line:#E2E5EA;--line-soft:#EDF0F4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
+
+/* ─── NAV ─────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:transparent;
+  transition:background .3s,box-shadow .3s;
+}
+nav.scrolled{
+  background:rgba(30,58,95,0.97);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.08);
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:72px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.nav-logo-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-logo-mark svg{width:20px;height:20px}
+.nav-logo-text{
+  font-family:'Poppins',sans-serif;font-weight:700;
+  font-size:16px;color:#fff;line-height:1.2;
+}
+.nav-logo-sub{font-size:10px;color:rgba(255,255,255,0.6);font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{
+  font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  letter-spacing:.02em;transition:color .15s;
+}
+.nav-links a:hover{color:#fff}
+.nav-cta{
+  background:#fff;color:var(--teal-900)!important;
+  padding:10px 22px;border-radius:999px;
+  font-size:13.5px!important;font-weight:700!important;
+  transition:background .15s,transform .15s!important;
+  white-space:nowrap;
+}
+.nav-cta:hover{background:var(--teal-100)!important;transform:translateY(-1px)!important}
+@media(max-width:768px){
+  .nav-inner{
+    padding:0;
+    flex-direction:column;
+    height:auto;
+    justify-content:center;
+  }
+  /* Hide logo/brand text on mobile */
+  .nav-logo{display:none}
+  /* Nav links become a centered row filling the full width */
+  .nav-links{
+    width:100%;
+    justify-content:space-around;
+    gap:0;
+    padding:0;
+    height:56px;
+    align-items:center;
+    border-top:none;
+  }
+  .nav-links a{
+    font-size:12px;
+    padding:0 8px;
+    letter-spacing:.01em;
+    color:rgba(255,255,255,0.90);
+    flex:1;
+    text-align:center;
+    height:56px;
+    display:flex;align-items:center;justify-content:center;
+    border-right:1px solid rgba(255,255,255,0.10);
+  }
+  .nav-links a:last-child{border-right:none}
+}
+
+/* ─── HERO ────────────────────────────────────────────── */
+.hero{
+  position:relative;
+  height:100vh;min-height:640px;
+  display:flex;align-items:center;
+  overflow:hidden;
+}
+/* Full-bleed video — exactly like athenahealth */
+.hero-video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  z-index:0;
+}
+/* Dark overlay — no grid, no gitter, just clean gradient */
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(
+    to right,
+    rgba(20,40,75,0.82) 0%,
+    rgba(20,40,75,0.65) 55%,
+    rgba(20,40,75,0.30) 100%
+  );
+}
+/* Content sits on top of video */
+.hero-content{
+  position:relative;z-index:2;
+  max-width:1200px;margin:0 auto;width:100%;
+  padding:0 32px;
+}
+.hero-eyebrow{
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--teal-300);font-weight:600;font-family:'Poppins',sans-serif;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-family:'Poppins',sans-serif;font-weight:800;
+  font-size:clamp(32px,5vw,58px);line-height:1.08;
+  color:#fff;margin-bottom:22px;
+  max-width:640px;
+}
+.hero-sub{
+  font-size:clamp(15px,1.8vw,18px);
+  color:rgba(255,255,255,0.78);
+  line-height:1.65;margin-bottom:36px;
+  max-width:520px;font-weight:400;
+}
+/* Primary CTA — same pill shape as athenahealth's "Talk to an expert" */
+/* Hero button container — row on desktop, column on mobile */
+.hero-btns{
+  display:flex;flex-direction:row;
+  gap:14px;flex-wrap:wrap;align-items:center;
+}
+.hero-cta{
+  display:inline-block;
+  padding:15px 30px;border-radius:999px;
+  background:transparent;color:#fff;
+  border:2px solid rgba(255,255,255,0.85);
+  font-size:14.5px;font-weight:700;font-family:'Poppins',sans-serif;
+  text-decoration:none;letter-spacing:.03em;
+  transition:background .2s,border-color .2s,transform .2s;
+  text-align:center;white-space:nowrap;
+}
+.hero-cta:hover{background:rgba(255,255,255,0.15);border-color:#fff;transform:translateY(-2px)}
+@media(max-width:600px){
+  .hero-btns{flex-direction:column;align-items:stretch}
+  .hero-cta{text-align:center;width:100%}
+}
+@media(max-width:768px){
+  .hero{height:auto;min-height:540px;padding:120px 0 80px}
+  .hero-content{padding:0 20px}
+}
+
+/* ─── TRUST BAR ───────────────────────────────────────── */
+.trust-bar{
+  background:var(--teal-900);
+  padding:16px 32px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.trust-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;gap:40px;
+  flex-wrap:wrap;justify-content:center;
+}
+.trust-item{
+  display:flex;align-items:center;gap:8px;
+  font-size:12.5px;font-weight:600;color:rgba(255,255,255,0.65);
+  font-family:'Poppins',sans-serif;white-space:nowrap;
+}
+.trust-check{color:var(--teal-300);font-size:14px}
+
+/* ─── SECTIONS ────────────────────────────────────────── */
+.section{padding:80px 32px}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-eyebrow{
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--teal-700);font-weight:700;font-family:'Poppins',sans-serif;
+  margin-bottom:12px;
+}
+.section-title{
+  font-family:'Poppins',sans-serif;font-weight:700;
+  font-size:clamp(24px,3vw,36px);color:var(--teal-900);
+  margin-bottom:14px;line-height:1.15;
+}
+.section-lead{
+  font-size:16px;color:var(--ink-soft);max-width:580px;
+  line-height:1.7;margin-bottom:48px;
+}
+
+/* ─── FEATURE CARDS ───────────────────────────────────── */
+.cards-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+}
+.feat-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:32px 28px;
+  transition:box-shadow .2s,transform .2s;
+}
+.feat-card:hover{box-shadow:0 10px 40px rgba(44,82,130,.10);transform:translateY(-3px)}
+.feat-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:var(--teal-100);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:18px;
+}
+.feat-icon svg{width:26px;height:26px}
+.feat-title{
+  font-family:'Poppins',sans-serif;font-weight:700;
+  font-size:15.5px;color:var(--teal-900);margin-bottom:10px;
+}
+.feat-desc{font-size:14px;color:var(--ink-soft);line-height:1.65}
+.feat-link{
+  display:inline-flex;align-items:center;gap:4px;
+  margin-top:16px;font-size:13.5px;font-weight:700;
+  color:var(--teal-700);text-decoration:none;
+  font-family:'Poppins',sans-serif;
+}
+.feat-link:hover{text-decoration:underline}
+.feat-link::after{content:'→';margin-left:2px}
+@media(max-width:900px){.cards-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.cards-grid{grid-template-columns:1fr}}
+
+/* ─── STATS BAND ──────────────────────────────────────── */
+.stats-band{
+  background:var(--teal-900);padding:64px 32px;
+}
+.stats-inner{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;
+}
+.stat-item{
+  text-align:center;padding:0 24px;
+  border-right:1px solid rgba(255,255,255,0.12);
+}
+.stat-item:last-child{border-right:none}
+.stat-num{
+  font-family:'Poppins',sans-serif;font-weight:800;
+  font-size:clamp(36px,5vw,56px);color:#fff;
+  line-height:1;margin-bottom:8px;
+}
+.stat-num sup{font-size:0.45em;vertical-align:super}
+.stat-label{font-size:14px;color:rgba(255,255,255,0.65);line-height:1.5}
+.stat-sub{font-size:11px;color:var(--teal-300);margin-top:6px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+@media(max-width:680px){
+  .stats-inner{grid-template-columns:1fr;gap:32px}
+  .stat-item{border-right:none;border-bottom:1px solid rgba(255,255,255,0.12);padding-bottom:32px}
+  .stat-item:last-child{border-bottom:none;padding-bottom:0}
+}
+
+/* ─── EVIDENCE ────────────────────────────────────────── */
+.evidence-section{background:var(--teal-100);padding:80px 32px}
+.ev-inner{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;
+}
+.grade-pills{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+.grade-pill{
+  display:flex;align-items:center;gap:16px;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:18px 20px;
+}
+.gp-badge{
+  width:60px;height:80px;border-radius:11px;
+  font-family:'Poppins',sans-serif;font-weight:800;font-size:20px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.gp-A{background:#bbf7d0;color:#14532d}
+.gp-B{background:#bfdbfe;color:#1e3a8a}
+.gp-C{background:#fef08a;color:#713f12}
+.gp-title{font-weight:700;font-size:13.5px;color:var(--teal-900);margin-bottom:2px;font-family:'Poppins',sans-serif}
+.gp-desc{font-size:12.5px;color:var(--ink-soft);line-height:1.4}
+@media(max-width:800px){.ev-inner{grid-template-columns:1fr;gap:36px}}
+
+/* ─── HOW IT WORKS ────────────────────────────────────── */
+.steps-section{
+  background:var(--paper);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:80px 32px;
+}
+.steps-header{
+  max-width:1200px;margin:0 auto 64px;
+  text-align:center;
+}
+.steps-header .section-title{color:var(--teal-900);margin-bottom:0;font-size:clamp(28px,4vw,42px)}
+.steps-grid{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;position:relative;
+}
+.steps-grid::before{
+  content:'';position:absolute;
+  top:36px;left:calc(16.66% + 36px);right:calc(16.66% + 36px);
+  height:2px;background:var(--teal-300);
+}
+.step{
+  text-align:center;padding:0 32px;position:relative;
+  text-decoration:none;display:block;
+  transition:transform .2s;
+}
+/*.step:hover{transform:translateY(-4px)}*/
+.step:hover .step-num{background:var(--teal-500)}
+.step:hover .step-title{color:var(--teal-700)}
+.step-num{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--teal-700);color:#fff;
+  font-family:'Poppins',sans-serif;font-weight:800;font-size:26px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 24px;border:5px solid var(--paper);
+  position:relative;z-index:1;
+}
+.step-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:18px;color:var(--teal-900);margin-bottom:12px}
+.step-desc{font-size:15px;color:var(--ink-soft);line-height:1.7;max-width:300px;margin:0 auto}
+@media(max-width:600px){
+  .steps-grid{grid-template-columns:1fr;gap:36px}
+  .steps-grid::before{display:none}
+}
+
+/* ─── CTA SECTION ─────────────────────────────────────── */
+.cta-section{
+  padding:88px 32px;text-align:center;
+  background:var(--card);border-top:1px solid var(--line);
+}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.btn-teal{
+  display:inline-block;padding:16px 36px;border-radius:999px;
+  background:var(--teal-700);color:#fff;
+  font-size:15px;font-weight:700;font-family:'Poppins',sans-serif;
+  text-decoration:none;letter-spacing:.03em;
+  transition:background .15s,transform .15s;
+}
+.btn-teal:hover{background:var(--teal-900);transform:translateY(-1px)}
+.btn-outline{
+  display:inline-block;padding:16px 36px;border-radius:999px;
+  background:transparent;color:var(--teal-700);
+  border:2px solid var(--teal-300);
+  font-size:15px;font-weight:700;font-family:'Poppins',sans-serif;
+  text-decoration:none;letter-spacing:.03em;
+  transition:border-color .15s;
+}
+.btn-outline:hover{border-color:var(--teal-700)}
+
+/* ─── FOOTER ──────────────────────────────────────────── */
+footer{
+  background:var(--teal-900);padding:40px 32px;margin-top:auto;
+}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-brand{display:flex;flex-direction:column;gap:6px}
+.footer-logo{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:#fff}
+.footer-copyright{font-size:12px;color:rgba(255,255,255,0.45);font-family:'Poppins',sans-serif}
+.footer-note{font-size:11.5px;color:rgba(255,255,255,0.35);max-width:560px;line-height:1.6;margin-top:4px}
+.footer-login{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  text-decoration:none;
+  color:rgba(255,255,255,0.55);
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;
+  letter-spacing:.04em;text-transform:uppercase;
+  transition:color .2s;
+  flex-shrink:0;
+  padding-top:1px;
+}
+.footer-login:hover{color:#fff}
+.footer-login img{
+  width:60px;height:80px;
+  object-fit:contain;
+  opacity:0.55;
+  transition:opacity .2s;
+}
+.footer-login:hover img{opacity:1}
+
+/* ─── NAV DROPDOWN ────────────────────────────────────── */
+.nav-dropdown{position:relative;display:flex;align-items:center}
+.nav-drop-toggle{
+  display:flex;align-items:center;gap:4px;cursor:pointer;
+  font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  letter-spacing:.02em;transition:color .15s;
+  background:none;border:none;padding:0;
+}
+.nav-drop-toggle:hover{color:#fff}
+.drop-arrow{font-size:10px;transition:transform .2s;display:inline-block}
+.nav-dropdown.open .drop-arrow{transform:rotate(180deg)}
+.nav-drop-menu{
+  display:none;
+  position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  background:rgba(25,50,85,0.97);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:0 0 12px 12px;
+  min-width:220px;
+  /* top padding creates invisible bridge so mouse doesnt leave the element */
+  padding:8px 0;
+  padding-top:12px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.25);
+  z-index:500;
+  /* invisible top extension so no gap between toggle and menu */
+  margin-top:-2px;
+}
+.nav-dropdown.open .nav-drop-menu{display:block}
+/* Invisible hover bridge — extends hit area upward to prevent gap */
+.nav-dropdown::after{
+  content:'';
+  position:absolute;
+  bottom:-8px;left:0;right:0;
+  height:8px;
+  background:transparent;
+}
+.nav-drop-menu a{
+  display:block;padding:11px 20px;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,0.80);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  transition:background .15s,color .15s;letter-spacing:.02em;
+}
+.nav-drop-menu a:hover{background:rgba(255,255,255,0.08);color:#fff}
+.nav-drop-menu a+a{border-top:1px solid rgba(255,255,255,0.07)}
+
+/* Mobile: dropdown stacks inline */
+@media(max-width:768px){
+  .nav-dropdown{flex:1;height:56px;border-right:1px solid rgba(255,255,255,0.10)}
+  .nav-drop-toggle{
+    width:100%;height:100%;justify-content:center;
+    font-size:12px;padding:0 8px;
+  }
+  .drop-arrow{display:none}
+  .nav-drop-menu{
+    position:fixed;top:56px;left:0;right:0;transform:none;
+    border-radius:0 0 12px 12px;
+    min-width:unset;width:100%;
+    border-left:none;border-right:none;border-top:none;
+  }
+  .nav-drop-menu a{padding:14px 28px;font-size:13.5px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html"><div class="nav-logo-text" style="font-size:18px;letter-spacing:.04em">VANDLADNINGSBESVÆR.DK</div></a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <a href="#behandlingstrin" class="nav-drop-toggle">Behandlinger <span class="drop-arrow">▾</span></a>
+        <div class="nav-drop-menu">
+          <a href="behandlinger.html">Læs om behandlinger</a>
+          <a href="bph_behandlingsoversigt.html">Sammenlign behandlinger</a>
+        </div>
+      </div>
+      <a href="personlig_test.html">Personlig test</a>
+      <a href="om_siden.html">Om siden</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO — video fills entire viewport, text left-aligned, single CTA -->
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline id="heroVideo">
+    <!-- Female doctor with medical chart — cottonbro studio / Pexels #7579336 -->
+    <source src="https://videos.pexels.com/video-files/7579336/7579336-uhd_2732_1440_25fps.mp4" type="video/mp4">
+    <source src="https://videos.pexels.com/video-files/7579336/7579336-hd_1920_1080_25fps.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Klinisk beslutningsstøtte</div>
+    <h1>Dine muligheder ved godartet prostataforstørrelse</h1>
+    <p class="hero-sub">Bliv klogere på de kirurgiske behandlinger og hvad de betyder for dig. Sammenlign dine muligheder og tag en enkel test, der hjælper dig med at finde den løsning, der passer bedst til dine ønsker.</p>
+    <div class="hero-btns">
+      <a href="personlig_test.html" class="hero-cta">Tag en personlig test</a>
+      <a href="behandlinger.html" class="hero-cta">Læs om behandlinger</a>
+      <a href="bph_behandlingsoversigt.html" class="hero-cta">Sammenlign behandlinger</a>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="steps-section" id="behandlingstrin">
+  <div class="steps-header">
+    <div class="section-title">Tre trin til det rette behandlingsvalg</div>
+  </div>
+  <div class="steps-grid">
+    <a href="personlig_test.html" class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Tag en personlig test</div>
+      <div class="step-desc">Besvar nogle korte spørgsmål om dine symptomer og ønsker. Testen hjælper dig med at finde de behandlinger, der passer bedst til din situation.</div>
+    </a>
+    <a href="behandlinger.html" class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">Læs om behandlinger</div>
+      <div class="step-desc">Få et klart og letforståeligt overblik over, hvad de forskellige behandlinger indebærer, hvad du kan forvente, og hvad de betyder for hverdagen og seksuallivet.</div>
+    </a>
+    <a href="bph_behandlingsoversigt.html" class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Sammenlign behandlinger</div>
+      <div class="step-desc">Se effekt, komplikationer og seksualfunktion side om side. Hvert tal er underbygget af klinisk forskning med angivet evidensniveau — så du kan træffe et informeret valg.</div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">VANDLADNINGSBESVÆR.DK</div>
+      <div class="footer-copyright">© 2026 Simon Juul, speciallæge i urologi. Alle rettigheder forbeholdes.</div>
+      <div class="footer-note">Indholdet på denne side er til information og erstatter ikke en lægelig vurdering. Drøft altid behandlingsvalg med din læge.</div>
+    </div>
+    <a href="http://xn--vandladningsbesvr-6rb.dk/l%C3%A6ge" class="footer-login" target="_blank" rel="noopener">
+      <span>Lægeside</span>
+    </a>
+  </div>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, {passive:true});
+nav.classList.toggle('scrolled', window.scrollY > 40);
+
+// Video always muted, start 5 seconds in
+const heroVid = document.getElementById('heroVideo');
+if(heroVid){
+  heroVid.muted = true;
+  heroVid.addEventListener('loadedmetadata', () => {
+    heroVid.currentTime = 5;
+  });
+}
+
+// Reduced motion
+if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  if(heroVid) heroVid.pause();
+}
+
+// Dropdown — JS controlled
+const dropdowns = document.querySelectorAll('.nav-dropdown');
+dropdowns.forEach(dd => {
+  let closeTimer;
+  dd.addEventListener('mouseenter', () => {
+    clearTimeout(closeTimer);
+    dd.classList.add('open');
+  });
+  dd.addEventListener('mouseleave', () => {
+    closeTimer = setTimeout(() => dd.classList.remove('open'), 120);
+  });
+  document.addEventListener('click', e => {
+    if(!dd.contains(e.target)) dd.classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>
