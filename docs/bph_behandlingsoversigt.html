@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sammenlign behandlinger · Vandladningsbesvær.dk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F9FA;--card:#FFFFFF;--ink:#3D3D3D;--ink-soft:#6B7280;
+  --teal-900:#1E3A5F;--teal-700:#2C5282;--teal-500:#4F86C6;
+  --teal-300:#8FB4E0;--teal-150:#EBEBEB;--teal-100:#F3F4F6;
+  --ochre-600:#5B7290;--ochre-400:#9CA3AF;
+  --line:#E2E5EA;--line-soft:#EDF0F4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
+.page{max-width:1100px;width:100%;margin:0 auto;padding:44px 24px 70px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-700);margin:0 0 10px}
+h1{font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(26px,4vw,38px);line-height:1.15;margin:0 0 8px;color:var(--teal-900)}
+p{margin:0 0 14px;color:var(--ink-soft);font-size:14px}
+.screen{display:none}.screen.active{display:block}
+
+/* picker */
+.treatment-picker{margin:26px 0 6px}
+.tp-head{margin-bottom:6px}
+.tp-head .lbl{font-size:13.5px;font-weight:600;color:var(--ink)}
+.tp-toggle-all{background:none;border:none;color:var(--teal-700);font-size:12.5px;font-weight:700;font-family:'Poppins',sans-serif;text-decoration:underline;padding:0;cursor:pointer;touch-action:manipulation;display:block;margin-bottom:14px}
+.tp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 10px}
+.tp-card{cursor:pointer;text-align:center;padding:12px 6px;border-radius:12px;border:1.5px solid transparent;transition:.15s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;background:none;font-family:inherit;width:100%}
+.tp-card:hover{background:var(--teal-100)}
+.tp-card.selected{border-color:var(--teal-300);background:var(--teal-100)}
+.tp-circle{width:58px;height:58px;border-radius:50%;background:var(--line);margin:0 auto 9px;display:flex;align-items:center;justify-content:center;transition:.15s}
+.tp-card.selected .tp-circle{background:var(--teal-500)}
+.tp-circle svg{width:24px;height:24px;display:none}
+.tp-card.selected .tp-circle svg{display:block}
+.tp-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:13.5px;color:var(--teal-900);margin:0 0 3px}
+.tp-full{font-size:10.5px;color:var(--ink-soft);line-height:1.3}
+.tp-read-link{display:inline-block;margin-top:6px;font-size:10.5px;font-weight:600;color:var(--teal-700);cursor:pointer;}
+.tp-read-link:hover{text-decoration:underline;}
+.tp-hint{font-size:12px;color:var(--ochre-600);margin-top:12px}
+.tp-hint.ok{visibility:hidden}
+.start-btn{margin-top:28px;display:inline-block;padding:15px 32px;border-radius:999px;border:none;background:var(--teal-700);color:#fff;font-size:13.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-family:'Poppins',sans-serif;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+
+/* toolbar */
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.toggle-btn{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;font-family:'Poppins',sans-serif;color:var(--teal-700);cursor:pointer;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;user-select:none;transition:.15s;touch-action:manipulation}
+.toggle-btn:hover{border-color:var(--teal-300)}
+.toggle-track{width:28px;height:15px;border-radius:99px;background:var(--line);position:relative;transition:background .2s;flex-shrink:0}
+.toggle-track.on{background:var(--teal-500)}
+.toggle-thumb{width:11px;height:11px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle-track.on .toggle-thumb{left:15px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:11.5px;color:var(--ink-soft);align-items:center}
+.leg{display:flex;align-items:center;gap:5px}
+.lbar{width:22px;height:5px;border-radius:3px}
+
+/* table */
+.wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--line);background:var(--card);box-shadow:0 1px 4px rgba(0,0,0,.04)}
+table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:12px}
+th,td{border:0.5px solid var(--line-soft);padding:0;vertical-align:middle}
+.row-label{width:172px;padding:7px 10px;font-size:11px;color:var(--ink-soft);background:var(--teal-100);font-weight:500;white-space:normal;line-height:1.35;text-align:left;position:sticky;left:0;z-index:2;border-right:1px solid var(--line)}
+thead th.row-label{position:sticky;left:0;z-index:3;background:var(--teal-150)}
+.col-head{text-align:center;padding:10px 4px;background:var(--teal-150)}
+.abbr{font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;color:var(--teal-900);display:block;text-transform:uppercase;letter-spacing:0.04em}
+.col-read-link{display:block;font-size:9.5px;font-weight:600;color:var(--teal-700);text-decoration:none;margin-top:2px;text-transform:none;letter-spacing:0;}
+.col-read-link:hover{text-decoration:underline;}
+.cell{text-align:center;padding:5px 6px;background:var(--card)}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:999px;font-weight:600;font-family:'Inter',sans-serif}
+.tag-f{background:#fecaca;color:#991b1b}
+.tag-l{background:#dcfce7;color:#166634}
+.bar-val{font-size:11px;color:var(--ink);text-align:center;font-family:'Inter',sans-serif}
+.cell-hi{transition:background-color .2s}
+.sup{font-size:8.5px;vertical-align:super;color:var(--teal-700);cursor:pointer;margin-left:2px;line-height:1;font-weight:700;border:none;background:none;padding:0;font-family:'Inter',sans-serif}
+.sup:hover{text-decoration:underline}
+.sect-head td{background:var(--teal-150);font-size:10px;font-weight:700;color:var(--teal-700);text-transform:uppercase;letter-spacing:.08em;padding:5px 12px;border-top:1px solid var(--line);position:sticky;left:0;font-family:'Poppins',sans-serif}
+
+/* param info icon */
+.param-info{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--line);color:var(--ink-soft);font-size:10px;font-weight:700;font-style:normal;cursor:pointer;margin-left:5px;vertical-align:middle;font-family:'Inter',sans-serif;border:none}
+.param-info:hover{background:var(--teal-300);color:var(--teal-900)}
+.param-tooltip{display:none;position:fixed;z-index:8888;background:var(--teal-100);border:1px solid var(--teal-150);border-radius:8px;padding:9px 12px;max-width:240px;font-size:12px;color:var(--teal-900);line-height:1.5;box-shadow:0 2px 12px rgba(0,0,0,.1);font-family:'Inter',sans-serif}
+.param-tooltip.open{display:block}
+
+/* ref popover */
+.popover{position:fixed;z-index:9999;background:var(--card);border:1px solid var(--teal-300);border-radius:12px;padding:12px 14px;max-width:290px;box-shadow:0 4px 24px rgba(0,0,0,.12);font-size:11.5px;line-height:1.55;display:none;font-family:'Inter',sans-serif}
+.popover.visible{display:block}
+.pop-ref{color:var(--ink-soft);margin-bottom:7px}
+.pop-grade{display:inline-flex;align-items:center;gap:5px;font-weight:600;font-size:11px;padding:3px 9px;border-radius:999px}
+.grade-A{background:#bbf7d0;color:#14532d}
+.grade-B{background:#bfdbfe;color:#1e3a8a}
+.grade-C{background:#fef08a;color:#713f12}
+.grade-D{background:#fecaca;color:#7f1d1d}
+.pop-close{position:absolute;top:7px;right:9px;cursor:pointer;font-size:13px;color:var(--ochre-400);line-height:1;background:none;border:none;font-family:inherit}
+.pop-label{font-size:10px;font-weight:700;color:var(--ochre-600);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;font-family:'Poppins',sans-serif}
+.pop-pubmed{display:inline-block;margin-top:8px;font-size:11px;color:var(--teal-700);text-decoration:none;font-weight:600;}
+.pop-pubmed:hover{text-decoration:underline;}
+
+.data-note{text-align:center;font-size:12px;color:var(--ink-soft);padding:1.5rem;margin-top:2rem;background:var(--teal-100);border-radius:10px;border:1px solid var(--teal-150)}
+.compare-cta{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+.compare-cta a{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:13.5px;
+  color:var(--teal-700);text-decoration:none;
+}
+.compare-cta a:hover{text-decoration:underline;}
+.compare-cta .arrow{transition:transform .15s;display:inline-block;}
+.compare-cta a:hover .arrow{transform:translateX(3px);}
+
+/* mobile */
+@media(max-width:680px){
+  .page{padding:24px 16px 50px}
+  h1{font-size:22px}
+  .wrap{display:none}
+  .mobile-cards{display:block}
+  .tp-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(min-width:681px){.mobile-cards{display:none}}
+.mob-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.mob-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.mob-abbr{font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:var(--teal-900);letter-spacing:.03em}
+.mob-full{font-size:11px;color:var(--ink-soft);margin-top:2px;line-height:1.3}
+.mob-read-link{font-size:11.5px;font-weight:600;color:var(--teal-700);text-decoration:none;flex-shrink:0;margin-left:10px;white-space:nowrap;}
+.mob-read-link:hover{text-decoration:underline;}
+.mob-sect{font-size:9.5px;font-weight:700;color:var(--teal-700);text-transform:uppercase;letter-spacing:.08em;font-family:'Poppins',sans-serif;margin:10px 0 4px;padding-top:8px;border-top:0.5px solid var(--line-soft)}
+.mob-sect:first-of-type{border-top:none;margin-top:0}
+.mob-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:0.5px solid var(--line-soft)}
+.mob-row:last-child{border-bottom:none}
+.mob-label{font-size:11px;color:var(--ink-soft);display:flex;align-items:center;gap:3px}
+.mob-val{font-size:11px;font-weight:500;color:var(--ink);padding:2px 7px;border-radius:4px;white-space:nowrap}
+/* ─── NAV ─────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:transparent;
+  transition:background .3s,box-shadow .3s;
+}
+nav.scrolled{
+  background:rgba(30,58,95,0.97);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.08);
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:72px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.nav-logo-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-logo-mark svg{width:20px;height:20px}
+.nav-logo-text{
+  font-family:'Poppins',sans-serif;font-weight:700;
+  font-size:16px;color:#fff;line-height:1.2;
+}
+.nav-logo-sub{font-size:10px;color:rgba(255,255,255,0.6);font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{
+  font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  letter-spacing:.02em;transition:color .15s;
+}
+.nav-links a:hover{color:#fff}
+.nav-cta{
+  background:#fff;color:var(--teal-900)!important;
+  padding:10px 22px;border-radius:999px;
+  font-size:13.5px!important;font-weight:700!important;
+  transition:background .15s,transform .15s!important;
+  white-space:nowrap;
+}
+.nav-cta:hover{background:var(--teal-100)!important;transform:translateY(-1px)!important}
+@media(max-width:768px){
+  .nav-inner{
+    padding:0;
+    flex-direction:column;
+    height:auto;
+    justify-content:center;
+  }
+  /* Hide logo/brand text on mobile */
+  .nav-logo{display:none}
+  /* Nav links become a centered row filling the full width */
+  .nav-links{
+    width:100%;
+    justify-content:space-around;
+    gap:0;
+    padding:0;
+    height:56px;
+    align-items:center;
+    border-top:none;
+  }
+  .nav-links a{
+    font-size:12px;
+    padding:0 8px;
+    letter-spacing:.01em;
+    color:rgba(255,255,255,0.90);
+    flex:1;
+    text-align:center;
+    height:56px;
+    display:flex;align-items:center;justify-content:center;
+    border-right:1px solid rgba(255,255,255,0.10);
+  }
+  .nav-links a:last-child{border-right:none}
+}
+/* ─── NAV DROPDOWN ────────────────────────────────────── */
+.nav-dropdown{position:relative;display:flex;align-items:center}
+.nav-drop-toggle{
+  display:flex;align-items:center;gap:4px;cursor:pointer;
+  font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  letter-spacing:.02em;transition:color .15s;
+  background:none;border:none;padding:0;
+}
+.nav-drop-toggle:hover{color:#fff}
+.drop-arrow{font-size:10px;transition:transform .2s;display:inline-block}
+.nav-dropdown.open .drop-arrow{transform:rotate(180deg)}
+.nav-drop-menu{
+  display:none;
+  position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  background:rgba(25,50,85,0.97);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:0 0 12px 12px;
+  min-width:220px;
+  /* top padding creates invisible bridge so mouse doesnt leave the element */
+  padding:8px 0;
+  padding-top:12px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.25);
+  z-index:500;
+  /* invisible top extension so no gap between toggle and menu */
+  margin-top:-2px;
+}
+.nav-dropdown.open .nav-drop-menu{display:block}
+/* Invisible hover bridge — extends hit area upward to prevent gap */
+.nav-dropdown::after{
+  content:'';
+  position:absolute;
+  bottom:-8px;left:0;right:0;
+  height:8px;
+  background:transparent;
+}
+.nav-drop-menu a{
+  display:block;padding:11px 20px;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,0.80);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  transition:background .15s,color .15s;letter-spacing:.02em;
+}
+.nav-drop-menu a:hover{background:rgba(255,255,255,0.08);color:#fff}
+.nav-drop-menu a+a{border-top:1px solid rgba(255,255,255,0.07)}
+
+/* Mobile: dropdown stacks inline */
+@media(max-width:768px){
+  .nav-dropdown{flex:1;height:56px;border-right:1px solid rgba(255,255,255,0.10)}
+  .nav-drop-toggle{
+    width:100%;height:100%;justify-content:center;
+    font-size:12px;padding:0 8px;
+  }
+  .drop-arrow{display:none}
+  .nav-drop-menu{
+    position:fixed;top:56px;left:0;right:0;transform:none;
+    border-radius:0 0 12px 12px;
+    min-width:unset;width:100%;
+    border-left:none;border-right:none;border-top:none;
+  }
+  .nav-drop-menu a{padding:14px 28px;font-size:13.5px}
+}
+/* ─── FOOTER ──────────────────────────────────────────── */
+footer{
+  background:var(--teal-900);padding:40px 32px;margin-top:auto;
+}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-brand{display:flex;flex-direction:column;gap:6px}
+.footer-logo{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:#fff}
+.footer-copyright{font-size:12px;color:rgba(255,255,255,0.45);font-family:'Poppins',sans-serif}
+.footer-note{font-size:11.5px;color:rgba(255,255,255,0.35);max-width:560px;line-height:1.6;margin-top:4px}
+.footer-login{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  text-decoration:none;
+  color:rgba(255,255,255,0.55);
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;
+  letter-spacing:.04em;text-transform:uppercase;
+  transition:color .2s;
+  flex-shrink:0;
+  padding-top:1px;
+}
+.footer-login:hover{color:#fff}
+.footer-login img{
+  width:60px;height:80px;
+  object-fit:contain;
+  opacity:0.55;
+  transition:opacity .2s;
+}
+.footer-login:hover img{opacity:1}
+
+
+/* ─── SUBPAGE NAV OVERRIDE (no hero video, so nav is always solid) ─── */
+body.subpage nav{
+  background:rgba(30,58,95,0.97);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.08);
+}
+body.subpage .page{padding-top:116px}
+@media(max-width:768px){
+  body.subpage .page{padding-top:96px}
+}
+
+</style>
+</head>
+<body class="subpage">
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html"><div class="nav-logo-text" style="font-size:18px;letter-spacing:.04em">VANDLADNINGSBESVÆR.DK</div></a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <a href="index.html#behandlingstrin" class="nav-drop-toggle">Behandlinger <span class="drop-arrow">▾</span></a>
+        <div class="nav-drop-menu">
+          <a href="behandlinger.html">Læs om behandlinger</a>
+          <a href="bph_behandlingsoversigt.html">Sammenlign behandlinger</a>
+        </div>
+      </div>
+      <a href="personlig_test.html">Personlig test</a>
+      <a href="om_siden.html">Om siden</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+
+<section id="screen-picker" class="screen active">
+  <h1>Sammenlign behandlinger</h1>
+  <p>Vælg mindst to behandlinger du ønsker at sammenligne.</p>
+  <div class="treatment-picker">
+    <button type="button" class="tp-toggle-all" id="tpToggleAll">Vælg alle</button>
+    <div class="tp-grid" id="tpGrid"></div>
+  </div>
+  <div style="text-align:center"><button class="start-btn" id="showTableBtn">Se sammenligning →</button></div>
+</section>
+
+<section id="screen-table" class="screen">
+  <p class="eyebrow">Behandlingsoversigt · godartet prostataforstørrelse</p>
+  <h1>Sammenligning af valgte behandlinger</h1>
+  <p style="margin-bottom:4px"><button id="backBtn" style="background:none;border:none;color:var(--teal-700);font-size:13px;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;text-decoration:underline;padding:0">← Rediger valg</button></p>
+  <div class="toolbar">
+    <button class="toggle-btn" id="toggleBtn">
+      <span>Visuelle hjælpemidler</span>
+      <div class="toggle-track" id="toggleTrack"><div class="toggle-thumb"></div></div>
+    </button>
+    <div class="legend" id="legend" style="display:none">
+      <span class="leg"><span class="lbar" id="leg-good"></span>Bedst</span>
+      <span class="leg"><span class="lbar" id="leg-mid" style="background:#fef08a"></span>Middel</span>
+      <span class="leg"><span class="lbar" id="leg-bad"></span>Mindst fordelagtig</span>
+    </div>
+  </div>
+  <div class="wrap">
+    <table id="mainTable">
+      <thead><tr id="headerRow">
+        <th class="row-label" style="font-size:10px;color:var(--teal-700);font-family:'Poppins',sans-serif;font-weight:700;letter-spacing:.06em;text-transform:uppercase">Parameter</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div class="mobile-cards" id="mobileCards"></div>
+  <div class="data-note">Data baseret på kliniske studier. Alle tal er vejledende – drøft altid behandlingsvalg med din læge.</div>
+  <div class="compare-cta" id="testCta"></div>
+</section>
+
+</div>
+
+<div class="param-tooltip" id="paramTooltip"></div>
+<div class="popover" id="popover">
+  <button class="pop-close" id="popClose">✕</button>
+  <div class="pop-label">Reference</div>
+  <div class="pop-ref" id="pop-ref"></div>
+  <div class="pop-label" style="margin-top:7px">GRADE evidensniveau</div>
+  <span class="pop-grade" id="pop-grade"></span>
+  <div style="font-size:10.5px;color:var(--ink-soft);margin-top:5px" id="pop-grade-exp"></div>
+  <div style="margin-top:8px"><a class="pop-pubmed" id="pop-pubmed" href="#" target="_blank" rel="noopener">🔗 Link til artikel</a></div>
+</div>
+
+<script>
+(function(){
+
+const TREATMENTS_META=[
+  {key:'TUIP',    name:'TUIP',    full:'Transuretral indsnit af prostata'},
+  {key:'TURP',    name:'TURP',    full:'Transuretral resektion af prostata'},
+  {key:'PVP',     name:'PVP',      full:'Laserfordampning af prostata'},
+  {key:'AEEP',    name:'AEEP',     full:'Laserenukleation (HoLEP/ThuLEP)'},
+  {key:'RASP',    name:'RASP',     full:'Robotassisteret simpel prostatektomi'},
+  {key:'PAE',     name:'PAE',      full:'Prostataarterie-embolisering'},
+  {key:'TUMT',    name:'TUMT',     full:'Transuretral mikrobølgetermoterapi'},
+  {key:'UroLift', name:'UroLift',  full:'Prostatisk uretral lift'},
+  {key:'Rezum',   name:'Rezum',    full:'Rezum'},
+];
+
+// Shared lowercase key map — matches both behandlinger.html's accordion ids
+// and personlig_test.html's treatment keys (both use the same lowercase form).
+const LC_KEY_MAP = {
+  TUIP:'tuip', TURP:'turp', PVP:'pvp', AEEP:'aeep', RASP:'rasp',
+  PAE:'pae', TUMT:'tumt', UroLift:'urolift', Rezum:'rezum'
+};
+
+const checkSvg='<svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5L9.5 17L19 7" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+const T=[
+  {abbr:'TUIP',    bed:'fuld',  prost:'< 30 cm³',   kat:'0–3 dage',   katN:1.5, indl:'1–2 dage', indlN:1.5, vandl:0.668,  qmax:97.6,   qol:0.49,  reop:0.134, strik:0.0367, saed:'21–35%', saedN:28,  erek:0.075, erekS:'7,5%',    hosp:'Alle urologiske afdelinger'},
+  {abbr:'TURP',    bed:'fuld',  prost:'30–80 cm³',  kat:'0–3 dage',   katN:1.5, indl:'1–2 dage', indlN:1.5, vandl:0.70,  qmax:162,   qol:0.744, reop:0.077, strik:0.0448, saed:'66–75%', saedN:70,  erek:0.065, erekS:'6,5%',    hosp:'Alle urologiske afdelinger'},
+  {abbr:'PVP',     bed:'fuld',  prost:'30–80 cm³',  kat:'0–3 dage',   katN:1.5, indl:'1–2 dage', indlN:1.5, vandl:0.70,  qmax:170,   qol:0.72, reop:0.071, strik:0.0392, saed:'22–67%', saedN:44,  erek:0.065, erekS:'6,5%',    hosp:'Hjørring, Herlev-Gentofte'},
+  {abbr:'AEEP',    bed:'fuld',  prost:'> 80 cm³',   kat:'1–2 dage',   katN:1, indl:'1–2 dage', indlN:1.5, vandl:0.80,  qmax:277,   qol:0.68,  reop:0.066, strik:0.0385, saed:'75%',    saedN:75,  erek:0.0,   erekS:'0%',      hosp:'Vejle, Århus, Gødstrup, Hjørring, Herlev-Gentofte'},
+  {abbr:'RASP',    bed:'fuld',  prost:'> 80 cm³',   kat:'5–10 dage',  katN:7.5, indl:'2–3 dage', indlN:2.5, vandl:0.88,  qmax:229,   qol:0.67,  reop:0.012, strik:0.0176, saed:'91,2%', saedN:91.2,  erek:0.0,   erekS:'0%',      hosp:'Gødstrup, Esbjerg, Århus, Roskilde-Næstved'},
+  {abbr:'PAE',     bed:'lokal', prost:'30–80 cm³',  kat:'0–7 dage',   katN:3.5, indl:'0 dage', indlN:0,      vandl:0.77,  qmax:68,    qol:0.53,  reop:0.18,  strik:0.0065, saed:'40%',    saedN:40,  erek:0.0,   erekS:'0%',      hosp:'Rigshospitalet, Odense, Århus'},
+  {abbr:'TUMT',    bed:'lokal', prost:'> 30 cm³',   kat:'14–30 dage', katN:22, indl:'0 dage', indlN:0,      vandl:0.65,  qmax:78,    qol:0.70,  reop:0.11,  strik:0.008,  saed:'24–27%', saedN:25,  erek:0.0775,erekS:'7,5–8,0%',hosp:'OUH-Svendborg, Esbjerg, Gødstrup, Roskilde-Næstved, Herlev-Gentofte'},
+  {abbr:'UroLift', bed:'lokal', prost:'< 70 cm³',   kat:'0 dage',     katN:0, indl:'0 dage', indlN:0,      vandl:0.495, qmax:55.7,  qol:0.478, reop:0.16,  strik:0.0147, saed:'0%',     saedN:0,   erek:0.0,   erekS:'0%',      hosp:'Herlev-Gentofte'},
+  {abbr:'Rezum',   bed:'lokal', prost:'30–80 cm³',  kat:'5–7 dage',   katN:6, indl:'0 dage', indlN:0,      vandl:0.53,  qmax:63,    qol:0.48,  reop:0.14,  strik:0.0105, saed:'3,2–3,6%',saedN:3.4,erek:0.0,  erekS:'0%',      hosp:'OUH-Svendborg, Hjørring'},
+];
+
+
+const REFS = {
+  'vandl-TUIP':  {ref:'Abd-El Kader O et al. Afr J Urol. 2012;18(1):29-33. doi:10.1016/j.afju.2012.04.007',grade:'B',exp:'Prospektivt randomiseret studie, 80 patienter, 48 måneders opfølgning',url:'https://www.sciencedirect.com/science/article/pii/S1110570412000082'},
+  'vandl-TURP':  {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'vandl-PVP':   {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'vandl-AEEP':  {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'vandl-RASP':  {ref:'Pokorny M et al. Eur Urol. 2015;68(3):451-457. doi:10.1016/j.eururo.2015.03.003',grade:'C',exp:'Retrospektivt kohortestudie, enkelt center',url:'https://pubmed.ncbi.nlm.nih.gov/25887786/'},
+  'vandl-PAE':   {ref:'Uflacker A et al. J Vasc Interv Radiol. 2016;27(11):1686-1697. doi:10.1016/j.jvir.2016.08.004',grade:'B',exp:'Meta-analyse, primært observationelle studier',url:'https://pubmed.ncbi.nlm.nih.gov/27742235/'},
+  'vandl-TUMT':  {ref:'Mattiasson A et al. Urology. 2007;69(1):91-96. doi:10.1016/j.urology.2006.08.1115',grade:'B',exp:'Prospektivt randomiseret multicenter RCT, 5-års follow-up',url:'https://pubmed.ncbi.nlm.nih.gov/17270624/'},
+  'vandl-UroLift':{ref:'Roehrborn CG et al. Can J Urol. 2017;24(3):8802-8813. PMID: 28646935',grade:'B',exp:'Prospektivt RCT, 5-års follow-up'},
+  'vandl-Rezum': {ref:'McVary KT et al. J Urol. 2016;195(5):1529-1538. doi:10.1016/j.juro.2015.10.181',grade:'B',exp:'Multicenter RCT',url:'https://pubmed.ncbi.nlm.nih.gov/26614889/'},
+  'qmax-TUIP':   {ref:'Abd-El Kader O et al. Afr J Urol. 2012;18(1):29-33. doi:10.1016/j.afju.2012.04.007',grade:'B',exp:'Prospektivt randomiseret studie, 80 patienter, 48 måneders opfølgning',url:'https://www.sciencedirect.com/science/article/pii/S1110570412000082'},
+  'qmax-TURP':   {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'qmax-PVP':    {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'qmax-AEEP':   {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'qmax-RASP':   {ref:'Pokorny M et al. Eur Urol. 2015;68(3):451-457. doi:10.1016/j.eururo.2015.03.003',grade:'C',exp:'Retrospektivt kohortestudie, enkelt center',url:'https://pubmed.ncbi.nlm.nih.gov/25887786/'},
+  'qmax-PAE':    {ref:'Uflacker A et al. J Vasc Interv Radiol. 2016;27(11):1686-1697. doi:10.1016/j.jvir.2016.08.004',grade:'B',exp:'Meta-analyse, primært observationelle studier',url:'https://pubmed.ncbi.nlm.nih.gov/27742235/'},
+  'qmax-TUMT':   {ref:'Mattiasson A et al. Urology. 2007;69(1):91-96. doi:10.1016/j.urology.2006.08.1115',grade:'B',exp:'Prospektivt randomiseret multicenter RCT, 5-års follow-up',url:'https://pubmed.ncbi.nlm.nih.gov/17270624/'},
+  'qmax-UroLift':{ref:'Roehrborn CG et al. Can J Urol. 2017;24(3):8802-8813. PMID: 28646935',grade:'B',exp:'Prospektivt RCT, 5-års follow-up'},
+  'qmax-Rezum':  {ref:'McVary KT et al. J Urol. 2016;195(5):1529-1538. doi:10.1016/j.juro.2015.10.181',grade:'B',exp:'Multicenter RCT',url:'https://pubmed.ncbi.nlm.nih.gov/26614889/'},
+  'qol-TUIP':    {ref:'Elshal AM et al. J Urol. 2014;191(1):148-154. doi:10.1016/j.juro.2013.06.113',grade:'B',exp:'Retrospektivt kohortestudie (prospektivt vedligeholdt database), sammenligning af Ho:YAG TUIP og PVP',url:'https://pubmed.ncbi.nlm.nih.gov/23845460/'},
+  'qol-TURP':    {ref:'Thomas JA et al. GOLIATH Study. Eur Urol. 2016;69(1):94-102. doi:10.1016/j.eururo.2015.07.054',grade:'A',exp:'Multicenter RCT (GOLIATH)',url:'https://pubmed.ncbi.nlm.nih.gov/26283011/'},
+  'qol-PVP':     {ref:'Thomas JA et al. GOLIATH Study. Eur Urol. 2016;69(1):94-102. doi:10.1016/j.eururo.2015.07.054',grade:'A',exp:'Multicenter RCT (GOLIATH)',url:'https://pubmed.ncbi.nlm.nih.gov/26283011/'},
+  'qol-AEEP':    {ref:'Gilling PJ et al. BJU Int. 2012;109(3):408-411. doi:10.1111/j.1464-410X.2011.10359.x',grade:'B',exp:'RCT med 7 års langtidsopfølgning',url:'https://pubmed.ncbi.nlm.nih.gov/21883820/'},
+  'qol-RASP':    {ref:'Sorokin I et al. J Endourol. 2017;31(11):1164-1169. doi:10.1089/end.2017.0489',grade:'C',exp:'Retrospektivt kohortstudie med propensity score-matching, enkelt center, kort follow-up',url:'https://pubmed.ncbi.nlm.nih.gov/28854815/'},
+  'qol-PAE':     {ref:'Uflacker A et al. J Vasc Interv Radiol. 2016;27(11):1686-1697. doi:10.1016/j.jvir.2016.08.004',grade:'B',exp:'Meta-analyse, primært observationelle studier',url:'https://pubmed.ncbi.nlm.nih.gov/27742235/'},
+  'qol-TUMT':    {ref:'Mattiasson A et al. Urology. 2007;69(1):91-96. doi:10.1016/j.urology.2006.08.1115',grade:'B',exp:'Prospektivt randomiseret multicenter RCT, 5-års follow-up',url:'https://pubmed.ncbi.nlm.nih.gov/17270624/'},
+  'qol-UroLift': {ref:'Roehrborn CG et al. Can J Urol. 2017;24(3):8802-8813. PMID: 28646935',grade:'B',exp:'Prospektivt RCT, 5-års follow-up'},
+  'qol-Rezum':   {ref:'McVary KT et al. J Urol. 2016;195(5):1529-1538. doi:10.1016/j.juro.2015.10.181',grade:'B',exp:'Multicenter RCT',url:'https://pubmed.ncbi.nlm.nih.gov/26614889/'},
+  'reop-TUIP':   {ref:'He W et al. Front Endocrinol. 2023;14:1287212. doi:10.3389/fendo.2023.1287212',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/38027158/'},
+  'reop-TURP':   {ref:'He W et al. Front Endocrinol. 2023;14:1287212. doi:10.3389/fendo.2023.1287212',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/38027158/'},
+  'reop-PVP':    {ref:'He W et al. Front Endocrinol. 2023;14:1287212. doi:10.3389/fendo.2023.1287212',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/38027158/'},
+  'reop-AEEP':   {ref:'He W et al. Front Endocrinol. 2023;14:1287212. doi:10.3389/fendo.2023.1287212',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/38027158/'},
+  'reop-RASP':   {ref:'Carletti F et al. Eur Urol Focus. 2026. doi:10.1016/j.euf.2026.01.003',grade:'B',exp:'Nationwide real-world kohorte (Epic Cosmos)',url:'https://www.sciencedirect.com/science/article/pii/S2405456926000027'},
+  'reop-PAE':    {ref:'Kristensen-Alvarez A et al. Eur Urol Focus. 2025;11(6):991-998. doi:10.1016/j.euf.2025.08.003',grade:'B',exp:'Nationwide prospektivt kohortstudie (Danmark)',url:'https://pubmed.ncbi.nlm.nih.gov/40846555/'},
+  'reop-TUMT':   {ref:'Stenmark F et al. Scand J Urol. 2022;56(4):336-341. doi:10.1080/21681805.2022.2108139',grade:'C',exp:'Retrospektivt kohortstudie',url:'https://pubmed.ncbi.nlm.nih.gov/35942595/'},
+  'reop-UroLift':{ref:'Carletti F et al. Eur Urol Focus. 2026. doi:10.1016/j.euf.2026.01.003',grade:'B',exp:'Nationwide real-world kohorte (Epic Cosmos)',url:'https://www.sciencedirect.com/science/article/pii/S2405456926000027'},
+  'reop-Rezum':  {ref:'Carletti F et al. Eur Urol Focus. 2026. doi:10.1016/j.euf.2026.01.003',grade:'B',exp:'Nationwide real-world kohorte (Epic Cosmos)',url:'https://www.sciencedirect.com/science/article/pii/S2405456926000027'},
+  'strik-TUIP':  {ref:'Licari LC et al. Prostate Cancer Prostatic Dis. 2024;27(3):537-543. doi:10.1038/s41391-024-00841-z',grade:'B',exp:'Stort U.S. database-studie',url:'https://www.nature.com/articles/s41391-024-00841-z'},
+  'strik-TURP':  {ref:'Licari LC et al. Prostate Cancer Prostatic Dis. 2024;27(3):537-543. doi:10.1038/s41391-024-00841-z',grade:'B',exp:'Stort U.S. database-studie',url:'https://www.nature.com/articles/s41391-024-00841-z'},
+  'strik-PVP':   {ref:'Licari LC et al. Prostate Cancer Prostatic Dis. 2024;27(3):537-543. doi:10.1038/s41391-024-00841-z',grade:'B',exp:'Stort U.S. database-studie',url:'https://www.nature.com/articles/s41391-024-00841-z'},
+  'strik-AEEP':  {ref:'Licari LC et al. Prostate Cancer Prostatic Dis. 2024;27(3):537-543. doi:10.1038/s41391-024-00841-z',grade:'B',exp:'Stort U.S. database-studie',url:'https://www.nature.com/articles/s41391-024-00841-z'},
+  'strik-RASP':  {ref:'Licari LC et al. Prostate Cancer Prostatic Dis. 2024;27(3):537-543. doi:10.1038/s41391-024-00841-z',grade:'B',exp:'Stort U.S. database-studie',url:'https://www.nature.com/articles/s41391-024-00841-z'},
+  'strik-PAE':   {ref:'Licari LC et al. Prostate Cancer Prostatic Dis. 2024;27(3):537-543. doi:10.1038/s41391-024-00841-z',grade:'B',exp:'Stort U.S. database-studie',url:'https://www.nature.com/articles/s41391-024-00841-z'},
+  'strik-TUMT':  {ref:'Mattiasson A et al. Urology. 2007;69(1):91-96. doi:10.1016/j.urology.2006.08.1115',grade:'B',exp:'Prospektivt randomiseret multicenter RCT, 5-års follow-up',url:'https://pubmed.ncbi.nlm.nih.gov/17270624/'},
+  'strik-UroLift':{ref:'Licari LC et al. Prostate Cancer Prostatic Dis. 2024;27(3):537-543. doi:10.1038/s41391-024-00841-z',grade:'B',exp:'Stort U.S. database-studie',url:'https://www.nature.com/articles/s41391-024-00841-z'},
+  'strik-Rezum': {ref:'Licari LC et al. Prostate Cancer Prostatic Dis. 2024;27(3):537-543. doi:10.1038/s41391-024-00841-z',grade:'B',exp:'Stort U.S. database-studie',url:'https://www.nature.com/articles/s41391-024-00841-z'},
+  'saed-TUIP':   {ref:'Couteau N et al. J Clin Med. 2021;10(24):5788. doi:10.3390/jcm10245788',grade:'B',exp:'Narrativt review – baseret på systematisk review af 42 RCT',url:'https://pubmed.ncbi.nlm.nih.gov/34945084/'},
+  'saed-TURP':   {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'saed-PVP':    {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'saed-AEEP':   {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'saed-RASP':   {ref:'Couteau N et al. J Clin Med. 2021;10(24):5788. doi:10.3390/jcm10245788',grade:'C',exp:'Narrativt review – baseret på enkeltstudie',url:'https://pubmed.ncbi.nlm.nih.gov/34945084/'},
+  'saed-PAE':    {ref:'Müllhaupt G et al. World J Urol. 2020;38(10):2595-2599. doi:10.1007/s00345-019-03036-7',grade:'B',exp:'Prospektive kliniske forsøg, 2 studier',url:'https://pubmed.ncbi.nlm.nih.gov/31813028/'},
+  'saed-TUMT':   {ref:'Grossmann NC et al. Investig Clin Urol. 2026;67(1):1-14. doi:10.4111/icu.20250390',grade:'B',exp:'Narrativt review',url:'https://pubmed.ncbi.nlm.nih.gov/41469901/'},
+  'saed-UroLift':{ref:'Grossmann NC et al. Investig Clin Urol. 2026;67(1):1-14. doi:10.4111/icu.20250390',grade:'B',exp:'Narrativt review',url:'https://pubmed.ncbi.nlm.nih.gov/41469901/'},
+  'saed-Rezum':  {ref:'Grossmann NC et al. Investig Clin Urol. 2026;67(1):1-14. doi:10.4111/icu.20250390',grade:'B',exp:'Narrativt review',url:'https://pubmed.ncbi.nlm.nih.gov/41469901/'},
+  'erek-TUIP':   {ref:'Abd-El Kader O et al. Afr J Urol. 2012;18(1):29-33. doi:10.1016/j.afju.2012.04.007',grade:'B',exp:'Prospektivt randomiseret studie, 80 patienter, 48 måneders opfølgning',url:'https://www.sciencedirect.com/science/article/pii/S1110570412000082'},
+  'erek-TURP':   {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'erek-PVP':    {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'erek-AEEP':   {ref:'Malde S et al. BJUI Compass. 2021;2(4):238-259. doi:10.1002/bco2.74',grade:'A',exp:'Systematisk review og meta-analyse',url:'https://pubmed.ncbi.nlm.nih.gov/35475299/'},
+  'erek-RASP':   {ref:'Porpiglia F et al. J Urol. 2011;185(5):1668-1673. doi:10.1016/j.juro.2010.12.047',grade:'C',exp:'Retrospektivt enkeltcenterstudie, laparoskopisk simpel prostatektomi, min. 1 års follow-up',url:'https://pubmed.ncbi.nlm.nih.gov/21419455/'},
+  'erek-PAE':    {ref:'Uflacker A et al. J Vasc Interv Radiol. 2016;27(11):1686-1697. doi:10.1016/j.jvir.2016.08.004',grade:'B',exp:'Meta-analyse, primært observationelle studier',url:'https://pubmed.ncbi.nlm.nih.gov/27742235/'},
+  'erek-TUMT':   {ref:'Grossmann NC et al. Investig Clin Urol. 2026;67(1):1-14. doi:10.4111/icu.20250390',grade:'B',exp:'Narrativt review',url:'https://pubmed.ncbi.nlm.nih.gov/41469901/'},
+  'erek-UroLift':{ref:'Grossmann NC et al. Investig Clin Urol. 2026;67(1):1-14. doi:10.4111/icu.20250390',grade:'B',exp:'Narrativt review',url:'https://pubmed.ncbi.nlm.nih.gov/41469901/'},
+  'erek-Rezum':  {ref:'Grossmann NC et al. Investig Clin Urol. 2026;67(1):1-14. doi:10.4111/icu.20250390',grade:'B',exp:'Narrativt review',url:'https://pubmed.ncbi.nlm.nih.gov/41469901/'},
+};
+
+
+const GRADE_CLASS={A:'grade-A',B:'grade-B',C:'grade-C',D:'grade-D'};
+const GRADE_LABEL={A:'A – Høj evidens',B:'B – Moderat evidens',C:'C – Lav evidens',D:'D – Meget lav / mangler'};
+
+const PARAM_TIPS={
+  'Bedøvelse':'Om indgrebet kræver fuld bedøvelse (narkose) eller lokal bedøvelse. Fuld bedøvelse medfører lidt større risiko og kræver typisk faste inden indgrebet.',
+  'Prostatastørrelse':'Den prostatastørrelse behandlingen typisk egner sig bedst til, målt i cm³. Din urolog bestemmer størrelsen via ultralyd. Bemærk at der kan være regionale forskelle, så tallene er vejledende — din urolog afgør hvad der er relevant for dig.',
+  'Katetervarighed':'Hvor længe du typisk skal have et kateter (en tynd slange i urinrøret) efter behandlingen, mens vævet heler. Har du tidligere haft urinretention (manglende evne til at tømme blæren), skal du muligvis forvente en længere kateterperiode end angivet.',
+  'Indlæggelse':'Hvor lang tid du forventes at være indlagt. 0 dage (ambulant) betyder at du ikke indlægges og tager hjem samme dag. 1 dag betyder at du er indlagt, men muligvis kan udskrives samme dag afhængigt af dit forløb.',
+  'Symptomer (DANPSS)':'Procentvis forbedring af vandladningsgener målt med DANPSS-skalaen. Jo højere procent, jo større symptomlindring.',
+  'Urinstråle (Qmax)':'Forbedring i urinstrålens maksimale hastighed sammenlignet med før behandlingen. Jo højere procent, jo bedre strålekraft.',
+  'Livskvalitet (QOL)':'Procentvis forbedring i patienternes oplevede livskvalitet relateret til vandladning.',
+  'Genbehandling efter 5 år':'Andelen af patienter der inden for 5 år har behov for en ny behandling, fordi effekten ikke var tilstrækkelig eller ikke holdt.',
+  'Forsnævring af urinrør':'Risikoen for at udvikle en forsnævring i urinrøret som komplikation. Kræver separat behandling hvis det opstår.',
+  'Ændret sædafgang':'Andel af patienter der oplever ændret sædafgang — oftest retrograd ejakulation, hvor sæden løber bagud i blæren i stedet for ud. Det er ufarligt, men kan påvirke fertiliteten.',
+  'Rejsningsbesvær':'Risikoen for at behandlingen påvirker evnen til rejsning (erektil dysfunktion).',
+  'Hospital':'Hvilke hospitaler i Danmark der aktuelt tilbyder denne behandling.',
+};
+
+function icon(param){ return `<button class="param-info" data-param="${param}">ℹ</button>`; }
+
+let selected=new Set(), barsOn=false;
+
+function syncUrl(){
+  const p=new URLSearchParams(window.location.search);
+  if(selected.size>0) p.set('b',Array.from(selected).join(','));
+  else p.delete('b');
+  const qs=p.toString();
+  try{history.replaceState(null,'',window.location.pathname+(qs?'?'+qs:''));}catch(e){}
+}
+function loadFromUrl(){
+  const p=new URLSearchParams(window.location.search);
+  const raw=p.get('b');
+  if(!raw) return;
+  const keys=raw.split(',').map(s=>s.trim()).filter(k=>TREATMENTS_META.some(t=>t.key===k));
+  if(keys.length>=2) selected=new Set(keys);
+}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function renderPicker(){
+  const grid=document.getElementById('tpGrid');
+  grid.innerHTML='';
+  TREATMENTS_META.forEach(t=>{
+    const card=document.createElement('button');
+    card.type='button';
+    card.className='tp-card'+(selected.has(t.key)?' selected':'');
+    card.dataset.key=t.key;
+    const behKey = LC_KEY_MAP[t.key] || t.key.toLowerCase();
+    card.innerHTML='<div class="tp-circle">'+checkSvg+'</div><div class="tp-name">'+t.name+'</div><div class="tp-full">'+t.full+'</div><span class="tp-read-link" data-key="'+behKey+'">Læs om →</span>';
+    grid.appendChild(card);
+  });
+  const ok=selected.size>=2;
+  
+  document.getElementById('tpToggleAll').textContent=selected.size===TREATMENTS_META.length?'Fravælg alle':'Vælg alle';
+}
+function getColors(){
+  return selected.size===2
+    ?{hi:'#bbf7d0',mid:null,lo:'#fecaca'}
+    :{hi:'#bbf7d0',mid:'#fef08a',lo:'#fecaca'};
+}
+function updateLegend(){
+  const c=getColors();
+  document.getElementById('leg-good').style.background=c.hi;
+  document.getElementById('leg-bad').style.background=c.lo;
+  document.getElementById('leg-mid').parentElement.style.display=c.mid?'flex':'none';
+}
+function thresholdColor(val,allVals,hiGood){
+  const c=getColors();
+  const uniqueSorted=[...new Set(allVals)].sort((a,b)=>a-b);
+  const u=uniqueSorted.length;
+  if(u<=1) return c.hi;
+  const rank=uniqueSorted.indexOf(val); // 0=lowest
+  // 2 unique values: only green/red
+  if(u===2){
+    const bestRank=hiGood?1:0;
+    return rank===bestRank?c.hi:c.lo;
+  }
+  // 3+ unique values: pct 0=lowest, 1=highest
+  const pct=rank/(u-1);
+  const r=hiGood?pct:1-pct; // r: 0=worst, 1=best
+  if(!c.mid) return r>=0.5?c.hi:c.lo;
+  if(r>=0.667) return c.hi;
+  if(r>=0.333) return c.mid;
+  return c.lo;
+}
+function buildTable(){
+  const sel=T.filter(t=>selected.has(t.abbr));
+  updateLegend();
+  const headerRow=document.getElementById('headerRow');
+  while(headerRow.children.length>1) headerRow.removeChild(headerRow.lastChild);
+  sel.forEach(t=>{
+    const th=document.createElement('th');
+    th.className='col-head';
+    const behKey = LC_KEY_MAP[t.abbr] || t.abbr.toLowerCase();
+    th.innerHTML='<span class="abbr">'+t.abbr+'</span><a class="col-read-link" href="behandlinger.html#'+behKey+'">Læs om</a>';
+    headerRow.appendChild(th);
+  });
+  const vandlV=sel.map(t=>t.vandl),qmaxV=sel.map(t=>t.qmax),qolV=sel.map(t=>t.qol);
+  const reopV=sel.map(t=>t.reop),strikV=sel.map(t=>t.strik),saedV=sel.map(t=>t.saedN),erekV=sel.map(t=>t.erek);
+  function makeBar(val,allVals,hiGood,displayVal,refKey){
+    const color=thresholdColor(val,allVals,hiGood);
+    const sup=`<button class="sup" data-key="${refKey}">ref</button>`;
+    return `<td class="cell cell-hi" data-color="${color}"><span class="bar-val">${displayVal}${sup}</span></td>`;
+  }
+  function colorKat(t){
+    const allVals=sel.map(x=>x.katN);
+    const bg=thresholdColor(t.katN,allVals,false);
+    return `<td class="cell cell-hi" data-color="${bg}"><span class="bar-val">${t.kat}</span></td>`;
+  }
+  function colorIndl(t){
+    const allVals=sel.map(x=>x.indlN);
+    const bg=thresholdColor(t.indlN,allVals,false);
+    return `<td class="cell cell-hi" data-color="${bg}"><span class="bar-val">${t.indl}</span></td>`;
+  }
+  function textCell(val){
+    return `<td class="cell" style="font-size:11px;color:var(--ink-soft);text-align:center">${val}</td>`;
+  }
+  const rows=[
+    {sect:'Praktisk'},
+    {label:'Bedøvelse',render:t=>`<td class="cell"><span class="tag ${t.bed==='fuld'?'tag-f':'tag-l'}">${t.bed==='fuld'?'Fuld':'Lokal'}</span></td>`},
+    {label:'Prostatastørrelse',render:t=>textCell(t.prost)},
+    {label:'Katetervarighed',render:t=>colorKat(t)},
+    {label:'Indlæggelse',render:t=>colorIndl(t)},
+    {sect:'Forbedring af'},
+    {label:'Symptomer (DANPSS)',render:t=>makeBar(t.vandl,vandlV,true,Math.round(t.vandl*100)+'%','vandl-'+t.abbr)},
+    {label:'Urinstråle (Qmax)',render:t=>makeBar(t.qmax,qmaxV,true,Math.round(t.qmax*10)/10+'%','qmax-'+t.abbr)},
+    {label:'Livskvalitet (QOL)',render:t=>makeBar(t.qol,qolV,true,Math.round(t.qol*100)+'%','qol-'+t.abbr)},
+    {sect:'Risici'},
+    {label:'Genbehandling efter 5 år',render:t=>makeBar(t.reop,reopV,false,Math.round(t.reop*100)+'%','reop-'+t.abbr)},
+    {label:'Forsnævring af urinrør',render:t=>makeBar(t.strik,strikV,false,(t.strik*100).toFixed(1)+'%','strik-'+t.abbr)},
+    {sect:'Seksualfunktion'},
+    {label:'Ændret sædafgang',render:t=>makeBar(t.saedN,saedV,false,t.saed,'saed-'+t.abbr)},
+    {label:'Rejsningsbesvær',render:t=>makeBar(t.erek,erekV,false,t.erekS,'erek-'+t.abbr)},
+    {sect:'Praktisk info'},
+    {label:'Hospital',render:t=>textCell(t.hosp)},
+  ];
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML='';
+  rows.forEach(row=>{
+    const tr=document.createElement('tr');
+    if(row.sect){
+      tr.className='sect-head';
+      tr.innerHTML=`<td colspan="${sel.length+1}">${row.sect}</td>`;
+    } else {
+      const lbl=`${row.label}${icon(row.label)}`;
+      tr.innerHTML=`<td class="row-label">${lbl}</td>`+sel.map(t=>row.render(t)).join('');
+    }
+    tbody.appendChild(tr);
+  });
+  if(barsOn) document.querySelectorAll('.cell-hi').forEach(el=>{el.style.backgroundColor=el.dataset.color;});
+  buildMobileCards(sel,vandlV,qmaxV,qolV,reopV,strikV,saedV,erekV);
+
+  // Clean, lightweight link onward to the personal test, pre-selecting
+  // the treatments currently being compared (personlig_test.html uses
+  // different key casing per treatment, hence the shared map).
+  const testCta = document.getElementById('testCta');
+  if(testCta){
+    const testKeys = sel.map(t=>LC_KEY_MAP[t.abbr] || t.abbr.toLowerCase());
+    const readAllUrl = 'behandlinger.html#' + testKeys.join('+');
+    const links = [];
+    if(testKeys.length>=2){
+      const url = 'personlig_test.html?behandlinger=' + testKeys.join(',');
+      links.push('<a href="'+url+'">Tag den personlige test med disse behandlinger <span class="arrow">→</span></a>');
+    }
+    links.push('<a href="'+readAllUrl+'">Læs om de valgte behandlinger <span class="arrow">→</span></a>');
+    testCta.innerHTML = links.map(l=>'<div>'+l+'</div>').join('');
+  }
+}
+
+function buildMobileCards(sel,vandlV,qmaxV,qolV,reopV,strikV,saedV,erekV){
+  const container=document.getElementById('mobileCards');
+  if(!container) return;
+  container.innerHTML='';
+  function mobBar(val,allVals,hiGood,displayVal){
+    const color=thresholdColor(val,allVals,hiGood);
+    const style=barsOn?`background:${color}`:'';
+    return `<span class="mob-val" style="${style}">${displayVal}</span>`;
+  }
+  sel.forEach(t=>{
+    const katAllVals=sel.map(x=>x.katN);
+    const indlAllVals=sel.map(x=>x.indlN);
+    const katColor=thresholdColor(t.katN,katAllVals,false);
+    const indlColor=thresholdColor(t.indlN,indlAllVals,false);
+    const katStyle=barsOn?`background:${katColor}`:'';
+    const indlStyle=barsOn?`background:${indlColor}`:'';
+    const meta=TREATMENTS_META.find(m=>m.key===t.abbr);
+    const behKey = LC_KEY_MAP[t.abbr] || t.abbr.toLowerCase();
+    const card=document.createElement('div');
+    card.className='mob-card';
+    card.innerHTML=`
+      <div class="mob-card-header">
+        <div><div class="mob-abbr">${t.abbr}</div><div class="mob-full">${meta?meta.full:''}</div></div>
+        <a class="mob-read-link" href="behandlinger.html#${behKey}">Læs om →</a>
+      </div>
+      <div class="mob-sect">Praktisk</div>
+      <div class="mob-row"><span class="mob-label">Bedøvelse${icon('Bedøvelse')}</span><span class="mob-val" style="background:${t.bed==='fuld'?'#fecaca':'#bbf7d0'}">${t.bed==='fuld'?'Fuld bedøvelse':'Lokal bedøvelse'}</span></div>
+      <div class="mob-row"><span class="mob-label">Prostatastørrelse${icon('Prostatastørrelse')}</span><span class="mob-val">${t.prost}</span></div>
+      <div class="mob-row"><span class="mob-label">Katetervarighed${icon('Katetervarighed')}</span><span class="mob-val" style="${katStyle}">${t.kat}</span></div>
+      <div class="mob-row"><span class="mob-label">Indlæggelse${icon('Indlæggelse')}</span><span class="mob-val" style="${indlStyle}">${t.indl}</span></div>
+      <div class="mob-sect">Forbedring af</div>
+      <div class="mob-row"><span class="mob-label">Symptomer (DANPSS)${icon('Symptomer (DANPSS)')}</span>${mobBar(t.vandl,vandlV,true,Math.round(t.vandl*100)+'%')}</div>
+      <div class="mob-row"><span class="mob-label">Urinstråle (Qmax)${icon('Urinstråle (Qmax)')}</span>${mobBar(t.qmax,qmaxV,true,Math.round(t.qmax*10)/10+'%')}</div>
+      <div class="mob-row"><span class="mob-label">Livskvalitet (QOL)${icon('Livskvalitet (QOL)')}</span>${mobBar(t.qol,qolV,true,Math.round(t.qol*100)+'%')}</div>
+      <div class="mob-sect">Risici</div>
+      <div class="mob-row"><span class="mob-label">Genbehandling efter 5 år${icon('Genbehandling efter 5 år')}</span>${mobBar(t.reop,reopV,false,Math.round(t.reop*100)+'%')}</div>
+      <div class="mob-row"><span class="mob-label">Forsnævring af urinrør${icon('Forsnævring af urinrør')}</span>${mobBar(t.strik,strikV,false,(t.strik*100).toFixed(1)+'%')}</div>
+      <div class="mob-sect">Seksualfunktion</div>
+      <div class="mob-row"><span class="mob-label">Ændret sædafgang${icon('Ændret sædafgang')}</span>${mobBar(t.saedN,saedV,false,t.saed)}</div>
+      <div class="mob-row"><span class="mob-label">Rejsningsbesvær${icon('Rejsningsbesvær')}</span>${mobBar(t.erek,erekV,false,t.erekS)}</div>
+      <div class="mob-sect">Praktisk info</div>
+      <div class="mob-row"><span class="mob-label">Hospital${icon('Hospital')}</span><span class="mob-val" style="font-size:10px;white-space:normal;text-align:right;max-width:55%">${t.hosp}</span></div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// Events
+document.getElementById('tpGrid').addEventListener('click', e=>{
+  const readLink=e.target.closest('.tp-read-link');
+  if(readLink){
+    e.stopPropagation();
+    window.location.href='behandlinger.html#'+readLink.dataset.key;
+    return;
+  }
+  const card=e.target.closest('.tp-card'); if(!card) return;
+  const k=card.dataset.key;
+  if(selected.has(k)) selected.delete(k); else selected.add(k);
+  renderPicker(); syncUrl();
+});
+function handleToggleAll(){
+  if(selected.size===TREATMENTS_META.length) selected.clear();
+  else selected=new Set(TREATMENTS_META.map(t=>t.key));
+  renderPicker(); syncUrl();
+}
+addTapListener('tpToggleAll', handleToggleAll);
+function handleShowTable(){
+  if(selected.size<2){return;}
+  buildTable(); showScreen('screen-table');
+}
+function handleBack(){ showScreen('screen-picker'); }
+function addTapListener(id, fn){
+  document.getElementById(id).addEventListener('click', fn);
+}
+addTapListener('showTableBtn', handleShowTable);
+addTapListener('backBtn', handleBack);
+function handleToggleBtn(){
+  barsOn=!barsOn;
+  document.getElementById('toggleTrack').classList.toggle('on',barsOn);
+  document.getElementById('legend').style.display=barsOn?'flex':'none';
+  document.querySelectorAll('.cell-hi').forEach(el=>{el.style.backgroundColor=barsOn?el.dataset.color:'';});
+  const sel=T.filter(t=>selected.has(t.abbr));
+  buildMobileCards(sel,sel.map(t=>t.vandl),sel.map(t=>t.qmax),sel.map(t=>t.qol),sel.map(t=>t.reop),sel.map(t=>t.strik),sel.map(t=>t.saedN),sel.map(t=>t.erek));
+}
+addTapListener('toggleBtn', handleToggleBtn);
+
+// Unified click handler
+const popover=document.getElementById('popover');
+const paramTooltip=document.getElementById('paramTooltip');
+document.getElementById('popClose').addEventListener('click',()=>popover.classList.remove('visible'));
+document.addEventListener('click',e=>{
+  const infoBtn=e.target.closest('.param-info');
+  if(infoBtn){
+    const text=PARAM_TIPS[infoBtn.dataset.param];
+    if(text){
+      paramTooltip.textContent=text;
+      paramTooltip.classList.add('open');
+      const rect=infoBtn.getBoundingClientRect();
+      let top=rect.bottom+6,left=rect.left;
+      if(left+250>window.innerWidth) left=window.innerWidth-255;
+      if(top+100>window.innerHeight) top=rect.top-106;
+      paramTooltip.style.top=top+'px';
+      paramTooltip.style.left=left+'px';
+    }
+    return;
+  }
+  if(e.target.classList.contains('sup')){
+    const key=e.target.dataset.key;
+    const r=REFS[key]; if(!r) return;
+    document.getElementById('pop-ref').textContent=r.ref;
+    const gEl=document.getElementById('pop-grade');
+    gEl.textContent=GRADE_LABEL[r.grade];
+    gEl.className='pop-grade '+GRADE_CLASS[r.grade];
+    document.getElementById('pop-grade-exp').textContent=r.exp;
+    // Build article link: prefer explicit url, else PMID/DOI-based PubMed search
+    const doiMatch=r.ref.match(/doi[:\s]*(10\.\S+)/i);
+    const pmidMatch=r.ref.match(/PMID[:\s]*(\d+)/i);
+    const pmLink=document.getElementById('pop-pubmed');
+    if(r.url){
+      pmLink.href=r.url;
+      pmLink.style.display='inline-block';
+    } else if(pmidMatch){
+      pmLink.href='https://pubmed.ncbi.nlm.nih.gov/'+pmidMatch[1]+'/';
+      pmLink.style.display='inline-block';
+    } else if(doiMatch){
+      pmLink.href='https://pubmed.ncbi.nlm.nih.gov/?term='+encodeURIComponent(doiMatch[1]);
+      pmLink.style.display='inline-block';
+    } else {
+      // Fallback: search by first author + year
+      const fallback=r.ref.substring(0,60);
+      pmLink.href='https://pubmed.ncbi.nlm.nih.gov/?term='+encodeURIComponent(fallback);
+      pmLink.style.display='inline-block';
+    }
+    popover.classList.add('visible');
+    const rect=e.target.getBoundingClientRect();
+    let top=rect.bottom+6,left=rect.left;
+    if(left+295>window.innerWidth) left=window.innerWidth-300;
+    if(top+155>window.innerHeight) top=rect.top-160;
+    popover.style.top=top+'px';
+    popover.style.left=left+'px';
+    return;
+  }
+  if(!popover.contains(e.target)) popover.classList.remove('visible');
+  if(!paramTooltip.contains(e.target)) paramTooltip.classList.remove('open');
+});
+
+// Init
+loadFromUrl();
+renderPicker();
+if(selected.size>=2){ buildTable(); showScreen('screen-table'); }
+
+})();
+</script>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">VANDLADNINGSBESVÆR.DK</div>
+      <div class="footer-copyright">© 2026 Simon Juul, speciallæge i urologi. Alle rettigheder forbeholdes.</div>
+      <div class="footer-note">Indholdet på denne side er til information og erstatter ikke en lægelig vurdering. Drøft altid behandlingsvalg med din læge.</div>
+    </div>
+    <a href="http://xn--vandladningsbesvr-6rb.dk/l%C3%A6ge" class="footer-login" target="_blank" rel="noopener">
+      <span>Lægeside</span>
+    </a>
+  </div>
+</footer>
+
+<script>
+// Nav dropdown — JS controlled
+(function(){
+  const dropdowns = document.querySelectorAll('.nav-dropdown');
+  dropdowns.forEach(dd => {
+    let closeTimer;
+    dd.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      dd.classList.add('open');
+    });
+    dd.addEventListener('mouseleave', () => {
+      closeTimer = setTimeout(() => dd.classList.remove('open'), 120);
+    });
+    document.addEventListener('click', e => {
+      if(!dd.contains(e.target)) dd.classList.remove('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

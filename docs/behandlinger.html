@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Læs om behandlinger · Vandladningsbesvær.dk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F9FA;--card:#FFFFFF;--ink:#3D3D3D;--ink-soft:#6B7280;
+  --teal-900:#1E3A5F;--teal-700:#2C5282;--teal-500:#4F86C6;
+  --teal-300:#8FB4E0;--teal-150:#EBEBEB;--teal-100:#F3F4F6;
+  --ochre-600:#5B7290;--ochre-400:#9CA3AF;
+  --line:#E2E5EA;--line-soft:#EDF0F4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
+
+/* ─── PAGE (layout matches bph_behandlingsoversigt.html) ── */
+.page{max-width:1100px;width:100%;margin:0 auto;padding:44px 24px 70px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-700);margin:0 0 10px}
+h1{font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(26px,4vw,38px);line-height:1.15;margin:0 0 8px;color:var(--teal-900)}
+.page p.lead{margin:0 0 14px;color:var(--ink-soft);font-size:14px;max-width:580px}
+.expand-all-btn{
+  display:inline-flex;align-items:center;gap:6px;margin-bottom:22px;
+  background:none;border:none;padding:0;cursor:pointer;
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:13px;
+  color:var(--teal-700);text-decoration:none;
+}
+.expand-all-btn:hover{text-decoration:underline;}
+@media(max-width:680px){
+  .page{padding:24px 16px 50px}
+  h1{font-size:22px}
+}
+
+/* ─── MAIN CONTENT ──────────────────────────────────────── */
+.content{
+  padding:28px 0 0;
+}
+
+/* ─── ACCORDION ─────────────────────────────────────────── */
+.accordion{display:flex;flex-direction:column;gap:12px}
+
+.acc-item{
+  background:var(--card);
+  border:1.5px solid var(--line);
+  border-radius:16px;
+  overflow:hidden;
+  transition:border-color .2s,box-shadow .2s;
+  scroll-margin-top:140px; /* offset for sticky nav + quicknav */
+}
+.acc-item.open{
+  border-color:var(--teal-500);
+  box-shadow:0 4px 24px rgba(44,82,130,0.10);
+}
+
+/* Header / toggle button */
+.acc-header{
+  width:100%;background:none;border:none;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 24px;cursor:pointer;text-align:left;
+  gap:16px;
+}
+.acc-header:hover .acc-title{color:var(--teal-700)}
+
+.acc-left{display:flex;align-items:center;gap:14px;flex:1;min-width:0}
+
+.acc-badge{
+  flex-shrink:0;
+  width:44px;height:44px;border-radius:12px;
+  background:var(--teal-100);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Poppins',sans-serif;font-weight:800;
+  font-size:11px;color:var(--teal-700);letter-spacing:.03em;
+  text-align:center;line-height:1.2;
+  transition:background .2s,color .2s;
+}
+.acc-item.open .acc-badge{background:var(--teal-700);color:#fff}
+
+.acc-text-group{min-width:0}
+.acc-title{
+  font-family:'Poppins',sans-serif;font-weight:700;
+  font-size:16px;color:var(--teal-900);
+  margin-bottom:2px;transition:color .15s;
+}
+.acc-subtitle{
+  font-size:12.5px;color:var(--ink-soft);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+.acc-arrow{
+  flex-shrink:0;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--teal-100);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,transform .3s;
+  font-size:14px;color:var(--teal-700);
+}
+.acc-item.open .acc-arrow{
+  background:var(--teal-700);color:#fff;
+  transform:rotate(180deg);
+}
+
+/* Body — hidden by default */
+.acc-body{
+  display:none;
+  padding:0 24px 28px;
+}
+.acc-item.open .acc-body{display:block}
+
+/* Section inside body */
+.acc-section{margin-bottom:0;padding-top:20px}
+.acc-section:first-child{padding-top:0}
+.acc-section-title{
+  font-family:'Poppins',sans-serif;font-weight:700;
+  font-size:13px;color:var(--teal-700);
+  text-transform:uppercase;letter-spacing:.10em;
+  margin-bottom:10px;
+}
+
+.acc-section p{
+  font-size:14.5px;color:var(--ink);line-height:1.75;
+  margin-bottom:10px;max-width:720px;
+}
+.acc-section p:last-child{margin-bottom:0}
+
+/* Divider between sections */
+
+
+
+
+/* ─── NAV ─────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:transparent;
+  transition:background .3s,box-shadow .3s;
+}
+nav.scrolled{
+  background:rgba(30,58,95,0.97);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.08);
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:72px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.nav-logo-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-logo-mark svg{width:20px;height:20px}
+.nav-logo-text{
+  font-family:'Poppins',sans-serif;font-weight:700;
+  font-size:16px;color:#fff;line-height:1.2;
+}
+.nav-logo-sub{font-size:10px;color:rgba(255,255,255,0.6);font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{
+  font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  letter-spacing:.02em;transition:color .15s;
+}
+.nav-links a:hover{color:#fff}
+.nav-cta{
+  background:#fff;color:var(--teal-900)!important;
+  padding:10px 22px;border-radius:999px;
+  font-size:13.5px!important;font-weight:700!important;
+  transition:background .15s,transform .15s!important;
+  white-space:nowrap;
+}
+.nav-cta:hover{background:var(--teal-100)!important;transform:translateY(-1px)!important}
+@media(max-width:768px){
+  .nav-inner{
+    padding:0;
+    flex-direction:column;
+    height:auto;
+    justify-content:center;
+  }
+  /* Hide logo/brand text on mobile */
+  .nav-logo{display:none}
+  /* Nav links become a centered row filling the full width */
+  .nav-links{
+    width:100%;
+    justify-content:space-around;
+    gap:0;
+    padding:0;
+    height:56px;
+    align-items:center;
+    border-top:none;
+  }
+  .nav-links a{
+    font-size:12px;
+    padding:0 8px;
+    letter-spacing:.01em;
+    color:rgba(255,255,255,0.90);
+    flex:1;
+    text-align:center;
+    height:56px;
+    display:flex;align-items:center;justify-content:center;
+    border-right:1px solid rgba(255,255,255,0.10);
+  }
+  .nav-links a:last-child{border-right:none}
+}
+/* ─── NAV DROPDOWN ────────────────────────────────────── */
+.nav-dropdown{position:relative;display:flex;align-items:center}
+.nav-drop-toggle{
+  display:flex;align-items:center;gap:4px;cursor:pointer;
+  font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  letter-spacing:.02em;transition:color .15s;
+  background:none;border:none;padding:0;
+}
+.nav-drop-toggle:hover{color:#fff}
+.drop-arrow{font-size:10px;transition:transform .2s;display:inline-block}
+.nav-dropdown.open .drop-arrow{transform:rotate(180deg)}
+.nav-drop-menu{
+  display:none;
+  position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  background:rgba(25,50,85,0.97);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:0 0 12px 12px;
+  min-width:220px;
+  /* top padding creates invisible bridge so mouse doesnt leave the element */
+  padding:8px 0;
+  padding-top:12px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.25);
+  z-index:500;
+  /* invisible top extension so no gap between toggle and menu */
+  margin-top:-2px;
+}
+.nav-dropdown.open .nav-drop-menu{display:block}
+/* Invisible hover bridge — extends hit area upward to prevent gap */
+.nav-dropdown::after{
+  content:'';
+  position:absolute;
+  bottom:-8px;left:0;right:0;
+  height:8px;
+  background:transparent;
+}
+.nav-drop-menu a{
+  display:block;padding:11px 20px;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,0.80);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  transition:background .15s,color .15s;letter-spacing:.02em;
+}
+.nav-drop-menu a:hover{background:rgba(255,255,255,0.08);color:#fff}
+.nav-drop-menu a+a{border-top:1px solid rgba(255,255,255,0.07)}
+
+/* Mobile: dropdown stacks inline */
+@media(max-width:768px){
+  .nav-dropdown{flex:1;height:56px;border-right:1px solid rgba(255,255,255,0.10)}
+  .nav-drop-toggle{
+    width:100%;height:100%;justify-content:center;
+    font-size:12px;padding:0 8px;
+  }
+  .drop-arrow{display:none}
+  .nav-drop-menu{
+    position:fixed;top:56px;left:0;right:0;transform:none;
+    border-radius:0 0 12px 12px;
+    min-width:unset;width:100%;
+    border-left:none;border-right:none;border-top:none;
+  }
+  .nav-drop-menu a{padding:14px 28px;font-size:13.5px}
+}
+/* ─── FOOTER ──────────────────────────────────────────── */
+footer{
+  background:var(--teal-900);padding:40px 32px;margin-top:auto;
+}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-brand{display:flex;flex-direction:column;gap:6px}
+.footer-logo{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:#fff}
+.footer-copyright{font-size:12px;color:rgba(255,255,255,0.45);font-family:'Poppins',sans-serif}
+.footer-note{font-size:11.5px;color:rgba(255,255,255,0.35);max-width:560px;line-height:1.6;margin-top:4px}
+.footer-login{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  text-decoration:none;
+  color:rgba(255,255,255,0.55);
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;
+  letter-spacing:.04em;text-transform:uppercase;
+  transition:color .2s;
+  flex-shrink:0;
+  padding-top:1px;
+}
+.footer-login:hover{color:#fff}
+.footer-login img{
+  width:60px;height:80px;
+  object-fit:contain;
+  opacity:0.55;
+  transition:opacity .2s;
+}
+.footer-login:hover img{opacity:1}
+
+
+/* ─── SUBPAGE NAV OVERRIDE (no hero video, so nav is always solid) ─── */
+body.subpage nav{
+  background:rgba(30,58,95,0.97);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.08);
+}
+body.subpage .page{padding-top:116px}
+@media(max-width:768px){
+  body.subpage .page{padding-top:96px}
+}
+
+</style>
+</head>
+<body class="subpage">
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html"><div class="nav-logo-text" style="font-size:18px;letter-spacing:.04em">VANDLADNINGSBESVÆR.DK</div></a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <a href="index.html#behandlingstrin" class="nav-drop-toggle">Behandlinger <span class="drop-arrow">▾</span></a>
+        <div class="nav-drop-menu">
+          <a href="behandlinger.html">Læs om behandlinger</a>
+          <a href="bph_behandlingsoversigt.html">Sammenlign behandlinger</a>
+        </div>
+      </div>
+      <a href="personlig_test.html">Personlig test</a>
+      <a href="om_siden.html">Om siden</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+
+<h1>Læs om behandlingerne</h1>
+<p class="lead">Tryk på de behandlinger, du ønsker at læse om.</p>
+<button class="expand-all-btn" id="expandAllBtn">Fold alle ud</button>
+
+<!-- ACCORDION -->
+<div class="content" id="behandlinger">
+<div class="accordion">
+
+  <!-- TUIP -->
+  <div class="acc-item" id="tuip">
+    <button class="acc-header" onclick="toggle('tuip')">
+      <div class="acc-left">
+        <div class="acc-badge">TUIP</div>
+        <div class="acc-text-group">
+          <div class="acc-title">Transuretral indsnit af prostata</div>
+        </div>
+      </div>
+      <div class="acc-arrow">▾</div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-section">
+        <div class="acc-section-title">Hvordan foregår behandlingen?</div>
+        <p>TUIP (Transurethral Incision of the Prostate) er en operation, der anvendes ved mindre prostataforstørrelser. Formålet er at gøre passagen gennem prostata bredere uden at fjerne prostatavæv.</p>
+        <p>Operationen udføres gennem urinrøret ved hjælp af et kikkertinstrument. Kirurgen laver ét eller to små snit i blærehalsen og prostata, så vævet kan åbne sig, og trykket omkring urinrøret mindskes. Herved bliver det lettere for urinen at passere fra blæren.</p>
+        <p>Da der ikke fjernes prostatavæv, er indgrebet mindre omfattende end en traditionel prostataoperation. Efter operationen anlægges der normalt et blærekateter, som oftest kan fjernes dagen efter.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Bedøvelse og smertelindring</div>
+        <p>TUIP udføres oftest i fuld narkose.</p>
+        <p>Efter operationen oplever de fleste lette smerter. Det er almindeligt med svie ved vandladning, lettere blødning i urinen og hyppig vandladningstrang de første dage. Disse gener aftager som regel hurtigt og kan behandles med almindelig smertestillende medicin.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Effekt og holdbarhed</div>
+        <p>TUIP giver hos de fleste en tydelig forbedring af vandladningssymptomer, urinstråle og blæretømning.</p>
+        <p>Effekten indtræder hurtigt efter operationen og kan være langvarig. Da der ikke fjernes prostatavæv, kan prostata dog fortsætte med at vokse med alderen, og nogle får derfor senere behov for en ny behandling.</p>
+        <p>TUIP er bedst egnet til patienter med mindre prostataer og uden en markant forstørret midterlap.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Betydning for seksuallivet</div>
+        <p>En væsentlig fordel ved TUIP er, at risikoen for retrograd sædafgang er mindre end ved TURP, fordi der ikke fjernes prostatavæv. Tilstanden kan dog fortsat forekomme hos nogle.</p>
+        <p>Studier viser, at rejsningsevnen som regel bevares efter operationen, og behandlingen har generelt kun lille risiko for at påvirke seksuallivet negativt.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Sikkerhed og bivirkninger</div>
+        <p>TUIP er en sikker og veldokumenteret operation med lav risiko for alvorlige komplikationer.</p>
+        <p>De hyppigste bivirkninger er blod i urinen, svie ved vandladning og urinvejsinfektion. Nogle oplever midlertidige problemer med at holde på urinen eller vanskeligheder med at lade vandet i den første tid. Langvarig inkontinens og forsnævring af urinrøret er sjældne.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TURP -->
+  <div class="acc-item" id="turp">
+    <button class="acc-header" onclick="toggle('turp')">
+      <div class="acc-left">
+        <div class="acc-badge">TURP</div>
+        <div class="acc-text-group">
+          <div class="acc-title">Transuretral resektion af prostata</div>
+        </div>
+      </div>
+      <div class="acc-arrow">▾</div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-section">
+        <div class="acc-section-title">Hvordan foregår behandlingen?</div>
+        <p>TURP (Transurethral Resection of the Prostate) er den mest anvendte kirurgiske behandling af godartet prostataforstørrelse og betragtes fortsat som standardbehandlingen ved mellemstore prostataer.</p>
+        <p>Operationen udføres gennem urinrøret ved hjælp af et kikkertinstrument. Med en elektrisk slynge fjernes det prostatavæv, som trykker på urinrøret, i små stykker. Vævet skylles ud af blæren og sendes ofte til mikroskopisk undersøgelse.</p>
+        <p>Når den forsnævrende del af prostata er fjernet, bliver passagen gennem urinrøret bredere, og vandladningen forbedres. Efter operationen anlægges et blærekateter, som typisk fjernes efter et til tre døgn.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Bedøvelse og smertelindring</div>
+        <p>TURP udføres oftest i fuld narkose.</p>
+        <p>Efter operationen oplever mange lette til moderate smerter, svie ved vandladning, blærekramper og blod i urinen. Disse gener aftager gradvist i løbet af dage til uger og kan som regel behandles med almindelig smertestillende medicin.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Effekt og holdbarhed</div>
+        <p>TURP er en af de bedst dokumenterede behandlinger mod godartet prostataforstørrelse.</p>
+        <p>De fleste oplever en markant forbedring af vandladningssymptomer, urinstråle og blæretømning kort tid efter operationen. Resultaterne er som regel langvarige, og kun en mindre del får senere behov for en ny operation.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Betydning for seksuallivet</div>
+        <p>Den hyppigste seksuelle bivirkning efter TURP er, at sæden løber tilbage i blæren ved orgasme (retrograd sædafgang). Tilstanden er ikke farlig, men betyder, at sæden ikke kommer ud gennem urinrøret ved udløsning.</p>
+        <p>De fleste mænd bevarer deres evne til at få og bevare rejsning efter operationen. Enkelte oplever en forværring, men samlet set vurderes risikoen for vedvarende påvirkning af rejsningsevnen at være lav.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Sikkerhed og bivirkninger</div>
+        <p>TURP er en sikker operation med veldokumenterede resultater.</p>
+        <p>De hyppigste komplikationer er blod i urinen, urinvejsinfektion og midlertidige vandladningsproblemer. I sjældne tilfælde kan der opstå større blødning, behov for ny kateterbehandling, forsnævring af urinrøret eller vedvarende inkontinens. Alvorlige komplikationer forekommer sjældent.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PVP -->
+  <div class="acc-item" id="pvp">
+    <button class="acc-header" onclick="toggle('pvp')">
+      <div class="acc-left">
+        <div class="acc-badge">PVP</div>
+        <div class="acc-text-group">
+          <div class="acc-title">Laserfordampning af prostata</div>
+        </div>
+      </div>
+      <div class="acc-arrow">▾</div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-section">
+        <div class="acc-section-title">Hvordan foregår behandlingen?</div>
+        <p>PVP (Photoselective Vaporization of the Prostate) er en laserbehandling, hvor overskydende prostatavæv fjernes ved hjælp af GreenLight-laser.</p>
+        <p>Operationen udføres gennem urinrøret med et kikkertinstrument. Laseren opvarmer prostatavævet, så det fordamper lag for lag, samtidig med at blodkarrene lukkes. Dette reducerer blødningen under operationen sammenlignet med flere traditionelle kirurgiske metoder.</p>
+        <p>Når den forsnævrende del af prostata er fjernet, bliver passagen gennem urinrøret bredere. De fleste får et blærekateter, som ofte kan fjernes samme dag eller dagen efter.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Bedøvelse og smertelindring</div>
+        <p>PVP udføres oftest i fuld narkose.</p>
+        <p>Efter operationen oplever mange let svie ved vandladning, blod i urinen og hyppig vandladningstrang. Generne er som regel milde og aftager gradvist i løbet af de første uger.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Effekt og holdbarhed</div>
+        <p>PVP giver hos de fleste en betydelig forbedring af vandladningssymptomer, urinstråle og blæretømning.</p>
+        <p>Effekten indtræder hurtigt og holder ofte i mange år. Langtidsstudier viser dog, at nogle senere får behov for en ny behandling eller operation.</p>
+        <p>En væsentlig fordel ved PVP er, at behandlingen giver mindre blødning end traditionel TURP og derfor kan være særligt velegnet til patienter med øget blødningsrisiko.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Betydning for seksuallivet</div>
+        <p>Retrograd sædafgang er en almindelig følge af behandlingen, men risikoen vurderes at være lidt lavere end efter TURP.</p>
+        <p>Studier viser, at rejsningsevnen som regel bevares efter operationen, og behandlingen har generelt kun lille risiko for at påvirke evnen til at få eller bevare rejsning.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Sikkerhed og bivirkninger</div>
+        <p>PVP har en god sikkerhedsprofil.</p>
+        <p>De hyppigste bivirkninger er blod i urinen, svie ved vandladning og hyppig vandladningstrang. Urinvejsinfektion og forsnævring af urinrøret kan forekomme, men alvorlige komplikationer er sjældne. Risikoen for større blødninger er mindre end ved TURP.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AEEP -->
+  <div class="acc-item" id="aeep">
+    <button class="acc-header" onclick="toggle('aeep')">
+      <div class="acc-left">
+        <div class="acc-badge">AEEP</div>
+        <div class="acc-text-group">
+          <div class="acc-title">Laserenukleation (HoLEP/ThuLEP)</div>
+        </div>
+      </div>
+      <div class="acc-arrow">▾</div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-section">
+        <div class="acc-section-title">Hvordan foregår behandlingen?</div>
+        <p>AEEP (Anatomical Endoscopic Enucleation of the Prostate) er en samlet betegnelse for operationer, hvor hele den forstørrede del af prostata fjernes gennem urinrøret. Operationen kan udføres med forskellige energikilder, herunder laser eller bipolær strøm.</p>
+        <p>Kirurgen løsner den forstørrede del af prostata fra den omgivende kapsel langs den naturlige anatomiske grænse. Vævet skubbes herefter op i blæren, hvor det findeles og fjernes gennem urinrøret.</p>
+        <p>Da næsten hele den forstørrede del af prostata fjernes, skabes en bred passage gennem urinrøret, som giver en effektiv og varig forbedring af vandladningen. Efter operationen anlægges et blærekateter, som typisk fjernes efter et til to døgn.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Bedøvelse og smertelindring</div>
+        <p>AEEP udføres oftest i fuld narkose.</p>
+        <p>Efter operationen oplever mange lette til moderate smerter, blod i urinen og svie ved vandladning. Disse gener aftager gradvist i løbet af de første dage til uger.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Effekt og holdbarhed</div>
+        <p>AEEP er en af de mest effektive operationer mod godartet prostataforstørrelse.</p>
+        <p>De fleste oplever en meget stor forbedring af vandladningssymptomer, urinstråle og blæretømning kort tid efter operationen. Behandlingen kan anvendes ved både mellemstore og meget store prostataer, og langtidsresultaterne er særdeles gode. Kun få får senere behov for en ny operation.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Betydning for seksuallivet</div>
+        <p>Den hyppigste seksuelle bivirkning er, at sæden løber tilbage i blæren ved orgasme (retrograd sædafgang). Tilstanden er ikke farlig, men betyder, at sæden ikke kommer ud gennem urinrøret ved udløsning.</p>
+        <p>Studier viser, at rejsningsevnen som regel bevares efter operationen, og risikoen for vedvarende påvirkning af rejsningsevnen vurderes at være lav.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Sikkerhed og bivirkninger</div>
+        <p>AEEP har en god sikkerhedsprofil, når operationen udføres af erfarne kirurger.</p>
+        <p>De hyppigste bivirkninger er blod i urinen, svie ved vandladning og urinvejsinfektion. Nogle oplever midlertidig urininkontinens, som oftest forsvinder i løbet af uger til måneder. Alvorlige komplikationer er sjældne, og behovet for en ny operation er meget lavt.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RASP -->
+  <div class="acc-item" id="rasp">
+    <button class="acc-header" onclick="toggle('rasp')">
+      <div class="acc-left">
+        <div class="acc-badge">RASP</div>
+        <div class="acc-text-group">
+          <div class="acc-title">Robotassisteret simpel prostatektomi</div>
+        </div>
+      </div>
+      <div class="acc-arrow">▾</div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-section">
+        <div class="acc-section-title">Hvordan foregår behandlingen?</div>
+        <p>RASP (Robotassisteret Simpel Prostatektomi) er en robotassisteret operation, der primært anvendes ved meget store prostataer.</p>
+        <p>Operationen udføres gennem små snit i bugvæggen ved hjælp af en operationsrobot. Kirurgen åbner prostatakapslen og fjerner den forstørrede indre del af prostata, mens den ydre kapsel bevares. Herved skabes en bred passage gennem urinrøret, så vandladningen forbedres.</p>
+        <p>Efter operationen anlægges et blærekateter, som normalt beholdes i flere dage, indtil urinvejene er helet. Da operationen foregår gennem bugvæggen og er mere omfattende end de operationer, der udføres gennem urinrøret, må de fleste forvente en lidt længere indlæggelse.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Bedøvelse og smertelindring</div>
+        <p>RASP udføres oftest i fuld narkose.</p>
+        <p>Efter operationen oplever de fleste moderate smerter fra operationsområdet og blæren. Der kan desuden forekomme blod i urinen de første dage. Generne behandles sædvanligvis med almindelig smertestillende medicin.</p>
+        <p>Da operationen er mere omfattende end de endoskopiske behandlinger gennem urinrøret, må de fleste forvente en længere periode med ro og gradvis genoptagelse af aktiviteter, før de er tilbage til deres normale dagligdag.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Effekt og holdbarhed</div>
+        <p>RASP er blandt de mest effektive behandlinger til meget store prostataer.</p>
+        <p>Da næsten hele den forstørrede del af prostata fjernes, oplever de fleste en meget stor forbedring af urinstråle, blæretømning og vandladningssymptomer. Langtidsresultaterne er meget gode, og kun få får senere behov for en ny behandling.</p>
+        <p>Til gengæld er indgrebet mere omfattende end de operationer, der udføres gennem urinrøret, og både indlæggelsen og tiden, før man er helt kommet sig, er normalt længere.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Betydning for seksuallivet</div>
+        <p>Den hyppigste seksuelle bivirkning efter RASP er, at sæden løber tilbage i blæren ved orgasme (retrograd sædafgang). Tilstanden er ikke farlig, men betyder, at sæden ikke kommer ud gennem urinrøret ved udløsning.</p>
+        <p>De fleste mænd bevarer deres evne til at få og bevare rejsning efter operationen. Hos enkelte kan rejsningsevnen være midlertidigt påvirket, men samlet set vurderes risikoen for vedvarende påvirkning af rejsningsevnen at være lav.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Sikkerhed og bivirkninger</div>
+        <p>RASP har en god sikkerhedsprofil.</p>
+        <p>De hyppigste komplikationer er blod i urinen, urinvejsinfektion og midlertidige vandladningsproblemer. Nogle oplever forbigående urininkontinens, som oftest bedres i løbet af de første måneder. Alvorlige komplikationer er sjældne, og behovet for en ny operation er meget lavt.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rezum -->
+  <div class="acc-item" id="rezum">
+    <button class="acc-header" onclick="toggle('rezum')">
+      <div class="acc-left">
+        <div class="acc-badge">Rezum</div>
+        <div class="acc-text-group">
+          <div class="acc-title">Rezum</div>
+        </div>
+      </div>
+      <div class="acc-arrow">▾</div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-section">
+        <div class="acc-section-title">Hvordan foregår behandlingen?</div>
+        <p>Rezum er en behandling, der anvender varm vanddamp til at reducere den del af prostata, som trykker på urinrøret og giver vandladningsbesvær. Behandlingen foregår gennem urinrøret, så der er ingen udvendige snit eller sår.</p>
+        <p>Under behandlingen fører lægen et tyndt instrument op gennem urinrøret til prostata. Instrumentet har en lille nål, som føres ind i prostatavævet. Her afgives små mængder varm vanddamp direkte til de områder, der forårsager forsnævringen. Varmen får de behandlede celler til at gå til grunde, hvorefter kroppen gradvist nedbryder og fjerner vævet i løbet af de følgende uger og måneder.</p>
+        <p>Selve behandlingen varer typisk kun få minutter. Efter indgrebet får de fleste patienter et kateter i blæren i nogle dage, mens hævelsen i prostata aftager.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Bedøvelse og smertelindring</div>
+        <p>Rezum kan udføres på flere forskellige måder afhængigt af lokale rutiner og patientens behov. Mange patienter behandles med lokalbedøvelse kombineret med beroligende medicin, mens andre får let bedøvelse eller kortvarig narkose.</p>
+        <p>Efter behandlingen oplever mange svie ved vandladning, hyppig vandladningstrang eller lette smerter i en periode. Disse gener er som regel midlertidige og aftager gradvist.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Effekt og holdbarhed</div>
+        <p>Rezum er blandt de bedst dokumenterede minimalt invasive behandlinger mod godartet prostataforstørrelse. Studier har vist en betydelig forbedring af vandladningssymptomer, livskvalitet og urinstråle hos de fleste patienter.</p>
+        <p>Forbedringerne ses ofte inden for de første måneder efter behandlingen, men den fulde effekt udvikler sig gradvist, efterhånden som kroppen fjerner det behandlede væv.</p>
+        <p>Langtidsstudier viser, at nogle patienter senere får behov for ny behandling eller operation. Risikoen for genbehandling er generelt højere end ved traditionelle kirurgiske prostataoperationer.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Betydning for seksuallivet</div>
+        <p>En af de væsentlige fordele ved Rezum er, at risikoen for påvirkning af seksuallivet er lav sammenlignet med mange traditionelle prostataoperationer.</p>
+        <p>De fleste mænd bevarer deres normale sædafgang efter behandlingen. Studier viser desuden, at evnen til at få og bevare rejsning generelt ikke påvirkes af behandlingen. Samlet set vurderes Rezum at være en behandling med stor sandsynlighed for at bevare seksuallivet uændret.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Sikkerhed og bivirkninger</div>
+        <p>Rezum anses generelt for at være en sikker behandling. De fleste bivirkninger er milde og forbigående.</p>
+        <p>De hyppigste bivirkninger er svie ved vandladning, blod i urinen, hyppig vandladningstrang og lettere smerter fra urinvejene. Mere alvorlige komplikationer er sjældne, men kan omfatte urinvejsinfektion, urinstop eller behov for forlænget kateterbehandling.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- UroLift -->
+  <div class="acc-item" id="urolift">
+    <button class="acc-header" onclick="toggle('urolift')">
+      <div class="acc-left">
+        <div class="acc-badge">UroLift</div>
+        <div class="acc-text-group">
+          <div class="acc-title">Prostatisk uretral lift</div>
+        </div>
+      </div>
+      <div class="acc-arrow">▾</div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-section">
+        <div class="acc-section-title">Hvordan foregår behandlingen?</div>
+        <p>UroLift er en skånsom behandling af vandladningssymptomer, der skyldes en forstørret prostata. Prostata er en kirtel, som hos mænd sidder under blæren og omgiver urinrøret. Med alderen vokser prostata ofte, og fra omkring 40-årsalderen kan den forstørrede kirtel begynde at trykke på urinrøret og give generende vandladningssymptomer.</p>
+        <p>Behandlingen foregår gennem et kikkertinstrument, der føres op igennem urinrøret, så der ikke er nogen udvendige snit. Der hverken skæres, opvarmes eller fjernes prostatavæv under indgrebet.</p>
+        <p>UroLift-systemet lindrer generne ved at løfte det prostatavæv, der trykker på urinrøret, væk fra urinrøret. Vævet holdes på plads af en tråd (sutur), der er forankret i og uden for prostata. Kirurgen fører en UroLift-enhed op i urinrøret og placerer implantatet, så det klemmer det forstørrede prostatavæv til siden, hvorved trykket på urinrøret ophæves. Antallet af implantater afhænger af formen og størrelsen på det forsnævrede område.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Bedøvelse og smertelindring</div>
+        <p>UroLift kan udføres i både lokalbedøvelse og fuld bedøvelse, afhængigt af klinikkens rutiner og patientens ønsker. Ved lokalbedøvelse suppleres der ofte med beroligende medicin.</p>
+        <p>De fleste oplever kun lette gener under selve indgrebet. Efter behandlingen er svie ved vandladning, hyppig vandladningstrang og lette smerter almindelige, men disse gener er som regel forbigående og aftager i løbet af et par uger.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Effekt og holdbarhed</div>
+        <p>UroLift giver hos de fleste en mærkbar forbedring af vandladningssymptomer og urinstråle allerede efter få uger, og effekten er i studier vist at holde sig i op til 5 år.</p>
+        <p>Effekten er generelt mindre udtalt end ved mere omfattende operationer som TURP og laserenukleation, og behandlingen er bedst egnet til mindre og mellemstore prostataer uden en stor midterlap.</p>
+        <p>Som ved andre mindre invasive behandlinger er risikoen for at få behov for fornyet behandling højere end ved traditionelle operationer. Studier viser genbehandlingsrater på omkring 10-15% inden for de første 5 år.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Betydning for seksuallivet</div>
+        <p>Den største fordel ved UroLift er, at behandlingen i meget høj grad bevarer den normale seksualfunktion. Fordi der hverken skæres, opvarmes eller fjernes prostatavæv, bedres urinvejssymptomerne og blæretømningen, uden at det giver ejakulationsforstyrrelse (ændret sædafgang).</p>
+        <p>Studier har heller ikke påvist nogen øget forekomst af rejsningsbesvær efter behandlingen, hvilket gør UroLift til et af de skånsomste valg for mænd, der lægger stor vægt på at bevare deres seksualliv.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Sikkerhed og bivirkninger</div>
+        <p>UroLift er en sikker behandling med lav risiko for alvorlige komplikationer.</p>
+        <p>De hyppigste bivirkninger er svie ved vandladning, blod i urinen, bækkensmerter og hyppig vandladningstrang. Generne er som regel milde og forsvinder typisk inden for 2-4 uger. De fleste patienter har ikke behov for kateter efter behandlingen, eller kun i kort tid.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TUMT -->
+  <div class="acc-item" id="tumt">
+    <button class="acc-header" onclick="toggle('tumt')">
+      <div class="acc-left">
+        <div class="acc-badge">TUMT</div>
+        <div class="acc-text-group">
+          <div class="acc-title">Transuretral mikrobølgetermoterapi</div>
+        </div>
+      </div>
+      <div class="acc-arrow">▾</div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-section">
+        <div class="acc-section-title">Hvordan foregår behandlingen?</div>
+        <p>TUMT er en behandling, der anvender mikrobølgeenergi til at opvarme og ødelægge det prostatavæv, som blokerer urinrøret. Behandlingen foregår gennem urinrøret uden behov for udvendige snit.</p>
+        <p>Et specialkateter føres op i urinrøret til prostata. Kateteret udsender mikrobølger, som opvarmer prostatavævet til en temperatur, der får cellerne til at gå til grunde. Temperaturen overvåges løbende for at sikre en kontrolleret behandling, og kateteret indeholder desuden et kølesystem, som beskytter urinrørets slimhinde mod varmeskader.</p>
+        <p>Efter behandlingen vil kroppen gradvist nedbryde det behandlede væv, så prostata skrumper og giver mere plads til urinrøret. De fleste patienter får et kateter i blæren op til 30 dage.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Bedøvelse og smertelindring</div>
+        <p>TUMT udføres typisk i lokalbedøvelse. Der anvendes ofte lokalbedøvende medicin både i urinrøret og omkring prostata for at mindske ubehaget under behandlingen.</p>
+        <p>De fleste oplever et vist ubehag under behandlingen på grund af opvarmningen af prostatavævet, men dette er som regel håndterbart med den anvendte bedøvelse.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Effekt og holdbarhed</div>
+        <p>TUMT har været anvendt gennem mange år og er veldokumenteret. Studier har vist betydelige forbedringer af vandladningssymptomer og urinstråle hos mange patienter.</p>
+        <p>Effekten udvikler sig gradvist over uger og måneder efter behandlingen, efterhånden som det behandlede væv skrumper. Langtidsstudier viser dog, at nogle patienter senere får behov for ny behandling eller operation.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Betydning for seksuallivet</div>
+        <p>TUMT har generelt en mindre påvirkning af seksuallivet end traditionelle prostataoperationer. De fleste mænd bevarer både rejsningsevne og sædafgang efter behandlingen.</p>
+        <p>Der kan forekomme ændringer hos enkelte patienter, men risikoen for vedvarende problemer med seksuallivet vurderes samlet set som relativt lav.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Sikkerhed og bivirkninger</div>
+        <p>De hyppigste bivirkninger efter TUMT er svie ved vandladning, blod i urinen, øget vandladningstrang og midlertidige problemer med at tømme blæren.</p>
+        <p>Da prostatavævet bliver opvarmet kraftigt, er det normalt, at symptomerne kan forværres kortvarigt i perioden efter behandlingen, inden forbedringen indtræder. Alvorlige komplikationer er sjældne, men urinvejsinfektioner, urinstop og behov for længerevarende kateterbehandling kan forekomme.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAE -->
+  <div class="acc-item" id="pae">
+    <button class="acc-header" onclick="toggle('pae')">
+      <div class="acc-left">
+        <div class="acc-badge">PAE</div>
+        <div class="acc-text-group">
+          <div class="acc-title">Prostataarterie-embolisering</div>
+        </div>
+      </div>
+      <div class="acc-arrow">▾</div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-section">
+        <div class="acc-section-title">Hvordan foregår behandlingen?</div>
+        <p>Prostataembolisering er en behandling, hvor blodforsyningen til prostata reduceres med det formål at få kirtlen til gradvist at skrumpe. I modsætning til de fleste andre behandlinger foregår indgrebet ikke gennem urinrøret, men via blodkarrene.</p>
+        <p>Under behandlingen fører lægen et tyndt kateter ind i en pulsåre i håndleddet eller lysken. Ved hjælp af røntgengennemlysning føres kateteret videre til de blodkar, som forsyner prostata med blod. Når kateteret er placeret korrekt, indsprøjtes små mikroskopiske partikler, som blokerer blodtilførslen til dele af prostata.</p>
+        <p>Når blodforsyningen reduceres, får prostatavævet mindre ilt og næring, og prostata skrumper gradvist over de følgende måneder. Behandlingen varer typisk 1–2 timer og udføres som regel ambulant.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Bedøvelse og smertelindring</div>
+        <p>Prostataembolisering udføres normalt i lokalbedøvelse. Området omkring håndleddet eller lysken bedøves, inden kateteret føres ind i blodåren. De fleste patienter er vågne under hele behandlingen.</p>
+        <p>Efter behandlingen kan der opstå lette smerter eller ubehag fra bækkenområdet. Generne er som regel milde til moderate og kan behandles med almindelig smertestillende medicin.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Effekt og holdbarhed</div>
+        <p>Studier har vist, at prostataembolisering kan give en betydelig forbedring af vandladningssymptomer hos mange patienter med godartet prostataforstørrelse.</p>
+        <p>De fleste oplever gradvis bedring i løbet af de første måneder. Da prostata skal nå at skrumpe, kommer effekten ofte langsommere end efter behandlinger, der åbner urinrøret direkte.</p>
+        <p>Langtidsstudier viser, at nogle patienter senere får behov for ny behandling. En fordel er, at behandlingen også kan anvendes ved meget store prostataer.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Betydning for seksuallivet</div>
+        <p>En væsentlig fordel ved prostataembolisering er den lave risiko for påvirkning af seksuallivet. Da behandlingen ikke involverer indgreb i urinrøret eller blærehalsen, bevarer de fleste mænd deres normale sædafgang efter behandlingen.</p>
+        <p>Studier viser også, at evnen til at få og bevare rejsning som regel forbliver uændret efter behandlingen. Hos enkelte patienter er der endda rapporteret forbedringer.</p>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">Sikkerhed og bivirkninger</div>
+        <p>Prostataembolisering har generelt en god sikkerhedsprofil, men som ved alle indgreb kan der forekomme bivirkninger.</p>
+        <p>De hyppigste bivirkninger er lette smerter i underlivet, svie ved vandladning, hyppig vandladningstrang og lettere ubehag i dagene efter behandlingen. Mere alvorlige komplikationer er sjældne. Risikoen reduceres betydeligt, når behandlingen udføres af en erfaren interventionsradiolog.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /accordion -->
+</div><!-- /content -->
+
+</div><!-- /page -->
+
+<script>
+// ── Accordion toggle ─────────────────────────────────────
+function syncExpandAllLabel(){
+  const items = document.querySelectorAll('.acc-item');
+  const allOpen = items.length>0 && [...items].every(el=>el.classList.contains('open'));
+  const btn = document.getElementById('expandAllBtn');
+  if(btn) btn.textContent = allOpen ? 'Fold alle sammen' : 'Fold alle ud';
+}
+
+function toggle(id){
+  const item = document.getElementById(id);
+  item.classList.toggle('open');
+  updateURL();
+  syncExpandAllLabel();
+}
+
+function toggleAll(){
+  const items = document.querySelectorAll('.acc-item');
+  const allOpen = [...items].every(el=>el.classList.contains('open'));
+  items.forEach(el=>el.classList.toggle('open', !allOpen));
+  updateURL();
+  syncExpandAllLabel();
+}
+document.getElementById('expandAllBtn').addEventListener('click', toggleAll);
+
+function updateURL(){
+  const open = [...document.querySelectorAll('.acc-item.open')].map(el=>el.id);
+  try{
+    if(open.length){
+      history.replaceState(null,'',window.location.pathname+'#'+open.join('+'));
+    } else {
+      history.replaceState(null,'',window.location.pathname);
+    }
+  }catch(e){
+    // replaceState is unavailable in sandboxed preview contexts (e.g. srcdoc iframes) — safe to ignore
+  }
+}
+
+
+
+// ── Open on page load if hash present ───────────────────
+function openFromHash(){
+  const hash = window.location.hash.replace('#','');
+  if(!hash) return;
+  const ids = hash.split('+');
+  setTimeout(()=>{
+    ids.forEach(id=>{
+      const el=document.getElementById(id);
+      if(el){
+        el.classList.add('open');
+      }
+    });
+    // Scroll to first
+    const first=document.getElementById(ids[0]);
+    if(first) first.scrollIntoView({behavior:'smooth',block:'start'});
+    syncExpandAllLabel();
+  },200);
+}
+openFromHash();
+
+
+</script>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">VANDLADNINGSBESVÆR.DK</div>
+      <div class="footer-copyright">© 2026 Simon Juul, speciallæge i urologi. Alle rettigheder forbeholdes.</div>
+      <div class="footer-note">Indholdet på denne side er til information og erstatter ikke en lægelig vurdering. Drøft altid behandlingsvalg med din læge.</div>
+    </div>
+    <a href="http://xn--vandladningsbesvr-6rb.dk/l%C3%A6ge" class="footer-login" target="_blank" rel="noopener">
+      <span>Lægeside</span>
+    </a>
+  </div>
+</footer>
+
+<script>
+// Nav dropdown — JS controlled
+(function(){
+  const dropdowns = document.querySelectorAll('.nav-dropdown');
+  dropdowns.forEach(dd => {
+    let closeTimer;
+    dd.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      dd.classList.add('open');
+    });
+    dd.addEventListener('mouseleave', () => {
+      closeTimer = setTimeout(() => dd.classList.remove('open'), 120);
+    });
+    document.addEventListener('click', e => {
+      if(!dd.contains(e.target)) dd.classList.remove('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

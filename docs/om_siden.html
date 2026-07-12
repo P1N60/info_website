@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Om siden · Vandladningsbesvær.dk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F9FA;--card:#FFFFFF;--ink:#3D3D3D;--ink-soft:#6B7280;
+  --teal-900:#1E3A5F;--teal-700:#2C5282;--teal-500:#4F86C6;
+  --teal-300:#8FB4E0;--teal-150:#EBEBEB;--teal-100:#F3F4F6;
+  --ochre-600:#5B7290;--ochre-400:#9CA3AF;
+  --line:#E2E5EA;--line-soft:#EDF0F4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
+.page{max-width:1100px;width:100%;margin:0 auto;padding:44px 24px 70px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-700);margin:0 0 12px;font-weight:600}
+h1{font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(26px,4vw,38px);line-height:1.15;margin:0 0 8px;color:var(--teal-900)}
+h2{font-family:'Poppins',sans-serif;font-weight:700;font-size:19px;line-height:1.3;margin:36px 0 14px;color:var(--teal-900)}
+p{margin:0 0 18px;color:var(--ink);font-size:15.5px}
+.lede{font-size:17px;color:var(--ink-soft);margin-bottom:8px}
+a{color:var(--teal-700)}
+.sup{font-size:11px;vertical-align:super;color:var(--teal-700);text-decoration:none;font-weight:700;margin-left:1px}
+.sup:hover{text-decoration:underline}
+.divider{height:1px;background:var(--line);margin:40px 0}
+.refs h2{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--teal-700)}
+.refs ol{margin:0;padding-left:20px}
+.refs li{font-size:13.5px;color:var(--ink-soft);margin-bottom:10px;line-height:1.6}
+.refs li:last-child{margin-bottom:0}
+.refs a{font-size:13px;font-weight:600}
+.page-note{text-align:center;font-size:12px;color:var(--ink-soft);padding:24px 0 0;margin-top:40px}
+@media(max-width:680px){
+  .page{padding:24px 16px 50px}
+  h1{font-size:24px}
+}
+/* ─── NAV ─────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:transparent;
+  transition:background .3s,box-shadow .3s;
+}
+nav.scrolled{
+  background:rgba(30,58,95,0.97);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.08);
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:72px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.nav-logo-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-logo-mark svg{width:20px;height:20px}
+.nav-logo-text{
+  font-family:'Poppins',sans-serif;font-weight:700;
+  font-size:16px;color:#fff;line-height:1.2;
+}
+.nav-logo-sub{font-size:10px;color:rgba(255,255,255,0.6);font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{
+  font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  letter-spacing:.02em;transition:color .15s;
+}
+.nav-links a:hover{color:#fff}
+.nav-cta{
+  background:#fff;color:var(--teal-900)!important;
+  padding:10px 22px;border-radius:999px;
+  font-size:13.5px!important;font-weight:700!important;
+  transition:background .15s,transform .15s!important;
+  white-space:nowrap;
+}
+.nav-cta:hover{background:var(--teal-100)!important;transform:translateY(-1px)!important}
+@media(max-width:768px){
+  .nav-inner{
+    padding:0;
+    flex-direction:column;
+    height:auto;
+    justify-content:center;
+  }
+  /* Hide logo/brand text on mobile */
+  .nav-logo{display:none}
+  /* Nav links become a centered row filling the full width */
+  .nav-links{
+    width:100%;
+    justify-content:space-around;
+    gap:0;
+    padding:0;
+    height:56px;
+    align-items:center;
+    border-top:none;
+  }
+  .nav-links a{
+    font-size:12px;
+    padding:0 8px;
+    letter-spacing:.01em;
+    color:rgba(255,255,255,0.90);
+    flex:1;
+    text-align:center;
+    height:56px;
+    display:flex;align-items:center;justify-content:center;
+    border-right:1px solid rgba(255,255,255,0.10);
+  }
+  .nav-links a:last-child{border-right:none}
+}
+/* ─── NAV DROPDOWN ────────────────────────────────────── */
+.nav-dropdown{position:relative;display:flex;align-items:center}
+.nav-drop-toggle{
+  display:flex;align-items:center;gap:4px;cursor:pointer;
+  font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  letter-spacing:.02em;transition:color .15s;
+  background:none;border:none;padding:0;
+}
+.nav-drop-toggle:hover{color:#fff}
+.drop-arrow{font-size:10px;transition:transform .2s;display:inline-block}
+.nav-dropdown.open .drop-arrow{transform:rotate(180deg)}
+.nav-drop-menu{
+  display:none;
+  position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  background:rgba(25,50,85,0.97);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:0 0 12px 12px;
+  min-width:220px;
+  /* top padding creates invisible bridge so mouse doesnt leave the element */
+  padding:8px 0;
+  padding-top:12px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.25);
+  z-index:500;
+  /* invisible top extension so no gap between toggle and menu */
+  margin-top:-2px;
+}
+.nav-dropdown.open .nav-drop-menu{display:block}
+/* Invisible hover bridge — extends hit area upward to prevent gap */
+.nav-dropdown::after{
+  content:'';
+  position:absolute;
+  bottom:-8px;left:0;right:0;
+  height:8px;
+  background:transparent;
+}
+.nav-drop-menu a{
+  display:block;padding:11px 20px;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,0.80);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  transition:background .15s,color .15s;letter-spacing:.02em;
+}
+.nav-drop-menu a:hover{background:rgba(255,255,255,0.08);color:#fff}
+.nav-drop-menu a+a{border-top:1px solid rgba(255,255,255,0.07)}
+
+/* Mobile: dropdown stacks inline */
+@media(max-width:768px){
+  .nav-dropdown{flex:1;height:56px;border-right:1px solid rgba(255,255,255,0.10)}
+  .nav-drop-toggle{
+    width:100%;height:100%;justify-content:center;
+    font-size:12px;padding:0 8px;
+  }
+  .drop-arrow{display:none}
+  .nav-drop-menu{
+    position:fixed;top:56px;left:0;right:0;transform:none;
+    border-radius:0 0 12px 12px;
+    min-width:unset;width:100%;
+    border-left:none;border-right:none;border-top:none;
+  }
+  .nav-drop-menu a{padding:14px 28px;font-size:13.5px}
+}
+/* ─── FOOTER ──────────────────────────────────────────── */
+footer{
+  background:var(--teal-900);padding:40px 32px;margin-top:auto;
+}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-brand{display:flex;flex-direction:column;gap:6px}
+.footer-logo{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:#fff}
+.footer-copyright{font-size:12px;color:rgba(255,255,255,0.45);font-family:'Poppins',sans-serif}
+.footer-note{font-size:11.5px;color:rgba(255,255,255,0.35);max-width:560px;line-height:1.6;margin-top:4px}
+.footer-login{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  text-decoration:none;
+  color:rgba(255,255,255,0.55);
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;
+  letter-spacing:.04em;text-transform:uppercase;
+  transition:color .2s;
+  flex-shrink:0;
+  padding-top:1px;
+}
+.footer-login:hover{color:#fff}
+.footer-login img{
+  width:60px;height:80px;
+  object-fit:contain;
+  opacity:0.55;
+  transition:opacity .2s;
+}
+.footer-login:hover img{opacity:1}
+
+
+/* ─── SUBPAGE NAV OVERRIDE (no hero video, so nav is always solid) ─── */
+body.subpage nav{
+  background:rgba(30,58,95,0.97);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.08);
+}
+body.subpage .page{padding-top:116px}
+@media(max-width:768px){
+  body.subpage .page{padding-top:96px}
+}
+
+</style>
+</head>
+<body class="subpage">
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html"><div class="nav-logo-text" style="font-size:18px;letter-spacing:.04em">VANDLADNINGSBESVÆR.DK</div></a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <a href="index.html#behandlingstrin" class="nav-drop-toggle">Behandlinger <span class="drop-arrow">▾</span></a>
+        <div class="nav-drop-menu">
+          <a href="behandlinger.html">Læs om behandlinger</a>
+          <a href="bph_behandlingsoversigt.html">Sammenlign behandlinger</a>
+        </div>
+      </div>
+      <a href="personlig_test.html">Personlig test</a>
+      <a href="om_siden.html">Om siden</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+<div class="article">
+
+  <h1>Patientpræferencer ved kirurgisk behandling af godartet prostataforstørrelse</h1>
+
+  <p class="lede">Valget af behandling for godartet prostataforstørrelse handler ikke alene om at opnå den størst mulige symptomlindring.</p>
+
+  <p>Forskningen viser, at patienternes egne værdier, præferencer og forventninger spiller en central rolle i beslutningsprocessen<a class="sup" href="#ref1">[1]</a>. Moderne behandling af vandladningsbesvær bør derfor baseres på fælles beslutningstagning, hvor patient og læge sammen vælger den behandling, der bedst matcher den enkelte patients behov.</p>
+
+  <p>En omfattende systematisk gennemgang af litteraturen viste, at mænd med nedre urinvejssymptomer generelt foretrækker behandlinger med lav risiko for komplikationer og bivirkninger<a class="sup" href="#ref1">[1]</a>. Særligt risikoen for seksuelle bivirkninger, herunder påvirkning af erektion og sædafgang, har stor betydning for mange patienter, og vejer i flere studier tungere end ikke-seksuelle bivirkninger som svimmelhed og hovedpine<a class="sup" href="#ref1">[1]</a>.</p>
+
+  <p>Samtidig varierer præferencerne betydeligt mellem patienter afhængigt af symptomernes sværhedsgrad, alder og individuelle forventninger til behandlingsresultatet<a class="sup" href="#ref1">[1]</a>. Nogle patienter prioriterer maksimal symptomlindring, mens andre accepterer en mindre effekt for at undgå bivirkninger eller bevare seksuel funktion.</p>
+
+  <p>Studier har desuden vist, at patienter ofte møder urologen med klare forventninger til både udredning og behandling<a class="sup" href="#ref1">[1]</a>. Når disse forventninger afdækkes og indgår i dialogen mellem patient og læge, er tanken bag fælles beslutningstagning, at behandlingsvalget bedre kan afspejle den enkelte patients egne prioriteringer.</p>
+
+  <p>I de senere år er antallet af kirurgiske behandlingsmuligheder for godartet prostataforstørrelse vokset betydeligt. Ud over de klassiske operationer findes der nu en række minimalt invasive behandlinger med forskellige profiler for effekt, rekonvalescens, risiko for reoperation og påvirkning af seksualfunktionen. Denne udvikling gør det endnu vigtigere, at patienterne får adgang til letforståelig og uvildig information om de forskellige muligheder.</p>
+
+  <h2>Hvorfor er vandladningsbesvær.dk relevant?</h2>
+
+  <p><a href="https://www.vandladningsbesvaer.dk/" target="_blank" rel="noopener">Vandladningsbesvær.dk</a> er udviklet for at understøtte netop denne fælles beslutningsproces. Hjemmesiden giver patienter mulighed for at sammenligne de forskellige kirurgiske behandlinger ud fra de faktorer, som forskning har vist er vigtigst for patienterne: symptomlindring, risiko for komplikationer, indflydelse på seksualfunktion, behov for genbehandling og forventet rekonvalescens<a class="sup" href="#ref1">[1]</a>.</p>
+
+  <p>Ved at præsentere evidensbaseret information i et patientvenligt format hjælper hjemmesiden patienterne med at afklare egne præferencer. Dette skaber et bedre grundlag for dialog og et mere individuelt tilpasset behandlingsvalg.</p>
+
+  <p>På den måde fungerer vandladningsbesvær.dk som et beslutningsstøtteværktøj, der omsætter den voksende videnskabelige viden om patientpræferencer til praktisk anvendelig information for mænd med vandladningsbesvær som følge af godartet prostataforstørrelse.</p>
+
+  <h2>Hvorfor bruger den personlige test conjoint-analyse?</h2>
+
+  <p>Den personlige test på denne side bygger på en metode, der kaldes conjoint-analyse — også kendt som et "discrete choice experiment". Metoden stammer oprindeligt fra markedsanalyse, men bruges i stigende grad inden for sundhedsforskning til at afdække, hvad patienter reelt lægger vægt på, når de skal vælge mellem behandlinger.</p>
+
+  <p>I stedet for at spørge direkte, hvor vigtigt et forhold som fx bevaret sædafgang er — hvor de fleste svarer, at "alt er vigtigt" — bliver du i testen præsenteret for en række konkrete valg mellem to behandlingsprofiler, der kun adskiller sig på få punkter ad gangen. Ved at analysere mønstret i dine valg kan testen udlede, hvilke forhold der reelt vejer tungest for dig, og hvor meget du er villig til at gå på kompromis på ét område for at opnå noget på et andet.</p>
+
+  <p>Metoden er veldokumenteret inden for sundhedsforskning og anbefales af det internationale forskningsfællesskab ISPOR som god praksis til at måle patientpræferencer for sundhedsydelser<a class="sup" href="#ref2">[2]</a>.</p>
+
+  <p>Testens resultat er ment som et udgangspunkt for samtalen med din urolog — den erstatter ikke en individuel lægelig vurdering.</p>
+
+  <h2>Udvikling og vedligehold</h2>
+  <p>Hjemmesiden er udviklet og senere opdateres af Victor Vangkilde Jørgensen.</p>
+
+  <div class="divider"></div>
+
+  <div class="refs">
+    <h2>Referencer</h2>
+    <ol>
+      <li id="ref1">Malde S, Umbach R, Wheeler JR, Lytvyn L, Cornu J-N, Gacci M, Gratzke C, Herrmann TRW, Mamoulakis C, Rieken M, Speakman MJ, Gravas S, Drake MJ, Guyatt GH, Tikkinen KAO. A Systematic Review of Patients' Values, Preferences, and Expectations for the Diagnosis and Treatment of Male Lower Urinary Tract Symptoms. <em>European Urology</em>. 2021;79(6):796–809. <a href="https://doi.org/10.1016/j.eururo.2020.12.019" target="_blank" rel="noopener">doi.org/10.1016/j.eururo.2020.12.019</a></li>
+      <li id="ref2">Hauber AB, González JM, Groothuis-Oudshoorn CGM, Prior T, Marshall DA, Cunningham C, IJzerman MJ, Bridges JF. Statistical Methods for the Analysis of Discrete Choice Experiments: A Report of the ISPOR Conjoint Analysis Good Research Practices Task Force. <em>Value in Health</em>. 2016;19(4):300–315. <a href="https://doi.org/10.1016/j.jval.2016.04.004" target="_blank" rel="noopener">doi.org/10.1016/j.jval.2016.04.004</a></li>
+    </ol>
+  </div>
+
+</div>
+</div>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">VANDLADNINGSBESVÆR.DK</div>
+      <div class="footer-copyright">© 2026 Simon Juul, speciallæge i urologi. Alle rettigheder forbeholdes.</div>
+      <div class="footer-note">Indholdet på denne side er til information og erstatter ikke en lægelig vurdering. Drøft altid behandlingsvalg med din læge.</div>
+    </div>
+    <a href="http://xn--vandladningsbesvr-6rb.dk/l%C3%A6ge" class="footer-login" target="_blank" rel="noopener">
+      <span>Lægeside</span>
+    </a>
+  </div>
+</footer>
+
+<script>
+// Nav dropdown — JS controlled
+(function(){
+  const dropdowns = document.querySelectorAll('.nav-dropdown');
+  dropdowns.forEach(dd => {
+    let closeTimer;
+    dd.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      dd.classList.add('open');
+    });
+    dd.addEventListener('mouseleave', () => {
+      closeTimer = setTimeout(() => dd.classList.remove('open'), 120);
+    });
+    document.addEventListener('click', e => {
+      if(!dd.contains(e.target)) dd.classList.remove('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

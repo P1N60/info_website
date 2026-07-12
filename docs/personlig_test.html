@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personlig test · Vandladningsbesvær.dk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F8F9FA; --card:#FFFFFF; --ink:#3D3D3D; --ink-soft:#6B7280;
+    --teal-900:#1E3A5F; --teal-700:#2C5282; --teal-500:#4F86C6;
+    --teal-300:#8FB4E0; --teal-150:#EBEBEB; --teal-100:#F3F4F6;
+    --ochre-600:#5B7290; --ochre-400:#9CA3AF;
+    --line:#E2E5EA; --line-soft:#EDF0F4;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh;}
+  .page{max-width:1100px;width:100%;margin:0 auto;padding:44px 24px 70px;}
+  .eyebrow{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-700);margin:0 0 14px;}
+  h1{font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(26px,4vw,38px);line-height:1.15;margin:0 0 8px;color:var(--teal-900)}
+  h2{font-family:'Poppins',sans-serif;font-weight:700;font-size:21px;color:var(--teal-900);margin:0 0 10px;}
+  p{margin:0 0 14px;color:var(--ink-soft);font-size:15px;}
+  p strong{color:var(--ink);font-weight:600;}
+  .screen{display:none;}
+  .screen.active{display:block;}
+  button{font-family:'Inter',sans-serif;cursor:pointer;}
+
+  /* ---- intro ---- */
+  .howto{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:28px 0;}
+  .howto div{background:var(--card);padding:16px 18px;}
+  .howto .num{font-family:'Inter',sans-serif;font-size:12px;color:var(--ochre-600);display:block;margin-bottom:6px;}
+  .howto p{margin:0;font-size:13.5px;}
+
+  .start-btn{
+    margin-top:28px;display:inline-block;padding:15px 32px;border-radius:999px;border:none;
+    background:var(--teal-700);color:#fff;font-size:13.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    font-family:'Poppins',sans-serif;
+  }
+  .start-btn:disabled{background:var(--line);color:var(--ink-soft);cursor:not-allowed;}
+
+  /* ---- treatment picker ---- */
+  .treatment-picker{margin:26px 0 6px;}
+  .tp-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
+  .tp-head .lbl{font-size:13.5px;font-weight:600;color:var(--ink);}
+  .tp-toggle-all{background:none;border:none;color:var(--teal-700);font-size:12.5px;font-weight:700;font-family:'Poppins',sans-serif;text-decoration:underline;padding:0;cursor:pointer;}
+  .tp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 10px;}
+  .tp-card{cursor:pointer;text-align:center;padding:12px 6px;border-radius:12px;border:1.5px solid transparent;transition:.15s;}
+  .tp-card:hover{background:var(--teal-100);}
+  .tp-card.selected{border-color:var(--teal-300);background:var(--teal-100);}
+  .tp-circle{
+    width:58px;height:58px;border-radius:50%;background:var(--line);margin:0 auto 9px;
+    display:flex;align-items:center;justify-content:center;transition:.15s;
+  }
+  .tp-card.selected .tp-circle{background:var(--teal-500);}
+  .tp-circle svg{width:24px;height:24px;display:none;}
+  .tp-card.selected .tp-circle svg{display:block;}
+  .tp-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:13.5px;color:var(--teal-900);margin:0 0 3px;}
+  .tp-full{font-size:10.5px;color:var(--ink-soft);line-height:1.3;}
+  .tp-read-link{display:inline-block;margin-top:6px;font-size:10.5px;font-weight:600;color:var(--teal-700);text-decoration:none;}
+  .tp-read-link:hover{text-decoration:underline;}
+  .tp-hint{font-size:12px;color:var(--ochre-600);margin-top:12px;}
+  .tp-hint.ok{visibility:hidden;}
+
+  /* ---- dynamic-length / tie notice on result screen ---- */
+  .tie-notice{
+    margin:18px 0;padding:18px 20px;background:var(--teal-100);border:1px solid var(--teal-150);
+    border-radius:10px;font-size:13.5px;color:var(--ink);
+  }
+
+  /* ---- task screen ---- */
+  .progress-row{display:flex;align-items:center;gap:14px;margin-bottom:26px;}
+  .progress-track{flex:1;height:7px;background:var(--line-soft);border-radius:4px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--teal-500);border-radius:4px;transition:width .25s ease;}
+  .progress-label{font-family:'Inter',sans-serif;font-size:11.5px;color:var(--teal-700);white-space:nowrap;}
+
+  .task-intro{font-size:14px;color:var(--ink-soft);margin-bottom:20px;}
+
+  .profiles{display:grid;grid-template-columns:1fr 40px 1fr;gap:14px;align-items:stretch;}
+  .profile{
+    background:var(--card);border:1.5px solid var(--line);border-radius:14px;
+    padding:22px 20px;display:flex;flex-direction:column;
+  }
+  .profile-tag{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ochre-600);margin-bottom:14px;}
+  .attr-line{padding:9px 0;border-bottom:1px solid var(--line-soft);}
+  .attr-line:last-of-type{border-bottom:none;}
+  .attr-line .alabel{font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .attr-line .aval{font-size:13.5px;color:var(--ink);font-weight:500;}
+  .attr-line .lvl-bar{display:flex;gap:3px;flex:none;}
+  .attr-line .lvl-bar span{width:14px;height:7px;border-radius:2px;background:var(--line);}
+  .attr-line .lvl-bar.lvl-good span.filled{background:#3B9E6A;}
+  .attr-line .lvl-bar.lvl-mid  span.filled{background:#D97706;}
+  .attr-line .lvl-bar.lvl-bad  span.filled{background:#DC2626;}
+
+  /* ---- attribute tooltip ---- */
+  .attr-info{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:15px;height:15px;border-radius:50%;background:var(--line);
+    color:var(--ink-soft);font-size:10px;font-weight:700;font-style:normal;
+    cursor:pointer;flex:none;margin-left:5px;transition:.15s;
+    font-family:'Inter',sans-serif;
+  }
+  .attr-info:hover{background:var(--teal-300);color:var(--teal-900);}
+  .attr-tooltip{
+    display:none;margin-top:5px;padding:9px 12px;
+    background:var(--teal-100);border:1px solid var(--teal-150);border-radius:8px;
+    font-size:12px;color:var(--teal-900);line-height:1.5;
+  }
+  .attr-tooltip.open{display:block;}
+
+  /* ---- tie / equal button ---- */
+  .tie-row{
+    margin-top:14px;display:flex;justify-content:center;
+  }
+  .tie-btn{
+    padding:10px 20px;border-radius:999px;border:1.5px solid var(--line);background:#fff;
+    color:var(--ink-soft);font-size:12.5px;font-weight:600;font-family:'Poppins',sans-serif;
+    cursor:pointer;letter-spacing:.01em;
+  }
+  .tie-btn:hover{border-color:var(--teal-300);color:var(--ink);}
+  .choose-btn{
+    margin-top:18px;padding:12px 16px;border-radius:999px;border:1.5px solid var(--teal-700);
+    background:#fff;color:var(--teal-700);font-size:13.5px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
+    font-family:'Poppins',sans-serif;
+  }
+  .choose-btn:hover{background:var(--teal-700);color:#fff;}
+
+  .vs{
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Poppins',sans-serif;font-size:13px;color:var(--ink-soft);
+  }
+
+  /* ---- BYO ranking screen ---- */
+  .byo-list{margin:24px 0 8px;display:flex;flex-direction:column;gap:9px;}
+  .byo-row{
+    display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:14px;
+    background:var(--card);border:1.5px solid var(--line);border-radius:11px;
+    padding:13px 16px;
+  }
+  .byo-rank{font-family:'Poppins',sans-serif;font-weight:700;font-size:18px;color:var(--teal-700);text-align:center;}
+  .byo-main{min-width:0;}
+  .byo-label-row{display:flex;align-items:center;}
+  .byo-label{font-size:14px;color:var(--ink);font-weight:500;}
+  .byo-arrows{display:flex;gap:6px;}
+  .byo-arrows button{
+    width:30px;height:30px;border-radius:7px;border:1.5px solid var(--line);background:#fff;
+    color:var(--teal-700);font-size:13px;line-height:1;
+  }
+  .byo-arrows button:hover:not(:disabled){border-color:var(--teal-700);background:var(--teal-100);}
+  .byo-arrows button:disabled{opacity:.3;cursor:default;}
+  .byo-hint{font-size:12.5px;color:var(--ink-soft);margin:-2px 0 4px;}
+
+  /* ---- result screen ---- */
+  .imp-row{display:grid;grid-template-columns:230px 1fr 46px;align-items:center;gap:12px;margin-bottom:11px;}
+  .imp-row .iname{font-size:13px;color:var(--ink);}
+  .imp-track{height:11px;background:var(--line-soft);border-radius:6px;overflow:hidden;}
+  .imp-fill{height:100%;background:var(--teal-500);border-radius:6px;}
+  .imp-pct{font-family:'Inter',sans-serif;font-size:11.5px;color:var(--teal-700);text-align:right;}
+
+  .compare-head{display:grid;grid-template-columns:190px 100px 100px 1fr;gap:10px;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:8px;}
+  .rank-compare{margin-top:34px;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .rank-compare-summary{
+    cursor:pointer;list-style:none;padding:16px 18px;
+    display:flex;align-items:center;gap:8px;
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;color:var(--teal-900);
+    background:var(--teal-100);
+  }
+  .rank-compare-summary::-webkit-details-marker{display:none;}
+  .rank-compare-arrow{font-size:11px;transition:transform .2s;display:inline-block;color:var(--teal-700);}
+  .rank-compare[open] .rank-compare-arrow{transform:rotate(90deg);}
+  .rank-compare-body{padding:16px 18px 18px;}
+  .compare-row{display:grid;grid-template-columns:190px 100px 100px 1fr;align-items:center;gap:10px;margin-bottom:8px;}
+  .compare-row .clabel{font-size:13px;color:var(--ink);}
+  .compare-badge{font-family:'Inter',sans-serif;font-size:12px;padding:5px 0;border-radius:6px;background:var(--teal-100);color:var(--teal-900);text-align:center;font-weight:600;}
+  .compare-delta{font-size:12px;}
+  .compare-delta.match{color:var(--teal-700);}
+  .compare-delta.diff{color:var(--ochre-600);}
+
+  .ranklist{margin-top:8px;}
+  .compare-cta{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+  .compare-cta a{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'Poppins',sans-serif;font-weight:600;font-size:13.5px;
+    color:var(--teal-700);text-decoration:none;
+  }
+  .compare-cta a:hover{text-decoration:underline;}
+  .compare-cta .arrow{transition:transform .15s;display:inline-block;}
+  .compare-cta a:hover .arrow{transform:translateX(3px);}
+  .rank-card{
+    background:var(--card);border:1px solid var(--line);border-radius:11px;
+    padding:16px 18px;margin-bottom:10px;
+  }
+  .rank-card-main{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:14px;}
+  .rank-num{font-family:'Poppins',sans-serif;font-weight:700;font-size:19px;color:var(--teal-700);text-align:center;}
+  .rank-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;color:var(--teal-900);}
+  .rank-full{font-size:11.5px;color:var(--ink-soft);margin-top:1px;}
+  .rank-read-link{color:var(--teal-700);font-weight:600;text-decoration:none;}
+  .rank-read-link:hover{text-decoration:underline;}
+  .rank-flag{font-size:10.5px;color:var(--ochre-600);margin-top:3px;}
+  .rank-match{text-align:right;min-width:60px;}
+  .match-label{font-size:10px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+  .match-track{height:7px;background:var(--line-soft);border-radius:5px;overflow:hidden;margin-top:5px;}
+  .match-fill{height:100%;background:var(--teal-500);border-radius:5px;}
+  .rank-card.top{border-color:var(--teal-500);border-width:1.5px;}
+
+  /* explanation toggle */
+  .rank-explain-toggle{
+    display:flex;align-items:center;gap:6px;margin-top:12px;padding-top:10px;
+    border-top:1px dashed var(--line-soft);cursor:pointer;
+    font-size:12px;font-weight:700;color:var(--teal-700);font-family:'Poppins',sans-serif;
+    background:none;border-left:none;border-right:none;border-bottom:none;width:100%;text-align:left;
+  }
+  .rank-explain-toggle .arrow{transition:transform .2s;font-size:10px;}
+  .rank-explain-toggle.open .arrow{transform:rotate(180deg);}
+  .rank-explain-body{display:none;margin-top:10px;font-size:13px;color:var(--ink-soft);line-height:1.6;}
+  .rank-explain-body.open{display:block;}
+  .rank-explain-body .strength{color:var(--teal-700);font-weight:600;}
+  .rank-explain-body .weakness{color:var(--ochre-600);font-weight:600;}
+
+  .disclaimer{
+    margin-top:30px;padding:16px 18px;background:var(--teal-100);border:1px solid var(--teal-150);
+    border-radius:10px;font-size:12.5px;color:var(--ink-soft);
+  }
+  .actions{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;}
+  .secondary-btn{
+    padding:12px 22px;border-radius:999px;border:1.5px solid var(--line);background:#fff;
+    color:var(--ink-soft);font-size:13px;font-weight:700;font-family:'Poppins',sans-serif;letter-spacing:.02em;
+  }
+  .secondary-btn:hover{border-color:var(--teal-300);}
+
+  @media (max-width:680px){
+    .page{padding:24px 16px 50px;}
+    h1{font-size:22px}
+    .profiles{grid-template-columns:1fr;}
+    .vs{padding:2px 0;}
+    .rank-card{grid-template-columns:28px 1fr 90px;}
+    .byo-row{grid-template-columns:26px 1fr auto;padding:11px 12px;}
+    .compare-head,.compare-row{grid-template-columns:1fr 70px 70px;}
+    .compare-head span:last-child{display:none;}
+  }
+  @media (max-width:420px){
+    .tp-grid{grid-template-columns:repeat(2,1fr);}
+  }
+/* ─── NAV ─────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:transparent;
+  transition:background .3s,box-shadow .3s;
+}
+nav.scrolled{
+  background:rgba(30,58,95,0.97);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.08);
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:72px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.nav-logo-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-logo-mark svg{width:20px;height:20px}
+.nav-logo-text{
+  font-family:'Poppins',sans-serif;font-weight:700;
+  font-size:16px;color:#fff;line-height:1.2;
+}
+.nav-logo-sub{font-size:10px;color:rgba(255,255,255,0.6);font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{
+  font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  letter-spacing:.02em;transition:color .15s;
+}
+.nav-links a:hover{color:#fff}
+.nav-cta{
+  background:#fff;color:var(--teal-900)!important;
+  padding:10px 22px;border-radius:999px;
+  font-size:13.5px!important;font-weight:700!important;
+  transition:background .15s,transform .15s!important;
+  white-space:nowrap;
+}
+.nav-cta:hover{background:var(--teal-100)!important;transform:translateY(-1px)!important}
+@media(max-width:768px){
+  .nav-inner{
+    padding:0;
+    flex-direction:column;
+    height:auto;
+    justify-content:center;
+  }
+  /* Hide logo/brand text on mobile */
+  .nav-logo{display:none}
+  /* Nav links become a centered row filling the full width */
+  .nav-links{
+    width:100%;
+    justify-content:space-around;
+    gap:0;
+    padding:0;
+    height:56px;
+    align-items:center;
+    border-top:none;
+  }
+  .nav-links a{
+    font-size:12px;
+    padding:0 8px;
+    letter-spacing:.01em;
+    color:rgba(255,255,255,0.90);
+    flex:1;
+    text-align:center;
+    height:56px;
+    display:flex;align-items:center;justify-content:center;
+    border-right:1px solid rgba(255,255,255,0.10);
+  }
+  .nav-links a:last-child{border-right:none}
+}
+/* ─── NAV DROPDOWN ────────────────────────────────────── */
+.nav-dropdown{position:relative;display:flex;align-items:center}
+.nav-drop-toggle{
+  display:flex;align-items:center;gap:4px;cursor:pointer;
+  font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  letter-spacing:.02em;transition:color .15s;
+  background:none;border:none;padding:0;
+}
+.nav-drop-toggle:hover{color:#fff}
+.drop-arrow{font-size:10px;transition:transform .2s;display:inline-block}
+.nav-dropdown.open .drop-arrow{transform:rotate(180deg)}
+.nav-drop-menu{
+  display:none;
+  position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  background:rgba(25,50,85,0.97);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:0 0 12px 12px;
+  min-width:220px;
+  /* top padding creates invisible bridge so mouse doesnt leave the element */
+  padding:8px 0;
+  padding-top:12px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.25);
+  z-index:500;
+  /* invisible top extension so no gap between toggle and menu */
+  margin-top:-2px;
+}
+.nav-dropdown.open .nav-drop-menu{display:block}
+/* Invisible hover bridge — extends hit area upward to prevent gap */
+.nav-dropdown::after{
+  content:'';
+  position:absolute;
+  bottom:-8px;left:0;right:0;
+  height:8px;
+  background:transparent;
+}
+.nav-drop-menu a{
+  display:block;padding:11px 20px;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,0.80);
+  text-decoration:none;font-family:'Poppins',sans-serif;
+  transition:background .15s,color .15s;letter-spacing:.02em;
+}
+.nav-drop-menu a:hover{background:rgba(255,255,255,0.08);color:#fff}
+.nav-drop-menu a+a{border-top:1px solid rgba(255,255,255,0.07)}
+
+/* Mobile: dropdown stacks inline */
+@media(max-width:768px){
+  .nav-dropdown{flex:1;height:56px;border-right:1px solid rgba(255,255,255,0.10)}
+  .nav-drop-toggle{
+    width:100%;height:100%;justify-content:center;
+    font-size:12px;padding:0 8px;
+  }
+  .drop-arrow{display:none}
+  .nav-drop-menu{
+    position:fixed;top:56px;left:0;right:0;transform:none;
+    border-radius:0 0 12px 12px;
+    min-width:unset;width:100%;
+    border-left:none;border-right:none;border-top:none;
+  }
+  .nav-drop-menu a{padding:14px 28px;font-size:13.5px}
+}
+/* ─── FOOTER ──────────────────────────────────────────── */
+footer{
+  background:var(--teal-900);padding:40px 32px;margin-top:auto;
+}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-brand{display:flex;flex-direction:column;gap:6px}
+.footer-logo{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:#fff}
+.footer-copyright{font-size:12px;color:rgba(255,255,255,0.45);font-family:'Poppins',sans-serif}
+.footer-note{font-size:11.5px;color:rgba(255,255,255,0.35);max-width:560px;line-height:1.6;margin-top:4px}
+.footer-login{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  text-decoration:none;
+  color:rgba(255,255,255,0.55);
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;
+  letter-spacing:.04em;text-transform:uppercase;
+  transition:color .2s;
+  flex-shrink:0;
+  padding-top:1px;
+}
+.footer-login:hover{color:#fff}
+.footer-login img{
+  width:60px;height:80px;
+  object-fit:contain;
+  opacity:0.55;
+  transition:opacity .2s;
+}
+.footer-login:hover img{opacity:1}
+
+
+/* ─── SUBPAGE NAV OVERRIDE (no hero video, so nav is always solid) ─── */
+body.subpage nav{
+  background:rgba(30,58,95,0.97);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.08);
+}
+body.subpage .page{padding-top:116px}
+@media(max-width:768px){
+  body.subpage .page{padding-top:96px}
+}
+
+  @media print{
+    nav, footer, .actions, .compare-cta, #restartBtn, #printBtn,
+    .rank-explain-toggle, .tp-read-link, .col-read-link{display:none!important;}
+    body{display:block;}
+    body.subpage .page{padding-top:0;}
+    .screen{display:none!important;}
+    #screen-result.screen{display:block!important;}
+    .rank-explain-body{display:block!important;}
+  }
+</style>
+</head>
+<body class="subpage">
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html"><div class="nav-logo-text" style="font-size:18px;letter-spacing:.04em">VANDLADNINGSBESVÆR.DK</div></a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <a href="index.html#behandlingstrin" class="nav-drop-toggle">Behandlinger <span class="drop-arrow">▾</span></a>
+        <div class="nav-drop-menu">
+          <a href="behandlinger.html">Læs om behandlinger</a>
+          <a href="bph_behandlingsoversigt.html">Sammenlign behandlinger</a>
+        </div>
+      </div>
+      <a href="personlig_test.html">Personlig test</a>
+      <a href="om_siden.html">Om siden</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- ================= INTRO ================= -->
+  <section id="screen-intro" class="screen active">
+    <h1>Find ud af, hvad der betyder mest for dig</h1>
+    <p>Du kommer til at se nogle få par af <strong><em>opdigtede</em> behandlingsprofiler</strong> — ikke navngivne behandlinger — og skal hver gang vælge den, du ville foretrække. Testen tilpasser sig undervejs, og hvor mange spørgsmål du får, afhænger af hvilke og hvor mange behandlinger du vælger at sammenligne.</p>
+    <p id="tpHint">Vælg mindst 2 behandlinger for at fortsætte.</p>
+    <p>Til sidst sammenholder vi dine svar med de faktiske niveauer for de ni behandlinger fra oversigten, og viser hvilke der passer bedst til dine prioriteter.</p>
+
+    <div class="treatment-picker" id="treatmentPickerSection">
+      <div class="tp-head" style="flex-direction:column;align-items:flex-start;gap:4px;">
+        <span class="lbl">Vælg de behandlinger, du gerne vil sammenligne</span>
+        <button type="button" class="tp-toggle-all" id="tpToggleAll">Fravælg alle</button>
+      </div>
+      <div class="tp-grid" id="tpGrid"></div>
+    </div>
+
+    <div style="text-align:center"><button class="start-btn" id="startBtn">Næste: ranger dine prioriteter →</button></div>
+  </section>
+
+  <!-- ================= BYO: RANK YOUR OWN PRIORITIES ================= -->
+  <section id="screen-byo" class="screen">
+    <p class="eyebrow">Trin 1 af 2 · dine egne prioriteter</p>
+    <h1>Ranger de fem forhold efter, hvad der betyder mest for dig</h1>
+    <p>Brug pilene til at sætte det vigtigste øverst og det mindst vigtige nederst. Der er ingen rigtige eller forkerte svar — det er din egen vurdering.</p>
+
+    <div class="byo-list" id="byoList"></div>
+
+    <button class="start-btn" id="byoContinueBtn">Næste →</button>
+  </section>
+
+  <!-- ================= TASK ================= -->
+  <section id="screen-task" class="screen">
+    <p class="eyebrow">Trin 2 af 2 · de 9 valg</p>
+    <div class="progress-row">
+      <span class="progress-label" id="progressLabel">Spørgsmål 1 af 9</span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <p class="task-intro">Hvilken af disse to opdigtede behandlingsprofiler ville du foretrække? <span style="color:var(--ink-soft);font-size:13px;">Profilerne er kunstigt sammensatte for at afdække dine præferencer — de afspejler ikke nødvendigvis virkelige behandlinger.</span></p>
+
+    <div class="profiles" id="profilesWrap">
+      <div class="profile">
+        <p class="profile-tag">Mulighed A</p>
+        <div id="profileA"></div>
+        <button class="choose-btn" id="chooseA">Vælg mulighed A</button>
+      </div>
+      <div class="vs">eller</div>
+      <div class="profile">
+        <p class="profile-tag">Mulighed B</p>
+        <div id="profileB"></div>
+        <button class="choose-btn" id="chooseB">Vælg mulighed B</button>
+      </div>
+    </div>
+    <div class="tie-row">
+      <button class="tie-btn" id="chooseTie">De er omtrent lige gode for mig</button>
+    </div>
+  </section>
+  <section id="screen-result" class="screen">
+    <p class="eyebrow">Dit personlige resultat</p>
+    <h1 id="resultH1">Sådan vægter du de fem forhold</h1>
+    <p id="resultIntro">Se hvilke af forholdene fra testen der havde størst betydning for dine valg.</p>
+    <div class="tie-notice" id="tieNotice" style="display:none;"></div>
+
+    <div id="prefsSection">
+      <div id="importanceList"></div>
+
+      <details class="rank-compare">
+        <summary class="rank-compare-summary">
+          <span class="rank-compare-arrow">▶</span> Sammenlign din primære rangering med din aktuelle test
+        </summary>
+        <div class="rank-compare-body">
+          <p>Det er helt normalt — og interessant — hvis det du rangerede højest ikke altid var det, der afgjorde dine faktiske valg.</p>
+          <details style="margin-bottom:6px;">
+            <summary style="cursor:pointer;font-size:12.5px;color:var(--teal-700);font-weight:600;font-family:'Poppins',sans-serif;list-style:none;display:flex;align-items:center;gap:6px;">
+              <span>▶</span> Hvad betyder tallene her?
+            </summary>
+            <p style="margin-top:8px;font-size:12.5px;color:var(--ink-soft);background:var(--teal-100);border-radius:8px;padding:10px 14px;">
+              "Du rangerede #1" er det, du satte øverst i starten. "Dine valg viste #1" er det, der rent faktisk styrede dine svar i de 9 spørgsmål. Forskellene er særligt nyttige at tage med til samtalen med din urolog.
+            </p>
+          </details>
+          <div class="compare-head">
+            <span>Forhold</span><span style="text-align:center;">Du rangerede</span><span style="text-align:center;">Dine valg viste</span><span></span>
+          </div>
+          <div id="compareList"></div>
+        </div>
+      </details>
+    </div>
+
+    <h2 style="margin-top:38px;">Bedst matchende behandlinger</h2>
+    <p>Beregnet ved at sammenholde dine prioriteter med de faktiske niveauer for hver af de behandlinger, du valgte at sammenligne.</p>
+    <div class="ranklist" id="rankList"></div>
+    <div class="compare-cta" id="compareCta"></div>
+
+    <div class="disclaimer">
+      Dette er et <strong>præferenceafklarende værktøj</strong> — ikke en diagnose eller en klinisk anbefaling. Resultatet bygger på et lille antal forenklede valg og en forenklet beregningsmodel, og skal ses som et udgangspunkt for samtalen med din urolog, der kender din prostatastørrelse og dit helbred i øvrigt.
+    </div>
+
+    <div class="actions">
+      <button class="secondary-btn" id="restartBtn">Tag testen igen</button>
+      <button class="secondary-btn" id="printBtn">Gem/print resultat</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+
+  // ---------- DATA ----------
+  // Levels per attribute. raw = position used for interpolation against treatment 1-5 scores.
+  const ATTRS = [
+    { key:'effekt', label:'Milde symptomeffekter',
+      tooltip:'Hvor meget dine vandladningsgener forbedres — fx hyppighed, urinstråle og fornemmelse af fuld blæretømning.',
+      levels:{1:{raw:1.5, text:'Moderat bedring af vandladningsgener'},
+              2:{raw:3,   text:'Stor bedring af vandladningsgener'},
+              3:{raw:5,   text:'Meget stor og hurtig bedring af vandladningsgener'}} },
+    { key:'genbehandling', label:'Lav risiko for ny behandling indenfor 5 år',
+      tooltip:'Sandsynligheden for at behandlingen ikke holder, og at du inden for 5 år har behov for endnu et indgreb.',
+      levels:{1:{raw:1.5, text:'Lav risiko for at skulle behandles igen indenfor 5 år'},
+              2:{raw:3,   text:'Middel risiko for at skulle behandles igen indenfor 5 år'},
+              3:{raw:5,   text:'Høj risiko for at skulle behandles igen indenfor 5 år'}} },
+    { key:'sex', label:'Lav påvirkning af sædafgang/rejsningsevne',
+      tooltip:'Om behandlingen påvirker sædafgang (retrograd ejakulation: sæden løber bagud i blæren i stedet for ud) og/eller evnen til rejsning.',
+      levels:{1:{raw:1.5, text:'Lille påvirkning af sædafgang og rejsningsevne'},
+              2:{raw:3,   text:'Moderat påvirkning af sædafgang og rejsningsevne'},
+              3:{raw:5,   text:'Stor påvirkning — sædafgang udebliver ofte'}} },
+    { key:'kateter', label:'Ingen behov for kateter efter indgrebet',
+      tooltip:'Om du skal have et kateter (tynd slange i urinrøret) efter behandlingen mens vævet heler, og i så fald hvor længe.',
+      levels:{1:{raw:1.5, text:'Sjældent behov for kateter — eller kun ganske kortvarigt'},
+              2:{raw:3,   text:'Kateter i typisk 1-2 dage'},
+              3:{raw:5,   text:'Kateter i typisk en uge eller mere'}} },
+    { key:'belastning', label:'Kun lokalbedøvelse og hospital hjemsendelse samme dag',
+      tooltip:'Hvor krævende selve indgrebet er — om du kan tage hjem samme dag med lokalbedøvelse, eller om det kræver indlæggelse og fuld bedøvelse.',
+      levels:{1:{raw:1.5, text:'Lokalbedøvelse, ambulant — hjem samme dag'},
+              2:{raw:3,   text:'Bedøvelse og kort indlæggelse'},
+              3:{raw:5,   text:'Fuld bedøvelse og længere indlæggelse'}} }
+  ];
+
+  // Real treatment profiles — same 1–5 levels used in the comparison table, plus suitable size range in grams.
+  const TREATMENTS = [
+    {key:'tuip',    name:'TUIP',    full:'Transuretral indsnit af prostata',                cat:'Kirurgisk · lille indgreb', values:{effekt:2,genbehandling:3,sex:2,kateter:1,belastning:4}, size:[0,30]},
+    {key:'turp',    name:'TURP',    full:'Transuretral resektion af prostata',              cat:'Kirurgisk · resektion',     values:{effekt:3,genbehandling:1,sex:5,kateter:1,belastning:4}, size:[15,100]},
+    {key:'pvp',     name:'PVP',     full:'Laserfordampning af prostata',                  cat:'Laserbehandling',          values:{effekt:3,genbehandling:1,sex:3,kateter:1,belastning:4}, size:[10,150]},
+    {key:'aeep',    name:'AEEP',    full:'Laserenukleation (HoLEP/ThuLEP)',                 cat:'Laserbehandling',          values:{effekt:4,genbehandling:1,sex:5,kateter:1,belastning:4}, size:[0,200]},
+    {key:'rasp',    name:'RASP',    full:'Robotassisteret simpel prostatektomi',            cat:'Robotkirurgi',              values:{effekt:5,genbehandling:1,sex:5,kateter:3,belastning:5}, size:[80,200]},
+    {key:'pae',     name:'PAE',     full:'Prostataarterie-embolisering',                    cat:'Røntgenvejledt',           values:{effekt:4,genbehandling:5,sex:3,kateter:2,belastning:1}, size:[15,200]},
+    {key:'tumt',    name:'TUMT',    full:'Transuretral mikrobølgetermoterapi',              cat:'Varmebehandling',           values:{effekt:3,genbehandling:3,sex:2,kateter:5,belastning:1}, size:[10,60]},
+    {key:'urolift', name:'UroLift', full:'Prostatisk uretral lift',                         cat:'Minimalt invasivt',        values:{effekt:1,genbehandling:4,sex:1,kateter:1,belastning:1}, size:[30,80]},
+    {key:'rezum',   name:'Rezum',   full:'Rezum',                        cat:'Minimalt invasivt',        values:{effekt:1,genbehandling:4,sex:1,kateter:3,belastning:1}, size:[10,80]}
+  ];
+
+  const MIN_TASKS = 3;
+  const MAX_TASKS = 9; // task 0 = BYO-validation task, remaining = fully adaptive
+
+  // ---------- STATE ----------
+  let state = null;
+  let byoOrder = [];      // current working order while the user is reordering
+  let selectedTreatments = new Set(); // default: none selected
+
+  function freshState(byoRank, prostateSize){
+    const score = {}, appearances = {}, realApp = {};
+    ATTRS.forEach(a=>{ score[a.key]={1:0,2:0,3:0}; appearances[a.key]={1:0,2:0,3:0}; realApp[a.key]=0; });
+    return { taskIndex:0, score, appearances, realApp, currentTask:null,
+              prostateSize: prostateSize || 'unknown',
+              byoRank: byoRank || ATTRS.map(a=>a.key),
+              selectedKeys: [], activeAttrs: [], totalTasks: MAX_TASKS, isTie:false };
+  }
+
+  // Which attributes actually differ across the selected treatments — only these are
+  // worth spending adaptive choice-tasks on for THIS comparison.
+  function computeActiveAttrs(selectedKeys){
+    const sel = TREATMENTS.filter(t=>selectedKeys.includes(t.key));
+    return ATTRS.map(a=>a.key).filter(k=>{
+      const vals = sel.map(t=>t.values[k]);
+      return Math.max(...vals) - Math.min(...vals) > 0;
+    });
+  }
+
+  function tasksNeededFor(activeAttrs){
+    if(activeAttrs.length===0) return 0;
+    return Math.min(MAX_TASKS, Math.max(MIN_TASKS, activeAttrs.length*2+1));
+  }
+
+  // ---------- HELPERS ----------
+  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+  function twoDistinctLevels(){
+    const a = randInt(1,3);
+    let b; do{ b = randInt(1,3); } while(b===a);
+    return Math.random()<0.5 ? [a,b] : [b,a];
+  }
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+    return a;
+  }
+
+  // For every attribute, level 3 = "more of it", level 1 = "less of it". Effekt is the one
+  // attribute where more is the generally-preferred direction; for the other four (risk/burden)
+  // less is the generally-preferred direction. This is only used as a soft starting point —
+  // real choices during the 9 tasks can fully override it.
+  function preferredLevel(key){ return key==='effekt' ? 3 : 1; }
+  function oppositeLevel(key){ return key==='effekt' ? 1 : 3; }
+
+  // ---------- BYO: seed initial part-worths from the stated ranking ----------
+  function seedFromByo(byoRank){
+    byoRank.forEach((key, idx)=>{
+      const rank = idx+1;            // 1 = most important .. 5 = least important
+      const k = (6-rank)*0.5;        // 2.5, 2, 1.5, 1, 0.5 — modest, easily overridden by real choices
+      const pref = preferredLevel(key), opp = oppositeLevel(key);
+      state.score[key][pref] += k;  state.score[key][opp] -= k;
+      state.appearances[key][pref] += k; state.appearances[key][opp] += k;
+    });
+  }
+
+  // Task 0: pit the user's stated #1 priority against their stated #5 priority at the
+  // extremes, to validate the BYO ranking against an actual choice straight away.
+  function generateByoValidationTask(byoRank){
+    const top = byoRank[0], bottom = byoRank[byoRank.length-1];
+    const profA={}, profB={};
+    ATTRS.forEach(a=>{
+      if(a.key===top){ profA[a.key]=preferredLevel(top); profB[a.key]=oppositeLevel(top); }
+      else if(a.key===bottom){ profA[a.key]=oppositeLevel(bottom); profB[a.key]=preferredLevel(bottom); }
+      else { const [la,lb]=twoDistinctLevels(); profA[a.key]=la; profB[a.key]=lb; }
+    });
+    return {profA, profB, forced:[top,bottom]};
+  }
+
+  // Tasks 1+: force the two least-REALLY-tested attributes to opposite extremes.
+  // We sort by realApp (appearances from actual choices only, excluding seed) rather than
+  // total appearances — this prevents heavily-seeded attributes from being skipped
+  // just because the BYO seed inflated their count. Tie-broken by smallest part-worth range.
+  // Only active attributes (those that actually differ across selected treatments) are
+  // prioritised; dominance is automatically avoided since forced attributes pull in
+  // opposite directions.
+  function generateAdaptiveTask(){
+    const pw = computePartworths();
+    function rangeOf(key){ const v=[pw[key][1],pw[key][2],pw[key][3]]; return Math.max(...v)-Math.min(...v); }
+
+    let pool = state.activeAttrs.slice();
+    if(pool.length<2){
+      const rest = ATTRS.map(a=>a.key).filter(k=>!pool.includes(k));
+      pool = pool.concat(rest);
+    }
+    pool.sort((a,b)=> (state.realApp[a]-state.realApp[b]) || (rangeOf(a)-rangeOf(b)) );
+    const forceKeys = [pool[0], pool[1]];
+
+    const profA={}, profB={};
+    ATTRS.forEach(a=>{
+      if(a.key===forceKeys[0]){ profA[a.key]=3; profB[a.key]=1; }
+      else if(a.key===forceKeys[1]){ profA[a.key]=1; profB[a.key]=3; }
+      else { const [la,lb]=twoDistinctLevels(); profA[a.key]=la; profB[a.key]=lb; }
+    });
+    return {profA, profB, forced:forceKeys};
+  }
+
+  function nextTask(){
+    state.currentTask = state.taskIndex===0
+      ? generateByoValidationTask(state.byoRank)
+      : generateAdaptiveTask();
+  }
+
+  // Only the two "forced" attributes get their score updated — not the three randomized
+  // filler attributes. This prevents incidental noise from swamping the real preference
+  // signal. realApp tracks how many real choices have touched each attribute (seeding
+  // excluded), so the adaptive engine always knows what it still needs to test.
+  function recordChoice(chosenSide){
+    const {profA, profB, forced} = state.currentTask;
+    // 'tie': register a weak 0.5 split — both sides get a partial nudge rather than no signal at all,
+    // so the adaptive engine still learns something (the attribute pair mattered less to this patient).
+    const isTieVote = (chosenSide === 'tie');
+    const weight = isTieVote ? 0.25 : 1;
+    if(isTieVote){
+      forced.forEach(key=>{
+        [1,2,3].forEach(l=>{
+          state.appearances[key][l] += weight;
+        });
+        state.realApp[key] += weight;
+      });
+      return;
+    }
+    const chosen = chosenSide==='A' ? profA : profB;
+    const rejected = chosenSide==='A' ? profB : profA;
+    forced.forEach(key=>{
+      const lc = chosen[key], lr = rejected[key];
+      if(lc!==lr){
+        state.score[key][lc]+=1; state.appearances[key][lc]+=1;
+        state.score[key][lr]-=1; state.appearances[key][lr]+=1;
+        state.realApp[key]+=1;
+      }
+    });
+  }
+
+  function computePartworths(){
+    const pw={};
+    ATTRS.forEach(a=>{
+      pw[a.key]={};
+      [1,2,3].forEach(l=>{
+        const app = state.appearances[a.key][l];
+        pw[a.key][l] = app>0 ? state.score[a.key][l]/app : 0;
+      });
+    });
+    return pw;
+  }
+
+  function partworthAt(attrKey, rawValue, pw){
+    const p1=pw[attrKey][1], p2=pw[attrKey][2], p3=pw[attrKey][3];
+    if(rawValue<=1.5) return p1;
+    if(rawValue>=5)   return p3;
+    if(rawValue<=3)   return p1 + (p2-p1)*(rawValue-1.5)/(3-1.5);
+    return p2 + (p3-p2)*(rawValue-3)/(5-3);
+  }
+
+  // ---------- RENDER: TREATMENT PICKER ----------
+  const checkSvg = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5L9.5 17L19 7" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function renderTreatmentPicker(){
+    const grid = document.getElementById('tpGrid');
+    grid.innerHTML='';
+    TREATMENTS.forEach(t=>{
+      const card=document.createElement('div');
+      card.className='tp-card'+(selectedTreatments.has(t.key)?' selected':'');
+      card.dataset.key=t.key;
+      card.innerHTML =
+        '<div class="tp-circle">'+checkSvg+'</div>'+
+        '<div class="tp-name">'+t.name+'</div>'+
+        '<div class="tp-full">'+t.full+'</div>'+
+        '<a class="tp-read-link" href="behandlinger.html#'+t.key+'">Læs om →</a>';
+      grid.appendChild(card);
+    });
+    updateTpHint();
+    syncUrlWithSelection();
+  }
+
+  function toggleTreatment(key){
+    if(selectedTreatments.has(key)) selectedTreatments.delete(key);
+    else selectedTreatments.add(key);
+    renderTreatmentPicker();
+  }
+
+  // Every combination of selected treatments gets its own URL (?behandlinger=key,key,...),
+  // so a specific comparison can be bookmarked or shared. Prostate size is intentionally
+  // never put in the URL — a shared link always opens with prostate size set to "ved ikke".
+  function syncUrlWithSelection(){
+    const params = new URLSearchParams(window.location.search);
+    if(selectedTreatments.size>0){
+      params.set('behandlinger', Array.from(selectedTreatments).join(','));
+    } else {
+      params.delete('behandlinger');
+    }
+    const qs = params.toString();
+    const newUrl = window.location.pathname + (qs ? '?'+qs : '');
+    try{ history.replaceState(null, '', newUrl); } catch(e){ /* e.g. restricted on file:// — selection still works, just isn't reflected in the address bar */ }
+  }
+
+  function loadSelectionFromUrl(){
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('behandlinger');
+    if(!raw) return;
+    const keys = raw.split(',').map(s=>s.trim()).filter(k=>TREATMENTS.some(t=>t.key===k));
+    if(keys.length>0) selectedTreatments = new Set(keys);
+  }
+
+  function updateTpHint(){
+    const hint = document.getElementById('tpHint');
+    const ok = selectedTreatments.size>=2;
+    hint.style.display = ok ? 'none' : '';
+    document.getElementById('tpToggleAll').textContent = selectedTreatments.size===0 ? 'Vælg alle' : 'Fravælg alle';
+  }
+
+  // ---------- RENDER: BYO ----------
+  function attrLabel(key){ return ATTRS.find(a=>a.key===key).label; }
+  function attrTooltip(key){ return ATTRS.find(a=>a.key===key).tooltip; }
+
+  function renderByoList(){
+    byoOrder = shuffle(ATTRS.map(a=>a.key)); // shuffled each visit to avoid position bias
+    drawByoList();
+  }
+
+  function drawByoList(){
+    const wrap = document.getElementById('byoList');
+    wrap.innerHTML='';
+    byoOrder.forEach((key, idx)=>{
+      const row=document.createElement('div');
+      row.className='byo-row';
+      const tooltipId = 'tt-byo-'+key;
+      row.innerHTML =
+        '<div class="byo-rank">'+(idx+1)+'</div>'+
+        '<div class="byo-main">'+
+          '<div class="byo-label-row">'+
+            '<span class="byo-label">'+attrLabel(key)+'</span>'+
+            '<i class="attr-info" data-tooltip="'+tooltipId+'" title="">ℹ</i>'+
+          '</div>'+
+          '<div class="attr-tooltip" id="'+tooltipId+'">'+attrTooltip(key)+'</div>'+
+        '</div>'+
+        '<div class="byo-arrows">'+
+          '<button type="button" data-dir="up" data-idx="'+idx+'" '+(idx===0?'disabled':'')+'>▲</button>'+
+          '<button type="button" data-dir="down" data-idx="'+idx+'" '+(idx===byoOrder.length-1?'disabled':'')+'>▼</button>'+
+        '</div>';
+      wrap.appendChild(row);
+    });
+  }
+
+  function moveByoItem(idx, dir){
+    const swapWith = dir==='up' ? idx-1 : idx+1;
+    if(swapWith<0 || swapWith>=byoOrder.length) return;
+    const tmp = byoOrder[idx]; byoOrder[idx]=byoOrder[swapWith]; byoOrder[swapWith]=tmp;
+    drawByoList();
+  }
+
+  // ---------- RENDER: TASK ----------
+  // For effekt: higher level = better → bars fill left-to-right as usual.
+  // For all other attributes (genbehandling, sex, kateter, belastning): lower level = better,
+  // so we invert: level 1 → 3 filled bars, level 3 → 1 filled bar.
+  // Result: more filled bars ALWAYS means "better for the patient" on every attribute.
+  const ATTR_INVERTED = new Set(['genbehandling','sex','kateter','belastning']);
+
+  function levelBarHtml(attrKey, level){
+    const filled = ATTR_INVERTED.has(attrKey) ? (4 - level) : level;
+    const colorClass = filled === 3 ? 'lvl-good' : filled === 2 ? 'lvl-mid' : 'lvl-bad';
+    let segs='';
+    for(let i=1;i<=3;i++){ segs += '<span'+(i<=filled?' class="filled"':'')+'></span>'; }
+    return '<div class="lvl-bar '+colorClass+'">'+segs+'</div>';
+  }
+
+  function renderAttrLines(container, profile){
+    container.innerHTML='';
+    ATTRS.forEach(a=>{
+      const levelNum = profile[a.key];
+      const lvl = a.levels[levelNum];
+      const row = document.createElement('div');
+      row.className = 'attr-line';
+      const tooltipId = 'tt-'+container.id+'-'+a.key;
+      row.innerHTML =
+        '<div class="alabel">'+
+          '<span>'+a.label+'</span>'+
+          '<span style="display:flex;align-items:center;gap:4px;">'+
+            levelBarHtml(a.key, levelNum)+
+            '<i class="attr-info" data-tooltip="'+tooltipId+'" title="">ℹ</i>'+
+          '</span>'+
+        '</div>'+
+        '<div class="aval">'+lvl.text+'</div>'+
+        '<div class="attr-tooltip" id="'+tooltipId+'">'+a.tooltip+'</div>';
+      container.appendChild(row);
+    });
+    // wire tooltip toggles
+    container.querySelectorAll('.attr-info').forEach(btn=>{
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        const tt = document.getElementById(this.dataset.tooltip);
+        tt.classList.toggle('open');
+      });
+    });
+  }
+
+  function renderTask(){
+    document.getElementById('progressLabel').textContent = 'Spørgsmål '+(state.taskIndex+1)+' af '+state.totalTasks;
+    document.getElementById('progressFill').style.width = (state.taskIndex/state.totalTasks*100)+'%';
+    renderAttrLines(document.getElementById('profileA'), state.currentTask.profA);
+    renderAttrLines(document.getElementById('profileB'), state.currentTask.profB);
+  }
+
+  // ---------- RENDER: RESULT ----------
+  function renderResult(){
+    document.getElementById('resultH1').textContent = state.isTie ? 'De valgte behandlinger er ens på de fem målte forhold' : 'Sådan vægter du de fem forhold';
+    document.getElementById('tieNotice').style.display = state.isTie ? 'block' : 'none';
+    document.getElementById('prefsSection').style.display = state.isTie ? 'none' : 'block';
+
+    if(state.isTie){
+      document.getElementById('resultIntro').textContent = 'Vi sprang spørgsmålene over, fordi de behandlinger, du valgte at sammenligne, ikke adskiller sig på effekt, genbehandlingsrisiko, seksuel påvirkning, kateterbehov eller belastning.';
+      document.getElementById('tieNotice').innerHTML =
+        'De behandlinger, du valgte, er identiske på de fem forhold, denne test måler på. Forskellen mellem dem ligger i andre ting — fx metode, tilgængelighed, eller din urologs erfaring med den enkelte behandling — som denne test ikke dækker. Tal med din urolog om, hvad der adskiller dem i praksis.';
+    } else {
+      document.getElementById('resultIntro').textContent = 'Se hvilke af forholdene fra testen der havde størst betydning for dine valg.';
+    }
+
+    const pw = computePartworths();
+    const importancesRaw = ATTRS.map(a=>{
+      const v=[pw[a.key][1],pw[a.key][2],pw[a.key][3]];
+      return {key:a.key, label:a.label, range:Math.max(...v)-Math.min(...v)};
+    });
+    const sumRange = importancesRaw.reduce((s,i)=>s+i.range,0) || 1;
+    importancesRaw.forEach(i=> i.pct = Math.round(i.range/sumRange*100));
+    const importancesSorted = importancesRaw.slice().sort((a,b)=>b.pct-a.pct);
+
+    const impWrap = document.getElementById('importanceList');
+    impWrap.innerHTML='';
+    importancesSorted.forEach(i=>{
+      const row=document.createElement('div');
+      row.className='imp-row';
+      row.innerHTML =
+        '<div class="iname">'+i.label+'</div>'+
+        '<div class="imp-track"><div class="imp-fill" style="width:'+Math.max(i.pct,3)+'%"></div></div>'+
+        '<div class="imp-pct">'+i.pct+'%</div>';
+      impWrap.appendChild(row);
+    });
+
+    // stated (BYO) vs revealed (choice-derived) ranking
+    const revealedRankByKey = {};
+    importancesSorted.forEach((i, idx)=>{ revealedRankByKey[i.key] = idx+1; });
+
+    const compareWrap = document.getElementById('compareList');
+    compareWrap.innerHTML='';
+    state.byoRank.forEach((key, idx)=>{
+      const statedRank = idx+1;
+      const revealedRank = revealedRankByKey[key];
+      const diff = statedRank - revealedRank;
+      let deltaText, deltaClass;
+      if(diff===0){ deltaText='Stemmer overens'; deltaClass='match'; }
+      else if(diff>0){ deltaText='Fyldte mere i dine valg end ventet'; deltaClass='diff'; }
+      else { deltaText='Fyldte mindre i dine valg end ventet'; deltaClass='diff'; }
+      const row=document.createElement('div');
+      row.className='compare-row';
+      row.innerHTML =
+        '<div class="clabel">'+attrLabel(key)+'</div>'+
+        '<div class="compare-badge">#'+statedRank+'</div>'+
+        '<div class="compare-badge">#'+revealedRank+'</div>'+
+        '<div class="compare-delta '+deltaClass+'">'+deltaText+'</div>';
+      compareWrap.appendChild(row);
+    });
+
+    // treatment matching — restricted to the treatments the user chose to compare
+    const candidates = TREATMENTS.filter(t=>state.selectedKeys.includes(t.key));
+    const scored = candidates.map(t=>{
+      let total=0;
+      ATTRS.forEach(a=>{ total += partworthAt(a.key, t.values[a.key], pw); });
+      return {t, total};
+    });
+    const min = Math.min(...scored.map(s=>s.total));
+    const max = Math.max(...scored.map(s=>s.total));
+    scored.forEach(s=> s.matchPct = (max>min) ? Math.round((s.total-min)/(max-min)*100) : 100);
+    scored.sort((a,b)=>b.total-a.total);
+
+    const rankWrap = document.getElementById('rankList');
+    rankWrap.innerHTML='';
+    scored.forEach((s,idx)=>{
+      const card=document.createElement('div');
+      card.className='rank-card'+(idx===0 && !state.isTie?' top':'');
+
+      const explanation = buildExplanation(s.t, pw, importancesSorted);
+
+      card.innerHTML =
+        '<div class="rank-card-main">'+
+          '<div class="rank-num">'+(idx+1)+'</div>'+
+          '<div>'+
+            '<div class="rank-name">'+s.t.name+'</div>'+
+            '<div class="rank-full">'+s.t.full+' · '+s.t.cat+' · <a class="rank-read-link" href="behandlinger.html#'+s.t.key+'">Læs om behandlingen</a></div>'+
+          '</div>'+
+          '<div class="rank-match">'+
+            '<div class="match-label">Match</div>'+
+            '<div class="match-track"><div class="match-fill" style="width:'+Math.max(s.matchPct,4)+'%"></div></div>'+
+          '</div>'+
+        '</div>'+
+        '<button class="rank-explain-toggle" type="button">'+
+          '<span class="arrow">▼</span> Hvorfor dette match?'+
+        '</button>'+
+        '<div class="rank-explain-body">'+explanation+'</div>';
+
+      card.querySelector('.rank-explain-toggle').addEventListener('click', function(){
+        this.classList.toggle('open');
+        card.querySelector('.rank-explain-body').classList.toggle('open');
+      });
+
+      rankWrap.appendChild(card);
+    });
+
+    // Clean, lightweight link onward to the full comparison table,
+    // pre-selecting the user's top matched treatments (uses bph's ?b= param).
+    // Note: bph_behandlingsoversigt.html uses different key casing per treatment.
+    const BPH_KEY_MAP = {
+      tuip:'TUIP', turp:'TURP', pvp:'PVP', aeep:'AEEP', rasp:'RASP',
+      pae:'PAE', tumt:'TUMT', urolift:'UroLift', rezum:'Rezum'
+    };
+    const ctaWrap = document.getElementById('compareCta');
+    const topKeys = scored.slice(0, Math.min(3, scored.length)).map(s=>BPH_KEY_MAP[s.t.key] || s.t.key);
+    const readAllUrl = 'behandlinger.html#' + state.selectedKeys.join('+');
+    const links = [];
+    if(topKeys.length >= 2){
+      const url = 'bph_behandlingsoversigt.html?b=' + topKeys.join(',');
+      links.push('<a href="'+url+'">Sammenlign de valgte behandlinger <span class="arrow">→</span></a>');
+    }
+    links.push('<a href="'+readAllUrl+'">Læs om de valgte behandlinger <span class="arrow">→</span></a>');
+    ctaWrap.innerHTML = links.map(l=>'<div>'+l+'</div>').join('');
+  }
+
+  // ---------- PROSE EXPLANATION BUILDER ----------
+  // Generates a 2-3 sentence plain-language explanation of why a treatment
+  // matches or doesn't match the patient's revealed preferences.
+  function buildExplanation(treatment, pw, importancesSorted){
+    const attrMeta = {
+      effekt:       { label:'symptomeffekt',              goodVal:5, dir:1  },
+      genbehandling:{ label:'risiko for ny behandling',   goodVal:1, dir:-1 },
+      sex:          { label:'seksuel påvirkning',         goodVal:1, dir:-1 },
+      kateter:      { label:'kateterbehov efter indgrebet', goodVal:1, dir:-1 },
+      belastning:   { label:'belastning ved indgrebet',   goodVal:1, dir:-1 }
+    };
+
+    // Rank treatment's levels on each attribute relative to patient's preference direction
+    // pw tells us how much the patient cares about high vs low on each attribute
+    const attrScores = ATTRS.map(a=>{
+      const meta = attrMeta[a.key];
+      const val = treatment.values[a.key]; // 1-5
+      const impRank = importancesSorted.findIndex(x=>x.key===a.key) + 1; // 1=most important
+      const imp = importancesSorted.find(x=>x.key===a.key).pct;
+
+      // How "good" is this treatment on this attribute for this patient?
+      // Direction-aware: for effekt (dir=1) high is good; for others (dir=-1) low is good.
+      const goodness = meta.dir === 1
+        ? (val - 1) / 4          // 0 to 1, 1 = best
+        : (5 - val) / 4;         // 0 to 1, 1 = best
+
+      return { key: a.key, label: meta.label, val, imp, impRank, goodness };
+    }).sort((a,b)=>b.imp-a.imp); // sorted by patient importance
+
+    const top1 = attrScores[0];
+    const top2 = attrScores[1];
+    const strengths = attrScores.filter(a=>a.goodness>=0.6 && a.impRank<=3);
+    const weaknesses = attrScores.filter(a=>a.goodness<=0.35 && a.impRank<=3);
+
+    const levelText = (attr) => {
+      const v = attr.val;
+      const m = attrMeta[attr.key];
+      if(attr.key==='effekt') return v>=4 ? 'god til meget god' : v===3 ? 'moderat' : 'begrænset';
+      if(attr.key==='sex') return v<=1 ? 'minimal' : v<=2 ? 'lav til moderat' : v<=3 ? 'moderat' : 'betydelig';
+      if(attr.key==='genbehandling') return v<=1 ? 'meget lav' : v<=2 ? 'lav' : v<=3 ? 'middel' : v<=4 ? 'forhøjet' : 'høj';
+      if(attr.key==='kateter') return v<=1 ? 'sjældent kateter' : v<=2 ? 'kort kateterperiode' : v<=3 ? 'nogle dages kateter' : 'en uges kateter eller mere';
+      if(attr.key==='belastning') return v<=1 ? 'meget lav' : v<=2 ? 'lav' : v<=3 ? 'moderat' : v<=4 ? 'høj' : 'meget høj';
+    };
+
+    let parts = [];
+
+    // Opening sentence: how well does this treatment cover what the patient values most?
+    if(top1.goodness >= 0.6){
+      parts.push('På det du vægter højest — <span class="strength">'+top1.label+'</span> — klarer '+treatment.name+' sig godt med '+levelText(top1)+' påvirkning.');
+    } else if(top1.goodness <= 0.35){
+      parts.push('På det du vægter højest — <span class="weakness">'+top1.label+'</span> — er '+treatment.name+' ikke det stærkeste valg, da niveauet her er '+levelText(top1)+'.');
+    } else {
+      parts.push('På dit vigtigste kriterium — <span class="strength">'+top1.label+'</span> — ligger '+treatment.name+' på et midterniveau med '+levelText(top1)+'.');
+    }
+
+    // Second sentence: second priority + one more if space
+    if(top2.goodness >= 0.6){
+      parts.push('Hvad angår <span class="strength">'+top2.label+'</span>, som er din næstvigtigste prioritet, scorer behandlingen ligeledes gunstigt ('+levelText(top2)+').');
+    } else if(top2.goodness <= 0.35){
+      parts.push('Din næstvigtigste prioritet er <span class="weakness">'+top2.label+'</span>, og her er '+treatment.name+' en svagere kandidat med '+levelText(top2)+'.');
+    } else {
+      parts.push('På din næstvigtigste prioritet — '+top2.label+' — er billedet mere blandet ('+levelText(top2)+').');
+    }
+
+    // Third sentence: a notable strength or weakness not yet mentioned, if any
+    const noted = new Set([top1.key, top2.key]);
+    const bonus = strengths.find(a=>!noted.has(a.key));
+    const malus = weaknesses.find(a=>!noted.has(a.key));
+    if(bonus){
+      parts.push('Derudover er behandlingens <span class="strength">'+bonus.label+'</span> et plus for netop dit præferencemønster ('+levelText(bonus)+').');
+    } else if(malus){
+      parts.push('Bemærk dog at <span class="weakness">'+malus.label+'</span> er en svaghed for denne behandling set i lyset af dine præferencer ('+levelText(malus)+').');
+    }
+
+    return '<p>'+parts.join(' ')+'</p>';
+  }
+
+  // ---------- SCREEN CONTROL ----------
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function goToByo(){
+    if(selectedTreatments.size<2){
+      document.getElementById('tpHint').style.display = '';
+      document.getElementById('treatmentPickerSection').scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+    renderByoList();
+    showScreen('screen-byo');
+  }
+
+  function startTest(){
+    state = freshState(byoOrder.slice(), 'unknown');
+    state.selectedKeys = Array.from(selectedTreatments);
+    seedFromByo(state.byoRank);
+    state.activeAttrs = computeActiveAttrs(state.selectedKeys);
+    state.totalTasks = tasksNeededFor(state.activeAttrs);
+
+    if(state.totalTasks===0){
+      state.isTie = true;
+      renderResult();
+      showScreen('screen-result');
+      return;
+    }
+    nextTask();
+    renderTask();
+    showScreen('screen-task');
+  }
+
+  function handleChoice(side){
+    recordChoice(side);
+    state.taskIndex++;
+    if(state.taskIndex>=state.totalTasks){
+      renderResult();
+      showScreen('screen-result');
+    } else {
+      nextTask();
+      renderTask();
+    }
+  }
+
+  function resetToIntro(){
+    selectedTreatments = new Set();
+    renderTreatmentPicker();
+    showScreen('screen-intro');
+  }
+
+  // ---------- WIRE UP ----------
+  document.getElementById('tpGrid').addEventListener('click', function(e){
+    if(e.target.closest('.tp-read-link')) return; // let the link navigate normally
+    const card = e.target.closest('.tp-card');
+    if(!card) return;
+    toggleTreatment(card.dataset.key);
+  });
+
+  document.getElementById('tpToggleAll').addEventListener('click', function(){
+    if(selectedTreatments.size===0) selectedTreatments = new Set(TREATMENTS.map(t=>t.key));
+    else selectedTreatments.clear();
+    renderTreatmentPicker();
+  });
+
+  document.getElementById('byoList').addEventListener('click', function(e){
+    const info = e.target.closest('.attr-info');
+    if(info){
+      const tt = document.getElementById(info.dataset.tooltip);
+      if(tt) tt.classList.toggle('open');
+      return;
+    }
+    const btn = e.target.closest('button[data-dir]');
+    if(!btn) return;
+    moveByoItem(parseInt(btn.dataset.idx,10), btn.dataset.dir);
+  });
+
+  document.getElementById('startBtn').addEventListener('click', goToByo);
+  document.getElementById('byoContinueBtn').addEventListener('click', startTest);
+  document.getElementById('chooseA').addEventListener('click', ()=>handleChoice('A'));
+  document.getElementById('chooseB').addEventListener('click', ()=>handleChoice('B'));
+  document.getElementById('chooseTie').addEventListener('click', ()=>handleChoice('tie'));
+  document.getElementById('restartBtn').addEventListener('click', resetToIntro);
+  document.getElementById('printBtn').addEventListener('click', ()=>window.print());
+
+  loadSelectionFromUrl();
+  renderTreatmentPicker(); // initial paint — reflects URL if a combination was shared, otherwise none selected
+
+})();
+</script>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">VANDLADNINGSBESVÆR.DK</div>
+      <div class="footer-copyright">© 2026 Simon Juul, speciallæge i urologi. Alle rettigheder forbeholdes.</div>
+      <div class="footer-note">Indholdet på denne side er til information og erstatter ikke en lægelig vurdering. Drøft altid behandlingsvalg med din læge.</div>
+    </div>
+    <a href="http://xn--vandladningsbesvr-6rb.dk/l%C3%A6ge" class="footer-login" target="_blank" rel="noopener">
+      <span>Lægeside</span>
+    </a>
+  </div>
+</footer>
+
+<script>
+// Nav dropdown — JS controlled
+(function(){
+  const dropdowns = document.querySelectorAll('.nav-dropdown');
+  dropdowns.forEach(dd => {
+    let closeTimer;
+    dd.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      dd.classList.add('open');
+    });
+    dd.addEventListener('mouseleave', () => {
+      closeTimer = setTimeout(() => dd.classList.remove('open'), 120);
+    });
+    document.addEventListener('click', e => {
+      if(!dd.contains(e.target)) dd.classList.remove('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send en mail til patienten · Vandladningsbesvær.dk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F9FA;--card:#FFFFFF;--ink:#3D3D3D;--ink-soft:#6B7280;
+  --teal-900:#1E3A5F;--teal-700:#2C5282;--teal-500:#4F86C6;
+  --teal-300:#8FB4E0;--teal-150:#EBEBEB;--teal-100:#F3F4F6;
+  --ochre-600:#5B7290;--ochre-400:#9CA3AF;
+  --line:#E2E5EA;--line-soft:#EDF0F4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+.page{max-width:1100px;margin:0 auto;padding:44px 24px 70px}
+@media(max-width:680px){
+  .page{padding:24px 16px 50px}
+}
+
+/* ─── FORM CARD ───────────────────────────────────────── */
+.form-wrap{max-width:640px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-700);margin:0 0 10px;font-weight:600}
+h1{font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(24px,4vw,32px);line-height:1.2;margin:0 0 10px;color:var(--teal-900)}
+.lead{font-size:15px;color:var(--ink-soft);margin:0 0 6px;max-width:520px;line-height:1.6}
+.lead.form-subtext{margin-bottom:0}
+
+.form-card{
+  background:var(--card);border-radius:14px;overflow:hidden;
+  border:1px solid var(--line);box-shadow:0 1px 3px rgba(30,58,95,0.06);
+  margin-top:32px;
+}
+.form-body{padding:32px}
+.field{margin-bottom:22px}
+.field label{
+  display:block;font-family:'Poppins',sans-serif;font-weight:700;font-size:11.5px;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--teal-700);margin-bottom:8px;
+}
+.field input[type="email"],
+.field input[type="text"],
+.field select,
+.field textarea{
+  width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:10px;
+  background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;font-size:14.5px;
+  transition:border-color .15s,background .15s;
+}
+.field input::placeholder,.field textarea::placeholder{color:var(--ink-soft);opacity:.8}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--teal-500);background:#fff;
+}
+.field select{appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;background-size:18px;padding-right:40px;
+}
+.field textarea{resize:vertical;min-height:110px;font-family:'Inter',sans-serif;line-height:1.5}
+.field-hint{font-size:11.5px;color:var(--ink-soft);margin-top:6px;line-height:1.4}
+
+.divider{height:1px;background:var(--line);margin:28px 0}
+
+.section-label{
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;color:var(--teal-900);margin-bottom:14px;
+}
+.check-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px;margin-bottom:8px;
+}
+@media(max-width:480px){
+  .check-grid{grid-template-columns:repeat(2,1fr)}
+}
+.check-item{
+  display:flex;align-items:center;gap:9px;font-size:14px;color:var(--ink);cursor:pointer;
+  user-select:none;
+}
+.check-item input[type="checkbox"]{
+  width:18px;height:18px;flex-shrink:0;accent-color:var(--teal-700);cursor:pointer;
+}
+.field label.check-item{
+  display:flex;text-transform:none;font-weight:400;letter-spacing:normal;
+  font-size:14px;color:var(--ink);margin-bottom:0;font-family:'Inter',sans-serif;
+}
+
+.submit-btn{
+  display:inline-block;width:100%;text-align:center;margin-top:8px;padding:16px 36px;border:none;border-radius:999px;
+  background:var(--teal-700);color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;letter-spacing:.03em;
+  cursor:pointer;transition:background .15s,transform .15s;
+}
+.submit-btn:hover{background:var(--teal-900);transform:translateY(-1px)}
+.submit-btn:disabled{background:var(--line);color:var(--ink-soft);cursor:not-allowed;transform:none}
+
+.form-status{
+  margin-top:16px;padding:12px 14px;border-radius:9px;font-size:13px;line-height:1.5;display:none;
+}
+.form-status.show{display:block}
+.form-status.ok{background:var(--teal-100);color:var(--teal-900);border:1px solid var(--teal-150)}
+.form-status.error{background:#FEF2F2;color:#991B1B;border:1px solid #FECACA}
+
+</style>
+</head>
+<body>
+
+<div class="page">
+<div class="form-wrap">
+
+  <p class="eyebrow">Til sundhedsfagligt personale</p>
+  <h1>Send en mail til patienten</h1>
+  <p class="lead">Send patienten et personligt link til de behandlinger, I har talt om.</p>
+  <p class="lead form-subtext">Patienten vil kunne læse om behandlinger, sammenligne behandlinger og tage en personlig test.</p>
+
+  <div class="form-card">
+    <div class="form-body">
+      <form id="mailForm">
+
+        <div class="field">
+          <label for="patientEmail">Patientens e-mail</label>
+          <input type="email" id="patientEmail" placeholder="patient@eksempel.dk" required>
+        </div>
+
+        <div class="field">
+          <label for="patientName">Patientens navn</label>
+          <input type="text" id="patientName" placeholder="F.eks. Jens Jensen">
+        </div>
+
+        <div class="field">
+          <label for="senderName">Dit navn</label>
+          <input type="text" id="senderName" placeholder="Fulde navn">
+        </div>
+
+        <div class="field">
+          <label for="senderHospital">Dit hospital</label>
+          <select id="senderHospital">
+            <option value="" selected>Vælg hospital</option>
+            <option>Esbjerg</option>
+            <option>Gødstrup</option>
+            <option>Herlev-Gentofte</option>
+            <option>Hjørring</option>
+            <option>Odense</option>
+            <option>OUH-Svendborg</option>
+            <option>Rigshospitalet</option>
+            <option>Roskilde-Næstved</option>
+            <option>Vejle</option>
+            <option>Århus</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="patientMessage">Besked til patienten</label>
+          <textarea id="patientMessage" placeholder="Skriv din besked til patienten her. Det du skriver her vil være selve e-mailen (indsættes lige før links)."></textarea>
+        </div>
+
+        <div class="field">
+          <label class="check-item" for="noReplyCheck">
+            <input type="checkbox" id="noReplyCheck">
+            Tilføj besked om, at mailen ikke kan besvares
+          </label>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-label">Vælg behandlingsmuligheder</div>
+        <div class="check-grid" id="treatmentGrid">
+          <label class="check-item"><input type="checkbox" value="tuip" data-bph="TUIP"> TUIP</label>
+          <label class="check-item"><input type="checkbox" value="turp" data-bph="TURP"> TURP</label>
+          <label class="check-item"><input type="checkbox" value="pvp" data-bph="PVP"> PVP</label>
+          <label class="check-item"><input type="checkbox" value="aeep" data-bph="AEEP"> AEEP</label>
+          <label class="check-item"><input type="checkbox" value="rasp" data-bph="RASP"> RASP</label>
+          <label class="check-item"><input type="checkbox" value="pae" data-bph="PAE"> PAE</label>
+          <label class="check-item"><input type="checkbox" value="tumt" data-bph="TUMT"> TUMT</label>
+          <label class="check-item"><input type="checkbox" value="urolift" data-bph="UroLift"> UroLift</label>
+          <label class="check-item"><input type="checkbox" value="rezum" data-bph="Rezum"> Rezum</label>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Send formular</button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+(function(){
+  const SITE_URL = 'https://www.vandladningsbesvaer.dk/';
+
+  const form = document.getElementById('mailForm');
+  const status = document.getElementById('formStatus');
+
+  function showStatus(msg, ok){
+    status.textContent = msg;
+    status.className = 'form-status show ' + (ok ? 'ok' : 'error');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const patientEmail = document.getElementById('patientEmail').value.trim();
+    const patientName = document.getElementById('patientName').value.trim();
+    const senderName = document.getElementById('senderName').value.trim();
+    const senderHospital = document.getElementById('senderHospital').value;
+    const message = document.getElementById('patientMessage').value.trim();
+
+    const checked = Array.from(document.querySelectorAll('#treatmentGrid input[type="checkbox"]:checked'));
+
+    if(!patientEmail){
+      showStatus('Udfyld venligst patientens e-mail.', false);
+      return;
+    }
+    if(checked.length === 0){
+      showStatus('Vælg mindst én behandling, patienten skal se.', false);
+      return;
+    }
+
+    const lcKeys = checked.map(c => c.value);
+    const bphKeys = checked.map(c => c.dataset.bph);
+
+    const lines = [];
+    if(patientName) lines.push('Til ' + patientName + ',', '');
+    if(message) lines.push(message, '');
+
+    if(bphKeys.length >= 2){
+      lines.push('Sammenlign behandlingerne: ' + SITE_URL + 'bph_behandlingsoversigt.html?b=' + bphKeys.join(','));
+    }
+    lines.push('Læs om behandlingerne: ' + SITE_URL + 'behandlinger.html#' + lcKeys.join('+'));
+    if(lcKeys.length >= 2){
+      lines.push('Tag en personlig test: ' + SITE_URL + 'personlig_test.html?behandlinger=' + lcKeys.join(','));
+    }
+    lines.push('');
+
+    let signature = 'Med venlig hilsen';
+    if(senderName) signature += '\n' + senderName + ', læge';
+    if(senderHospital) signature += '\nUrologisk afdeling, ' + senderHospital;
+    lines.push(signature);
+
+    if(document.getElementById('noReplyCheck').checked){
+      lines.push('', '**Bemærk: Henvendelser til denne mail vil ikke blive besvaret.**');
+    }
+
+    const subject = 'Vandladningsbesvær - fælles beslutningsstøtte forud for operation';
+    const body = lines.join('\n');
+
+    const mailtoUrl = 'mailto:' + encodeURIComponent(patientEmail) +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
+
+    window.location.href = mailtoUrl;
+    showStatus('Din mailklient åbner nu med besked og links udfyldt — tjek og send derfra.', true);
+  });
+})();
+</script>
+
+</body>
+</html>
