@@ -392,7 +392,8 @@ footer{
   flex-wrap:wrap;gap:16px;
 }
 .footer-brand{display:flex;flex-direction:column;gap:6px}
-.footer-logo{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:#fff}
+.footer-logo{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:#fff;text-decoration:none;display:inline-block}
+.footer-logo:hover{color:rgba(255,255,255,0.8)}
 .footer-copyright{font-size:12px;color:rgba(255,255,255,0.45);font-family:'Poppins',sans-serif}
 .footer-note{font-size:11.5px;color:rgba(255,255,255,0.35);max-width:560px;line-height:1.6;margin-top:4px}
 .footer-login{
@@ -568,27 +569,27 @@ body.subpage .page{padding-top:116px}
   // ---------- DATA ----------
   // Levels per attribute. raw = position used for interpolation against treatment 1-5 scores.
   const ATTRS = [
-    { key:'effekt', label:'Milde symptomeffekter',
+    { key:'effekt', label:'Symptomeffekt',
       tooltip:'Hvor meget dine vandladningsgener forbedres — fx hyppighed, urinstråle og fornemmelse af fuld blæretømning.',
       levels:{1:{raw:1.5, text:'Moderat bedring af vandladningsgener'},
               2:{raw:3,   text:'Stor bedring af vandladningsgener'},
               3:{raw:5,   text:'Meget stor og hurtig bedring af vandladningsgener'}} },
-    { key:'genbehandling', label:'Lav risiko for ny behandling indenfor 5 år',
+    { key:'genbehandling', label:'Risiko for ny behandling indenfor 5 år',
       tooltip:'Sandsynligheden for at behandlingen ikke holder, og at du inden for 5 år har behov for endnu et indgreb.',
       levels:{1:{raw:1.5, text:'Lav risiko for at skulle behandles igen indenfor 5 år'},
               2:{raw:3,   text:'Middel risiko for at skulle behandles igen indenfor 5 år'},
               3:{raw:5,   text:'Høj risiko for at skulle behandles igen indenfor 5 år'}} },
-    { key:'sex', label:'Lav påvirkning af sædafgang/rejsningsevne',
+    { key:'sex', label:'Påvirkning af sædafgang/rejsningsevne',
       tooltip:'Om behandlingen påvirker sædafgang (retrograd ejakulation: sæden løber bagud i blæren i stedet for ud) og/eller evnen til rejsning.',
       levels:{1:{raw:1.5, text:'Lille påvirkning af sædafgang og rejsningsevne'},
               2:{raw:3,   text:'Moderat påvirkning af sædafgang og rejsningsevne'},
               3:{raw:5,   text:'Stor påvirkning — sædafgang udebliver ofte'}} },
-    { key:'kateter', label:'Ingen behov for kateter efter indgrebet',
+    { key:'kateter', label:'Behov for kateter efter indgrebet',
       tooltip:'Om du skal have et kateter (tynd slange i urinrøret) efter behandlingen mens vævet heler, og i så fald hvor længe.',
       levels:{1:{raw:1.5, text:'Sjældent behov for kateter — eller kun ganske kortvarigt'},
               2:{raw:3,   text:'Kateter i typisk 1-2 dage'},
               3:{raw:5,   text:'Kateter i typisk en uge eller mere'}} },
-    { key:'belastning', label:'Kun lokalbedøvelse og hospital hjemsendelse samme dag',
+    { key:'belastning', label:'Belastning ved selve indgrebet',
       tooltip:'Hvor krævende selve indgrebet er — om du kan tage hjem samme dag med lokalbedøvelse, eller om det kræver indlæggelse og fuld bedøvelse.',
       levels:{1:{raw:1.5, text:'Lokalbedøvelse, ambulant — hjem samme dag'},
               2:{raw:3,   text:'Bedøvelse og kort indlæggelse'},
@@ -1215,12 +1216,12 @@ body.subpage .page{padding-top:116px}
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <div class="footer-logo">VANDLADNINGSBESVÆR.DK</div>
+      <a href="index.html" class="footer-logo">VANDLADNINGSBESVÆR.DK</a>
       <div class="footer-copyright">© 2026 Simon Juul, speciallæge i urologi. Alle rettigheder forbeholdes.</div>
       <div class="footer-note">Indholdet på denne side er til information og erstatter ikke en lægelig vurdering. Drøft altid behandlingsvalg med din læge.</div>
     </div>
     <a href="http://xn--vandladningsbesvr-6rb.dk/l%C3%A6ge" class="footer-login" target="_blank" rel="noopener">
-      <span>Lægeside</span>
+      <span>Læge log ind</span>
     </a>
   </div>
 </footer>
