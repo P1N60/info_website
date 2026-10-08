@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Urodynamik ved mandlige LUTS: resumé og quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8F9FA;--sf:#fff;--ink:#3D3D3D;--mu:#6B7280;--ln:#E2E5EA;--ac:#2C5282;--hd:#1E3A5F;--tint:#F3F4F6;--ok:#14532d;--okb:#bbf7d0;--bd:#7f1d1d;--bdb:#fecaca;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1722;--sf:#172233;--ink:#e5e9ef;--mu:#9aa6b5;--ln:#2a3a50;--ac:#8FB4E0;--hd:#a9c8ee;--tint:#1b2a3d;--ok:#bbf7d0;--okb:#14532d;--bd:#fecaca;--bdb:#7f1d1d}}
+:root[data-theme="dark"]{--bg:#0f1722;--sf:#172233;--ink:#e5e9ef;--mu:#9aa6b5;--ln:#2a3a50;--ac:#8FB4E0;--hd:#a9c8ee;--tint:#1b2a3d;--ok:#bbf7d0;--okb:#14532d;--bd:#fecaca;--bdb:#7f1d1d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 4rem}
+h1,h2,h3{font-family:'Poppins',system-ui,sans-serif;color:var(--hd);line-height:1.25;margin:0 0 .6rem}
+h1{font-size:1.9rem;font-weight:800}h2{font-size:1.4rem;font-weight:700;margin-top:2.4rem;padding-top:1.2rem;border-top:2px solid var(--ac)}h3{font-size:1.05rem;font-weight:700;margin-top:1.4rem}
+p{margin:.5rem 0}.mu{color:var(--mu);font-size:.92rem}
+a{color:var(--ac)}
+.box{background:var(--sf);border:1px solid var(--ln);border-left:4px solid var(--ac);border-radius:8px;padding:.9rem 1.1rem;margin:1rem 0}
+.tw{overflow-x:auto;margin:1rem 0}
+table{border-collapse:collapse;width:100%;background:var(--sf);font-size:.93rem}
+th,td{border:1px solid var(--ln);padding:.45rem .6rem;text-align:left;vertical-align:top}
+th{background:var(--tint);color:var(--hd);font-family:'Poppins',sans-serif;font-size:.85rem}
+ul{padding-left:1.2rem;margin:.4rem 0}li{margin:.25rem 0}
+.go{display:inline-block;margin:.6rem .6rem 0 0;padding:.65rem 1.3rem;background:var(--ac);color:var(--bg);border-radius:999px;text-decoration:none;font:700 .92rem 'Poppins',sans-serif}
+.q{background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:1rem 1.1rem;margin:1.1rem 0}
+.q h3{margin-top:0;font-size:.9rem;color:var(--ac)}
+.q p.c{font-size:1.02rem}
+.opt{display:block;width:100%;text-align:left;margin:.45rem 0;padding:.65rem .8rem;border:1.5px solid var(--ln);background:var(--bg);color:var(--ink);border-radius:10px;font:inherit;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--ac)}
+.opt:focus-visible,.go:focus-visible,.rs:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--okb);border-color:#16a34a;color:var(--ok)}
+.opt.no{background:var(--bdb);border-color:#dc2626;color:var(--bd)}
+.ex{display:none;margin-top:.7rem;padding:.7rem .9rem;border-radius:8px;background:var(--tint);border-left:4px solid var(--mu);font-size:.95rem}
+.ex.show{display:block}
+.ex b.r{color:var(--ok)}.ex b.w{color:var(--bd)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:.5rem 0;border-bottom:1px solid var(--ln);z-index:2;font:600 .92rem 'Poppins',sans-serif;color:var(--hd)}
+#res{display:none}
+.rs{margin-top:.6rem;padding:.55rem 1.2rem;border:0;border-radius:999px;background:var(--ac);color:var(--bg);font:700 .9rem 'Poppins',sans-serif;cursor:pointer}
+@media (prefers-reduced-motion:no-preference){.ex.show{animation:f .2s ease}@keyframes f{from{opacity:0}to{opacity:1}}}
+</style>
+</head>
+<body>
+<main>
+<h1>Urodynamik ved mandlige LUTS</h1>
+<p class="mu">Resumé af en international ekspertkonsensus og en quiz med 10 patientcases</p>
+
+<h2 style="margin-top:1.6rem">Om artiklen</h2>
+<p>Drake MJ, Iacovelli V, Cruz F m.fl. <em>The Evidence-based Role of Urodynamics in Men with Lower Urinary Tract Symptoms Considering Prostate Surgery: An International Expert Consensus.</em> European Urology Focus 2026;12:527-538. Open access. doi: <a href="https://doi.org/10.1016/j.euf.2025.12.018" target="_blank" rel="noopener">10.1016/j.euf.2025.12.018</a></p>
+<p><a class="go" href="https://pubmed.ncbi.nlm.nih.gov/41539893/" target="_blank" rel="noopener">Læs artiklen på PubMed</a></p>
+
+<div class="box"><strong>Hovedbudskab:</strong> Urodynamik (UDS) skal ikke bruges rutinemæssigt, men har en vigtig rolle hos mænd med generende LUTS, som overvejer prostatakirurgi for formodet BPO. Panelet nåede enighed om seks konkrete situationer, hvor UDS er nødvendig.</div>
+
+<h3>Baggrund og metode</h3>
+<p>UPSTREAM-studiet (n = 820, 26 britiske hospitaler) viste, at et forløb med rutinemæssig UDS ikke var bedre end et uden: symptomudfaldet efter 18 måneder var non-inferiort, og andelen opererede var den samme. Forfatterne ville omsætte det til brugbare kriterier for selektiv UDS.</p>
+<ul>
+<li>Modificeret Delphi-metode, 20 eksperter i funktionel urologi fra 12 lande i Europa og Nordamerika, december 2023 til april 2025.</li>
+<li>12 spørgsmål: 8 om indikationer for UDS og 4 om kvalitetssikring. Tre runder med scoring (1-10) og videomøder. Konsensus kræver 70%.</li>
+<li>Gælder mænd med generende LUTS, som overvejer operation for formodet BPO (især TURP). Udelukket: neurologisk sygdom, kateter og tidligere prostatakirurgi.</li>
+</ul>
+
+<h3>Resultater: hvornår skal UDS udføres?</h3>
+<p>UDS er nødvendig, hvis <em>et eller flere</em> af kriterierne er opfyldt:</p>
+<div class="tw"><table>
+<thead><tr><th>Kriterie</th><th>Konsensus</th><th>Hvorfor</th></tr></thead>
+<tbody>
+<tr><td>Korrigeret Qmax ≥13 ml/s</td><td>75%</td><td>Obstruktion mindre sandsynlig; kirurgi hjælper sjældnere. UDS afklarer BOOI og DO.</td></tr>
+<tr><td>Generende urgency</td><td>73%</td><td>Storage-symptomer forbedres mindst; UDS kan påvise DO.</td></tr>
+<tr><td>Lav samlet score (IPSS &lt;17, ICIQ-MLUTS &lt;19)</td><td>71%</td><td>Større risiko for ringe effekt af kirurgi. Konsensus først efter afklaring af, at kirurgi allerede overvejes.</td></tr>
+<tr><td>Lav voiding-subscore (ICIQ-MLUTS ≤8)</td><td>71%</td><td>Som ovenfor.</td></tr>
+<tr><td>Meningsfuldt forhøjet PVR (klinikerens vurdering)</td><td>76%</td><td>Mulig DU; BOOI og BCI beregnes.</td></tr>
+<tr><td>Omfattende komorbiditet (klinikerens vurdering)</td><td>74%</td><td>Kan give DU og øger operationsrisikoen.</td></tr>
+<tr><td>Inkontinens af enhver type</td><td>80%</td><td>Kan forværres efter kirurgi; DO og DU skal afklares.</td></tr>
+<tr><td>Lav påvirkning af livskvalitet alene (IPSS QoL ≤4)</td><td><strong>52%, ingen konsensus</strong></td><td>QoL er subjektiv; konservativ tilgang bør overvejes. UDS kan tilbydes, hvis patienten er stærkt tilbøjelig til kirurgi.</td></tr>
+</tbody></table></div>
+<p>Ved svære voiding-symptomer og klart nedsat Qmax er UDS <strong>ikke</strong> nødvendig for at anbefale kirurgi.</p>
+
+<h3>Kvalitetssikring (alle med konsensus, 71-90%)</h3>
+<ul>
+<li>BOOI og BCI valideres ved at kontrollere tidspunktet for korrigeret Qmax og se på pdet, pves og pabd i trace (90%).</li>
+<li>DO kræver en fasisk stigning i pves, og pves og pabd skal vurderes under fyldning (88%).</li>
+<li>UDS udføres af eller gennemgås af en person med ekspertise i god urodynamisk praksis (82%).</li>
+<li>Den urodynamiske diagnose vurderes altid i sin kliniske kontekst (71%).</li>
+</ul>
+
+<h3>Begrænsninger</h3>
+<ul>
+<li>UPSTREAM er eneste niveau 1-evidens; kirurgien var hovedsageligt TURP. Nyere minimalt invasive metoder (MIST) kan ændre vægtningen.</li>
+<li>"Forhøjet PVR" og "omfattende komorbiditet" kunne ikke defineres objektivt (ICS foreslår PVR &gt;200 ml, EAU &gt;300 ml).</li>
+<li>Delphi-metoden kan ikke helt udelukke bias.</li>
+</ul>
+
+<h3>Tolkning af skalaer i quizzen</h3>
+<div class="box">
+<p><strong>DAN-PSS samlet score</strong> (symptom × gene, 0-108; delt i tømning, fyldning og andre symptomer, hver 0-36): under 8 er lette symptomer, 8-19 moderate og over 19 svære (SMDS metodeblad, 09-02-2026).</p>
+<p><strong>Påvirkning af livskvalitet:</strong> "meget" svarer omtrent til IPSS QoL 5-6, "lidt" eller "noget" til QoL ≤4.</p>
+<p class="mu">Artiklens grænser (IPSS &lt;17, ICIQ-MLUTS) er ikke valideret til DAN-PSS, så de to cases om lav score og lav livskvalitet er tilnærmelser. Casene er konstruerede til undervisning.</p>
+</div>
+<a class="go" href="#quiz">Gå til quizzen</a>
+
+<h2 id="quiz">Quiz: er der indikation for urodynamik?</h2>
+<p>Alle cases gælder mænd, som overvejer prostatakirurgi for formodet BPO. Vælg et svar for at se forklaringen.</p>
+<div class="bar" id="bar" aria-live="polite">0 af 10 besvaret, 0 rigtige</div>
+<div id="qs"></div>
+<div class="box" id="res" role="status"></div>
+</main>
+<script>
+var Q=[
+{p:"Mand, 68 år, overvejer TURP. DAN-PSS samlet score 42 (svære symptomer; tømning 30, fyldning 8, andre 4), påvirker livskvaliteten meget. Korrigeret Qmax 7 ml/s, PVR 60 ml. Ingen urgency, inkontinens eller væsentlig komorbiditet.",
+o:["Ja, alle der overvejer operation bør have UDS","Ja, fordi Qmax er under 13 ml/s","Nej, ved udtalte voiding-symptomer og klart nedsat Qmax er UDS ikke nødvendig for at anbefale kirurgi","Ja, fordi PVR er målt"],c:2,
+e:"Panelet var enigt om, at UDS ikke øger sikkerheden i at anbefale kirurgi ved udtalte voiding-symptomer og klart nedsat Qmax, når ingen andre kriterier er opfyldt. UPSTREAM: ingen rutinemæssig UDS."},
+{p:"Mand, 66 år, overvejer TURP. DAN-PSS samlet score 38 (svære symptomer; tømning 26, fyldning 8, andre 4), påvirker livskvaliteten meget. Korrigeret Qmax 15 ml/s, PVR 40 ml. Ingen urgency, inkontinens eller komorbiditet.",
+o:["Nej, scoren er høj, så operation er velbegrundet","Nej, Qmax over 10 ml/s udelukker UDS","Ja, men kun hvis livskvaliteten påvirkes lidt","Ja, Qmax ≥13 ml/s gør obstruktion mindre sandsynlig, og UDS kan afklare BOOI og DO"],c:3,
+e:"I UPSTREAM var korrigeret Qmax ≥13 ml/s forbundet med større risiko for, at kirurgi ikke hjælper. BCI er mindre vigtig, da DU er usandsynlig ved disse flowhastigheder. Konsensus: 75%."},
+{p:"Mand, 71 år, overvejer operation. DAN-PSS samlet score 30 (svære symptomer; tømning 8, fyldning 18, andre 4). Korrigeret Qmax 8 ml/s, PVR 70 ml. VVS viser generende urgency flere gange dagligt og nocturi 3 gange. Ingen inkontinens.",
+o:["Nej, Qmax 8 ml/s viser tydelig obstruktion","Ja, generende urgency er et kriterie, især for at afklare om DO er til stede","Nej, urgency indgår ikke i kriterierne","Ja, men kun hvis han også har inkontinens"],c:1,
+e:"Storage-symptomer forbedres mindst efter kirurgi, og mange søger operation netop på grund af urgency, frekvens eller nocturi. UDS kan påvise DO ved fyldningscystometri. Konsensus: 73%."},
+{p:"Mand, 64 år, overvejer TURP. DAN-PSS samlet score 24 (svære symptomer; tømning 14, fyldning 6, andre 4), men han angiver, at symptomerne kun påvirker livskvaliteten lidt. Korrigeret Qmax 9 ml/s, PVR 50 ml. Ingen urgency, inkontinens eller komorbiditet. Hvad siger konsensus?",
+o:["Der er konsensus for, at UDS bør udføres","Der er konsensus for, at UDS ikke bør udføres","UDS er kontraindiceret ved lav påvirkning af livskvalitet","Der er ikke opnået konsensus; lav påvirkning alene er ikke et tilstrækkeligt kriterie, og en konservativ tilgang bør overvejes"],c:3,
+e:"Det eneste spørgsmål uden konsensus (52%, grænsen var 70%). QoL er subjektiv, og en populationsgrænse kan overvægte ét svar. UDS kan tilbydes, hvis patienten er stærkt tilbøjelig til kirurgi og fuldt informeret."},
+{p:"Mand, 70 år, overvejer operation. DAN-PSS samlet score 12 (moderate symptomer; tømning 4, fyldning 6, andre 2), påvirker livskvaliteten meget. Korrigeret Qmax 10 ml/s, PVR 45 ml. Ingen urgency, inkontinens eller komorbiditet.",
+o:["Nej, lav score betyder, at operation ikke er relevant","Nej, kun Qmax har betydning","Ja, scoren ligger i den lave/moderate ende, hvor risikoen for dårligt resultat er større","Ja, men kun hvis PVR er forhøjet"],c:2,
+e:"Panelet stemte først nej, men forudsætningen var, at kirurgi allerede overvejes. Efter afklaring: konsensus (71%). UDS kan vise, om kirurgi kan undlades eller ikke opfylder patientens mål. UPSTREAM-grænserne er ikke valideret til DAN-PSS, så 'moderat' er en tilnærmelse."},
+{p:"Mand, 73 år, overvejer TURP. DAN-PSS samlet score 36 (svære symptomer; tømning 24, fyldning 8, andre 4). Korrigeret Qmax 8 ml/s, PVR 80 ml. Dårligt reguleret type 2-diabetes og betydende hjerte-kar-sygdom.",
+o:["Nej, komorbiditet er kun relevant for anæstesien","Ja, men kun hvis PVR er over 300 ml","Nej, voiding-symptomerne er tydelige","Ja, omfattende komorbiditet kan påvirke typen af dysfunktion (fx DU) og øger operationsrisikoen"],c:3,
+e:"Komorbiditet gav dårligere symptomudfald i UPSTREAM. UDS er relevant, fordi komorbiditet (fx diabetes) kan give DU, og fordi den øgede kirurgiske risiko kræver præcis information. 'Omfattende' er klinikerens vurdering. Konsensus: 74%."},
+{p:"Mand, 69 år, overvejer operation. DAN-PSS samlet score 40 (svære symptomer; tømning 28, fyldning 8, andre 4). Korrigeret Qmax 6 ml/s, PVR 350 ml, efter klinikerens vurdering markant forhøjet. Ingen urgency eller inkontinens.",
+o:["Nej, PVR havde ingen prædiktiv værdi i UPSTREAM","Nej, udtalte voiding-symptomer gør UDS unødvendig uanset PVR","Ja, meningsfuldt forhøjet PVR er et kriterie, så BOOI og BCI kan beregnes (mulig DU)","Ja, men kun hvis PVR er over 500 ml"],c:2,
+e:"Konsensus (76%) gælder ved meningsfuldt forhøjet PVR efter klinikerens vurdering. Panelet satte ingen grænse (ICS >200 ml, EAU >300 ml). PVR er fortsat en stor usikkerhedskilde, men UDS kan afklare, om BPO og/eller DU ligger bag."},
+{p:"Mand, 65 år, overvejer operation. DAN-PSS samlet score 32 (svære symptomer; tømning 20, fyldning 8, andre 4). Korrigeret Qmax 8 ml/s, PVR 40 ml. Han siger, at han 'drypper i underbukserne' lige efter vandladning. Ingen andre lækager, ingen urgency på VVS.",
+o:["UDS straks, fordi al urinlækage er inkontinens","Afklar typen af lækage; efterdryp kan forveksles med inkontinens, mens inkontinens (urge, stress m.fl.) er indikation for UDS","Symptomscoren fanger inkontinens, så han har ikke inkontinens","Henvis til neurolog"],c:1,
+e:"Konsensus (80%) er for UDS ved alle former for inkontinens. Men postmikturitionsdryp er hyppigt og forveksles let med inkontinens. Der skal spørges specifikt til lækage, og typen skal defineres (urge, postmikturition, stress)."},
+{p:"En UDS-rapport fra en mand med LUTS beskriver detrusoroveraktivitet (DO). I trace ses et fald i abdominaltrykket (pabd), som giver et tilsyneladende udslag i pdet, men pves har ingen fasisk stigning. Hvad er rigtigt?",
+o:["Stol på apparatets automatiske rapport","DO er sikkert, fordi pdet stiger","Gentag undersøgelsen med højere fyldningshastighed","Det er sandsynligvis en artefakt; DO kræver en fasisk stigning i pves, og pves og pabd skal valideres"],c:3,
+e:"Konsensus om kvalitetssikring var stærk (88%). I UPSTREAM/UNBLOCS blev et fald i pabd bl.a. fejlrapporteret som DO. Automatiske rapporter kan være unøjagtige, og trace bør gennemgås af en med ekspertise i god urodynamisk praksis."},
+{p:"Mand, 62 år med kendt multipel sklerose, overvejer TURP. DAN-PSS samlet score 30 (svære symptomer; tømning 20, fyldning 6, andre 4), Qmax 7 ml/s. Hvordan forholder konsensusartiklen sig til ham?",
+o:["Kriterierne gælder fuldt ud for ham","Han er uden for konsensussens scope; neurologisk sygdom håndteres via en neurourologisk pathway","Han skal altid have UDS","Han skal aldrig have UDS"],c:1,
+e:"Patienter med neurologisk sygdom, kateterbærere og mænd med tidligere prostatakirurgi var udelukket fra både UPSTREAM og konsensusprojektet. Kriterierne kan ikke uden videre overføres til dem."}
+];
+var n=0,s=0,L='ABCD',box=document.getElementById('qs');
+function bar(){document.getElementById('bar').textContent=n+' af '+Q.length+' besvaret, '+s+' rigtige'}
+Q.forEach(function(q,i){
+var d=document.createElement('section');d.className='q';
+d.innerHTML='<h3>Case '+(i+1)+' af '+Q.length+'</h3><p class="c"></p><div></div><div class="ex" role="status"></div>';
+d.querySelector('.c').textContent=q.p;
+var w=d.children[2],ex=d.querySelector('.ex');
+q.o.forEach(function(t,j){
+var b=document.createElement('button');b.className='opt';b.type='button';b.textContent=L[j]+'. '+t;
+b.onclick=function(){
+var bs=w.querySelectorAll('button');bs.forEach(function(x){x.disabled=true});
+bs[q.c].classList.add('ok');n++;
+var good=j===q.c;
+if(good)s++;else b.classList.add('no');
+ex.innerHTML='<b class="'+(good?'r':'w')+'">'+(good?'Korrekt. ':'Ikke helt. ')+'</b>';
+ex.appendChild(document.createTextNode(q.e));ex.classList.add('show');
+bar();if(n===Q.length)fin();};
+w.appendChild(b);});
+box.appendChild(d);});
+function fin(){var r=document.getElementById('res');r.style.display='block';
+r.innerHTML='<strong>Resultat: '+s+' af '+Q.length+' rigtige.</strong><p>'+(s>=9?'Meget solid forståelse af kriterierne.':s>=6?'God forståelse. Gennemgå de cases, du missede, og tabellen i resuméet.':'Læs resuméet igen og prøv så en gang til.')+'</p><button class="rs" type="button">Prøv igen</button>';
+r.querySelector('.rs').onclick=function(){location.reload()};
+r.scrollIntoView({behavior:'smooth',block:'nearest'});}
+</script>
+</body>
+</html>
